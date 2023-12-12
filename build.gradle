@@ -35,3 +35,16 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+task buildReact(type: Exec) {
+    workingDir 'client'
+    commandLine 'npm', 'run', 'build'
+}
+
+task copyReact(type: Copy) {
+    from 'client/build'
+    into 'src/main/resources/static'
+}
+
+build.dependsOn buildReact
+buildReact.finalizedBy copyReact
