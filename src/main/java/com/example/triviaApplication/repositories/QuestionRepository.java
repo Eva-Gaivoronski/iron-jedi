@@ -1,4 +1,7 @@
 package com.example.triviaApplication.repositories;
 
-public class QuestionRepository {
+import com.example.triviaApplication.models.Question;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface QuestionRepository extends JpaRepository<Question, Long> {
 }
