@@ -8,27 +8,20 @@ function App() {
 const[quiz, setQuiz] = useState([]);
 
 useEffect(() => {
-//if (typeof window !== 'undefined') {
-   //getQuiz();
-//}
-//async function getQuiz() {
-//const api = await fetch('https://opentdb.com/api.php?amount=1');
-//const apijson =await api.json();
-//setQuiz(apijson);
-//}
-// }, []);
-const fetchQuiz = async () => {
+ getQuiz();
+  }, []);
+
+const getQuiz = async () => {
       try {
         const response = await fetch('https://opentdb.com/api.php?amount=1');
         const data = await response.json();
-        console.log(data); // Assuming the API response has a 'results' property
+        console.log(data);
       } catch (error) {
         console.log('Error fetching quiz:', error);
       }
     };
 
-    fetchQuiz();
-  }, []);
+
 
 return(
     <div className="App">
