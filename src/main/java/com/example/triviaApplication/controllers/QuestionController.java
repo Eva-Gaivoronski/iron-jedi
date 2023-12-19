@@ -25,7 +25,7 @@ public class QuestionController {
     @PostMapping
     public ResponseEntity<?> createQuestion(@RequestBody Question question) {
         if (question.getUser() != null && question.getUser().getUsername() != null) {
-            // Check if the user exists, if not create a new user
+
             User user = userRepository.findByUsername(question.getUser().getUsername())
                     .orElseGet(() -> {
                         User newUser = new User();
