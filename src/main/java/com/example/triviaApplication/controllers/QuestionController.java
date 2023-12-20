@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/question")
 public class QuestionController {
 
     private final QuestionRepository questionRepository;
@@ -18,23 +19,33 @@ public class QuestionController {
     @Autowired
     public QuestionController(QuestionRepository questionRepository, UserRepository userRepository) {
         this.questionRepository = questionRepository;
-        this.userRepository =userRepository;
+        this.userRepository = userRepository;
     }
+
     @PostMapping
-    public ResponseEntity<Question> createQuestion(@RequestBody Question question) {
+    public ResponseEntity<?> createQuestion(@RequestBody Question question) {
         if (question.getUser() != null && question.getUser().getUsername() != null) {
-        User user = userRepository.findByUsername(question.getUser().getUsername())
-        .orElseThrow(() -> new RuntimeException("User not found"));
-        question.setUser(user);
+
+            User user = userRepository.findByUsername(question.getUser().getUsername())
+                    .orElseGet(() -> {
+                        User newUser = new User();
+                        newUser.setUsername(question.getUser().getUsername());
+                        return userRepository.save(newUser);
+                    });
+            question.setUser(user);
+        } else {
+            return ResponseEntity.badRequest().body("User information is missing");
         }
+
         Question savedQuestion = questionRepository.save(question);
         return ResponseEntity.ok(savedQuestion);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Question> getQuestion(@PathVariable Long id) {
         Question question = questionRepository.findById(id)
-        .orElse(null);
+                .orElse(null);
         return question != null ? ResponseEntity.ok(question) : ResponseEntity.notFound().build();
     }
 

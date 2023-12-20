@@ -1,15 +1,13 @@
 import React from 'react';
-import App from './App.css';
-import QuizPage from "./components/QuizPage";
+import QuestionForm from './components/QuestionForm';
 
 function App() {
-    return (
-        <div className="App">
-            <h1>Trivia Quiz</h1>
-            <QuizPage />
-        </div>
-    );
+   return (
+      <div className="App">
+        <h1>Trivia Question Creation Page</h1>
+        <QuestionForm />
+      </div>
+   );
 }
 
 export default App;
-
