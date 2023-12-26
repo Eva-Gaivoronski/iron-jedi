@@ -6,7 +6,6 @@ import com.example.triviaApplication.repositories.QuizRepository;
 import com.example.triviaApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -19,9 +18,9 @@ public class QuizService {
     private UserRepository userRepository;
 
     public Quiz createQuiz(Quiz quiz, Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {throw new Error("User not found with ID: " + userId);}
-        quiz.setUser(user);
+//        User user = userRepository.findById(userId).orElse(null);
+//        if (user == null) {throw new Error("User not found with ID: " + userId);}
+//        quiz.setUser(user);
         // TODO validation logic for the quiz
         return quizRepository.save(quiz);}
 

@@ -1,5 +1,4 @@
 package com.example.triviaApplication.controllers;
-
 import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.models.User;
 import com.example.triviaApplication.repositories.QuestionRepository;
@@ -7,7 +6,6 @@ import com.example.triviaApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

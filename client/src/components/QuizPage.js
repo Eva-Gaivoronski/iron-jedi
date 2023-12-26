@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../App.css';
 import { Table, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import CreateQuizForm from './CreateQuizForm';

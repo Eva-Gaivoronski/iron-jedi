@@ -1,6 +1,7 @@
 package com.example.triviaApplication.controllers;
 
 import com.example.triviaApplication.helpers.QuizService;
+import com.example.triviaApplication.models.BaseEntity;
 import com.example.triviaApplication.models.Quiz;
 import com.example.triviaApplication.models.User;
 import com.example.triviaApplication.repositories.QuizRepository;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/quiz")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class QuizController {
 
     @Autowired
