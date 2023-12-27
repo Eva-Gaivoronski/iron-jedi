@@ -18,11 +18,15 @@ public class QuizService {
     private UserRepository userRepository;
 
     public Quiz createQuiz(Quiz quiz, Long userId) {
-//        User user = userRepository.findById(userId).orElse(null);
+        // Input validation
+        if(quiz.getTitle() == null) {throw new Error ("Title cannot be null");}
+        //User
+        User user = userRepository.findById(userId).orElse(null);
 //        if (user == null) {throw new Error("User not found with ID: " + userId);}
-//        quiz.setUser(user);
+        quiz.setUser(user);
         // TODO validation logic for the quiz
         return quizRepository.save(quiz);}
+    public Quiz getQuiz(Long id, Long userId) {return quizRepository.findByIdAndUserId(id, userId);}
 
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
         // TODO quiz update
@@ -42,4 +46,6 @@ public class QuizService {
         return quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
     }
+    public List<Quiz> getUserQuiz(Long userId) {
+        return quizRepository.findByUserId(userId);}
 }

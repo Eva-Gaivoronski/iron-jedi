@@ -1,6 +1,7 @@
 package com.example.triviaApplication.controllers;
 
 import com.example.triviaApplication.helpers.QuizService;
+import com.example.triviaApplication.helpers.UserService;
 import com.example.triviaApplication.models.BaseEntity;
 import com.example.triviaApplication.models.Quiz;
 import com.example.triviaApplication.models.User;
@@ -10,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/quiz")
-@CrossOrigin(origins = "http://localhost:3000/")
+@RequestMapping("http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
 
     @Autowired
@@ -24,29 +28,33 @@ public class QuizController {
     private UserRepository userRepository;
     @Autowired
     private QuizService quizService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
-    public List<Quiz> getAllQuizzes() {
-        return quizRepository.findAll();
-    }
-    @GetMapping("/{id}")
-    public Quiz getQuizById(@PathVariable Long id) {
-
-        return quizRepository.findById(id).orElse(null);
-    }
-    @PostMapping
+    public List<Quiz> getUserQuizzes(Principal principal) {
+        Optional<User> user = userService.getUserByUsername(principal.getName());
+        return quizService.getUserQuiz(user.get().getId());}
+    @GetMapping("/{quizId}")
+    public Quiz getQuizById(@PathVariable Long quizId) {return quizRepository.findById(quizId).orElse(null);}
+    @PostMapping("/addQuiz/{quizId}")
     public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz, @RequestParam Long userId) {
-        try {
-            Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
+        try { Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
             return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
         } catch (Error e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
-    @PutMapping("/{id}")
-    public Quiz updateQuiz(@PathVariable Long id, @RequestBody Quiz updatedQuiz) {
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz updatedQuiz) {
+//        // Delegate quiz updating to the QuizService
+//        Quiz result = quizService.updateQuiz(id, updatedQuiz);
+//        return result != null ?
+//                new ResponseEntity<>(result, HttpStatus.OK) :
+//                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/{quizId}")
+    public Quiz updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
         // Delegate quiz updating to the QuizService
-        return quizService.updateQuiz(id, updatedQuiz);}
+        return quizService.updateQuiz(quizId, updatedQuiz);}
 
     @DeleteMapping("/user/{userId}/{quizId}")
     public void deleteUserQuiz(@PathVariable Long userId, @PathVariable Long quizId) {
@@ -54,3 +62,4 @@ public class QuizController {
         quizRepository.deleteByIdAndUserId(quizId, userId);
     }
 }
+

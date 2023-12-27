@@ -6,9 +6,10 @@ import java.util.List;
 
 @Entity
 public class Quiz extends BaseEntity {
-
+    private Long id;
     private String title;
     private String category;
+
     @NotNull
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<Question> questions;
