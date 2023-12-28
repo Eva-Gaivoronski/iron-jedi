@@ -9,16 +9,17 @@ const EditQuizPage = () => {
     const [showEditForm, setShowEditForm] = useState(true);
 
     useEffect(() => {
-        const fetchQuiz = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/quiz/${quizId}`);
-                setQuiz(response.data);
-            } catch (error) {
-                console.error('Error fetching quiz:', error);
-            }
-        };
-        fetchQuiz();
+
+        fetchQuizzes();
     }, [quizId]);
+    const fetchQuizzes = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/quiz/${quizId}`);
+            setQuiz(response.data);
+        } catch (error) {
+            console.error('Error fetching quiz:', error);
+        }
+    };
     const handleUpdateQuiz = async (updatedQuiz) => {
         try {
             await axios.put(`http://localhost:8080/quiz/${quizId}`, updatedQuiz);
@@ -26,6 +27,7 @@ const EditQuizPage = () => {
             //setQuiz(updatedQuiz);
             // history.push('/quiz'); // Assuming you have access to the history object
             setShowEditForm(false);
+            fetchQuizzes();
         } catch (error) {
             console.error('Error updating quiz:', error);
         }

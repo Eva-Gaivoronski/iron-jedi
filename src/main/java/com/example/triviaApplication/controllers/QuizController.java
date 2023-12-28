@@ -18,7 +18,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("http://localhost:8080")
+@RequestMapping("/quiz")
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
 
@@ -31,35 +31,41 @@ public class QuizController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public List<Quiz> getUserQuizzes(Principal principal) {
-        Optional<User> user = userService.getUserByUsername(principal.getName());
-        return quizService.getUserQuiz(user.get().getId());}
+    @GetMapping("/getQuizzes")
+    public ResponseEntity<List<Quiz>> getUserQuizzes() {
+        //Optional<User> user = userService.getUserByUsername(principal.getName());
+        //return quizService.getUserQuiz(user.get().getId());
+
+        // Get userID from Cookie
+        //P changes
+//        long userId = 1;
+//        return new ResponseEntity<List<Quiz>>(quizService.getUserQuiz(userId), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(quizRepository.findAll(), HttpStatus.ACCEPTED);
+    }
+
     @GetMapping("/{quizId}")
     public Quiz getQuizById(@PathVariable Long quizId) {return quizRepository.findById(quizId).orElse(null);}
-    @PostMapping("/addQuiz/{quizId}")
-    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz, @RequestParam Long userId) {
+
+    @PostMapping("/addQuiz")
+    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz) {
+        // TODO Get UserId from cookie
+        long userId = 1;
+
         try { Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
             return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
         } catch (Error e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz updatedQuiz) {
-//        // Delegate quiz updating to the QuizService
-//        Quiz result = quizService.updateQuiz(id, updatedQuiz);
-//        return result != null ?
-//                new ResponseEntity<>(result, HttpStatus.OK) :
-//                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     @PutMapping("/{quizId}")
     public Quiz updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
         // Delegate quiz updating to the QuizService
         return quizService.updateQuiz(quizId, updatedQuiz);}
 
-    @DeleteMapping("/user/{userId}/{quizId}")
-    public void deleteUserQuiz(@PathVariable Long userId, @PathVariable Long quizId) {
+    @DeleteMapping("/{quizId}")
+    public void deleteUserQuiz(@PathVariable Long quizId) {
         // Delete a specific quiz associated with a user
-        quizRepository.deleteByIdAndUserId(quizId, userId);
+        quizRepository.deleteById(quizId);
     }
 }
 

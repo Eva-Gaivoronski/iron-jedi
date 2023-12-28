@@ -20,6 +20,8 @@ public class Quiz extends BaseEntity {
     public Quiz(String title, String category) {
         this.title = title;
         this.category = category;}
+
+    public Long getid() {return this.id;}
     public String getCategory() {return category;}
     public void setCategory(String category) {this.category = category;}
     public String getTitle() {return title;}

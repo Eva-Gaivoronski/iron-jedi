@@ -1,11 +1,14 @@
 package com.example.triviaApplication.helpers;
 
+import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.models.Quiz;
 import com.example.triviaApplication.models.User;
 import com.example.triviaApplication.repositories.QuizRepository;
 import com.example.triviaApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,19 +28,28 @@ public class QuizService {
 //        if (user == null) {throw new Error("User not found with ID: " + userId);}
         quiz.setUser(user);
         // TODO validation logic for the quiz
+        quiz.setQuestions(new ArrayList<Question>());
+
         return quizRepository.save(quiz);}
     public Quiz getQuiz(Long id, Long userId) {return quizRepository.findByIdAndUserId(id, userId);}
 
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
         // TODO quiz update
+        //    @PutMapping("/{id}")
+//    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz updatedQuiz) {
+//        // Delegate quiz updating to the QuizService
+//        Quiz result = quizService.updateQuiz(id, updatedQuiz);
+//        return result != null ?
+//                new ResponseEntity<>(result, HttpStatus.OK) :
+//                new ResponseEntity<>(HttpStatus.NOT_FOUND);
         Quiz existingQuiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
         existingQuiz.setTitle(updatedQuiz.getTitle());
         existingQuiz.setCategory(updatedQuiz.getCategory());
         return quizRepository.save(existingQuiz);}
-    public void deleteQuiz(Long quizId) {
-        // TODO logic for quiz deletion
-        quizRepository.deleteById(quizId);}
+//    public void deleteQuiz(Long quizId) {
+//        // TODO logic for quiz deletion
+//        quizRepository.deleteById(quizId);}
     public List<Quiz> getAllQuizzes() {
         // TODO logic for retrieving all quizzes
         return quizRepository.findAll();}

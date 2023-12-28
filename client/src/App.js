@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import './App.css';
+//import './App.css';
 import HomePage from './components/HomePage';
 import QuestionForm from './components/QuestionForm';
 import QuizPage from './components/QuizPage';
@@ -41,24 +41,3 @@ function App() {
 }
 
 export default App;
-
-// import React from 'react';
-// import './App.css';
-// import HomePage from './components/HomePage';
-// import QuestionForm from './components/QuestionForm';
-// import QuizPage from "./components/QuizPage";
-//
-// function App() {
-//    return (
-//        <div className="App">
-//            <header className="App-header">
-//                <li className="nav-item">
-//                    <h1>Trivia Question Creation Page</h1>
-//                    <QuizPage/>
-//                </li>
-//            </header>
-//        </div>
-//    );
-// }
-//
-// export default App;

@@ -36,7 +36,7 @@ const EditQuizForm = ({ initialQuiz, onUpdateQuiz }) => {
                     value={updatedQuiz.category}
                     onChange={handleInputChange}/>
             </label>
-            {/* Add other form fields as needed */}
+            {/* Add other form fields  */}
             <br />
             <button type="submit">Update Quiz</button>
         </form>

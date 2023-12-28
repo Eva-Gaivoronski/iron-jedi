@@ -7,19 +7,22 @@ const QuizList = () => {
     const [quizzes, setQuizzes] = useState([]);
 
     useEffect(() => {
-        async function fetchQuizzes() {
-            try {
-                const response = await axios.get('http://localhost:8080/quiz')
-                setQuizzes(response.data);
-            } catch (error) {
-                // Handle error
-            }
-        }
-        fetchQuizzes();
+       fetchQuizzes();
     }, []);
+    async function fetchQuizzes() {
+
+        try {
+            const response = await axios.get('http://localhost:8080/quiz/getQuizzes')
+            setQuizzes(response.data);
+        } catch (error) {
+            // Handle error
+        }
+    }
 
     const handleDeleteQuiz = async (quizId) => {
         try {
+            console.log(quizId);
+           // await axios.delete('/quiz/${quizId}`);
             await axios.delete(`http://localhost:8080/quiz/${quizId}`);
             // Remove the deleted quiz from the state or perform other actions as needed
         } catch (error) {
@@ -32,7 +35,7 @@ const QuizList = () => {
             <thead>
             <tr>
                 <th>Title</th>
-                <th>Description</th>
+                <th>Category</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -41,14 +44,14 @@ const QuizList = () => {
             {quizzes.map(quiz => (
                 <tr key={quiz.id}>
                     <td>{quiz.title}</td>
-                    <td>{quiz.description}</td>
+                    <td>{quiz.category}</td>
                     <td>
                         <Link to={`/edit-quiz/${quiz.id}`}>
                             <Button>
                                 Edit
                             </Button>
                         </Link>
-                        <Button onClick={() => handleDeleteQuiz(quiz.id)}>
+                        <Button onClick={() => handleDeleteQuiz(quiz.id).then(resp=>{fetchQuizzes()})}>
                             Delete
                         </Button>
                     </td>
