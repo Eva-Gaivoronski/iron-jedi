@@ -2,9 +2,21 @@ import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
 
+
+
 function App() {
-  const [quiz, setQuiz] = useState([]);
+  const [quiz, setQuiz] = useState('');
   const [options, setOptions] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [result, setResult] = useState('');
+  const [correctAnswer, setCorrectAnswer] = useState('');
+
+  const incorrectResponses = [
+    'Nope!',
+    'Incorrect!',
+    'Nice try, but that\'s not the correct answer.',
+    // Add more custom incorrect responses as needed
+  ];
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -14,12 +26,19 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    // Check and submit the answer whenever selectedAnswer changes
+    handleQuizSubmit();
+  }, [selectedAnswer, correctAnswer]);
+
   const getQuiz = async () => {
     try {
-      const response = await fetch('https://opentdb.com/api.php?amount=10&type=multiple');
+      const response = await fetch('https://opentdb.com/api.php?amount=1&type=multiple');
       const data = await response.json();
       setQuiz(data.results[0].question);
-      setOptions(data.results[0].incorrect_answers.concat(data.results[0].correct_answer));
+      setCorrectAnswer(data.results[0].correct_answer);
+      const allOptions = data.results[0].incorrect_answers.concat(data.results[0].correct_answer);
+      setOptions(shuffleArray(allOptions));
       console.log(data);
     } catch (error) {
       console.log('Error fetching quiz:', error);
@@ -29,35 +48,74 @@ function App() {
   const handleGenerateQuiz = (event) => {
     event.preventDefault();
     getQuiz();
+    setSelectedAnswer('');
+    setResult('');
   };
 
-  const createMarkup = (text) => ({ __html: text });
+  const handleAnswerChange = (event) => {
+    setSelectedAnswer(event.target.value);
+  };
+
+  const handleQuizSubmit = () => {
+    if (selectedAnswer === '') {
+      // Check if an answer is selected before displaying the message
+      setResult('~ Choose Wisely ~');
+      return;
+    }
+
+    const isCorrect = selectedAnswer === correctAnswer;
+    if (isCorrect) {
+      setResult('Correct!');
+    } else {
+      // Randomly select an incorrect response
+      const randomIncorrectResponse =
+        incorrectResponses[Math.floor(Math.random() * incorrectResponses.length)];
+      setResult(randomIncorrectResponse);
+    }
+  };
+
+  const shuffleArray = (array) => {
+    // Fisher-Yates shuffle algorithm
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <p dangerouslySetInnerHTML={createMarkup(quiz)}></p>
-        </a>
-        <form>
-          {options.map((option, index) => (
-            <div key={index}>
-              <input type="radio" id={`option${index}`} name="quizOptions" value={option} />
-              <label htmlFor={`option${index}`} dangerouslySetInnerHTML={createMarkup(option)}></label>
+        <p></p>
+        <div>
+          <p dangerouslySetInnerHTML={{ __html: quiz }}></p>
+          <form>
+            {options.map((option, index) => (
+              <div key={index}>
+                <input
+                  type="radio"
+                  id={`option${index}`}
+                  name="quizOptions"
+                  value={option}
+                  checked={selectedAnswer === option}
+                  onChange={handleAnswerChange}
+                />
+                <label
+                  htmlFor={`option${index}`}
+                  dangerouslySetInnerHTML={{ __html: option }}
+                ></label>
+              </div>
+            ))}
+          </form>
+          {result && (
+            <div style={{ marginTop: '20px' }}>
+              <p>{result}</p>
             </div>
-          ))}
-        </form>
-        <div style={{ marginTop: '20px' }}>
-          <button onClick={handleGenerateQuiz}>Generate Quiz</button>
+          )}
+          <div style={{ marginTop: '20px' }}>
+            <button onClick={handleGenerateQuiz}>Generate Quiz</button>
+          </div>
         </div>
       </header>
     </div>
