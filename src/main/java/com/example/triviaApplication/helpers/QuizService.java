@@ -6,11 +6,13 @@ import com.example.triviaApplication.models.User;
 import com.example.triviaApplication.repositories.QuizRepository;
 import com.example.triviaApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class QuizService {
@@ -34,23 +36,14 @@ public class QuizService {
     public Quiz getQuiz(Long id, Long userId) {return quizRepository.findByIdAndUserId(id, userId);}
 
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
-        // TODO quiz update
-        //    @PutMapping("/{id}")
-//    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz updatedQuiz) {
-//        // Delegate quiz updating to the QuizService
-//        Quiz result = quizService.updateQuiz(id, updatedQuiz);
-//        return result != null ?
-//                new ResponseEntity<>(result, HttpStatus.OK) :
-//                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//         TODO quiz update
         Quiz existingQuiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
         existingQuiz.setTitle(updatedQuiz.getTitle());
         existingQuiz.setCategory(updatedQuiz.getCategory());
         return quizRepository.save(existingQuiz);}
-//    public void deleteQuiz(Long quizId) {
-//        // TODO logic for quiz deletion
-//        quizRepository.deleteById(quizId);}
-    public List<Quiz> getAllQuizzes() {
+
+        public List<Quiz> getAllQuizzes() {
         // TODO logic for retrieving all quizzes
         return quizRepository.findAll();}
     public Quiz getQuizById(Long quizId) {

@@ -1,33 +1,23 @@
 import React, { useState, useEffect } from 'react';
-//import '../App.css';
+import '../App.css';
 import { Table, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import CreateQuizForm from './CreateQuizForm';
 import QuizTable from './QuizTable';
+import fetchQuizzes from './QuizTable';
 
 const QuizPage = () => {
     const [userQuizzes, setUserQuizzes] = useState([]);
     const [newQuiz, setNewQuiz] = useState({ title: '' });
     const [showCreateForm, setShowCreateForm] = useState(false);
 
-    // useEffect(() => {
-        // const fetchQuizzes = async () => {
-        //     try {
-        //         const response = await axios.get('http://localhost:8080//quiz/getQuizzes');
-        //         setUserQuizzes(response.data);
-        //     } catch (error) {
-        //         console.error('Error fetching quizzes:', error);
-        //     }
-        // };
-        // fetchQuizzes();
-    // }, []);
-
     const handleCreateQuizButtonClick = () => {
         setShowCreateForm(true);
     };
 
     const handleCloseCreateForm = () => {
-        setShowCreateForm(false);};
+        setShowCreateForm(false);
+    }
 
     const handleAddQuestions = (quizId) => {
         // TODO: Need logic for editing questions from Kevin

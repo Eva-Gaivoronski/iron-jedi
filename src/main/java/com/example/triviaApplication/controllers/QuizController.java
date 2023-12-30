@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -57,10 +58,21 @@ public class QuizController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
 
-    @PutMapping("/{quizId}")
-    public Quiz updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
-        // Delegate quiz updating to the QuizService
-        return quizService.updateQuiz(quizId, updatedQuiz);}
+//    @PutMapping("/{quizId}")
+//    public Quiz updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
+//        // Delegate quiz updating to the QuizService
+//        return quizService.updateQuiz(quizId, updatedQuiz);
+//    }
+@PutMapping("/{quizId}")
+public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
+    try {
+        Quiz result = quizService.updateQuiz(quizId, updatedQuiz);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    } catch (NoSuchElementException e) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+}
+
 
     @DeleteMapping("/{quizId}")
     public void deleteUserQuiz(@PathVariable Long quizId) {

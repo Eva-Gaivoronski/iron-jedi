@@ -19,7 +19,8 @@ const CreateQuiz=()=> {
                 // TODO fetch quizes again
                 //fetchQuizzes();
                 // TODO close the model
-                //handleCloseModal();
+                handleCloseModal();
+
     } catch (error) {
                 console.error('Error creating quiz:', error);
             }

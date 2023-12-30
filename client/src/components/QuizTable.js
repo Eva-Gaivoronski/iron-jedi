@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import axios from 'axios';
 import {Link} from "react-router-dom";
+import editQuizPage from "./EditQuizPage";
 
 const QuizList = () => {
     const [quizzes, setQuizzes] = useState([]);
@@ -10,7 +11,6 @@ const QuizList = () => {
        fetchQuizzes();
     }, []);
     async function fetchQuizzes() {
-
         try {
             const response = await axios.get('http://localhost:8080/quiz/getQuizzes')
             setQuizzes(response.data);
@@ -63,4 +63,3 @@ const QuizList = () => {
 };
 
 export default QuizList;
-
