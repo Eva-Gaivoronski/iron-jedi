@@ -1,18 +1,19 @@
-// EditQuizPage.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import fetchQuizzes from "./QuizTable";
 import handleCloseCreateForm from "./QuizTable"
-
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle';
+import {Button, Modal} from "react-bootstrap";
 const EditQuizPage = () => {
     const { quizId } = useParams();
     const [quiz, setQuiz] = useState({});
     const [showEditForm, setShowEditForm] = useState(true);
 
-    // useEffect(() => {
-    //     fetchQuizzes();
-    // }, [quizId]);
+    useEffect(() => {
+       fetchQuizzes();
+    }, [quizId]);
 
     fetchQuizzes(quiz.id);
 
@@ -41,8 +42,12 @@ const EditQuizPage = () => {
 
     return (
         <div>
-            {showEditForm && (
+            <Modal show={showEditForm} onHide={() => setShowEditForm(false)}>
                 <form onSubmit={handleSubmit}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Edit Quiz</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
                     <label>
                         Title:
                         <input
@@ -64,9 +69,12 @@ const EditQuizPage = () => {
                     </label>
                     {/* Add other form fields  */}
                     <br />
-                    <button type="submit">Update Quiz</button>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit">Update Quiz</Button>
+                    </Modal.Footer>
                 </form>
-            )}
+                   </Modal>
         </div>
     );
 };

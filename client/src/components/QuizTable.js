@@ -3,13 +3,15 @@ import { Table, Button } from 'react-bootstrap';
 import axios from 'axios';
 import {Link} from "react-router-dom";
 import editQuizPage from "./EditQuizPage";
-
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle';
 const QuizList = () => {
     const [quizzes, setQuizzes] = useState([]);
 
     useEffect(() => {
-       fetchQuizzes();
+        fetchQuizzes();
     }, []);
+
     async function fetchQuizzes() {
         try {
             const response = await axios.get('http://localhost:8080/quiz/getQuizzes')
@@ -22,7 +24,6 @@ const QuizList = () => {
     const handleDeleteQuiz = async (quizId) => {
         try {
             console.log(quizId);
-           // await axios.delete('/quiz/${quizId}`);
             await axios.delete(`http://localhost:8080/quiz/${quizId}`);
             // Remove the deleted quiz from the state or perform other actions as needed
         } catch (error) {
@@ -41,19 +42,18 @@ const QuizList = () => {
             </thead>
 
             <tbody>
-            {quizzes.map(quiz => (
+            {quizzes.map((quiz) => (
                 <tr key={quiz.id}>
                     <td>{quiz.title}</td>
                     <td>{quiz.category}</td>
                     <td>
                         <Link to={`/edit-quiz/${quiz.id}`}>
-                            <Button>
-                                Edit
-                            </Button>
+                            <Button>Edit</Button>
                         </Link>
+                    </td>
+                    <td>
                         <Button onClick={() => handleDeleteQuiz(quiz.id).then(resp=>{fetchQuizzes()})}>
-                            Delete
-                        </Button>
+                            Delete </Button>
                     </td>
                 </tr>
             ))}

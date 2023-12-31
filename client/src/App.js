@@ -5,12 +5,12 @@ import HomePage from './components/HomePage';
 import QuestionForm from './components/QuestionForm';
 import QuizPage from './components/QuizPage';
 import EditQuizPage from "./components/EditQuizPage";
-
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle';
 function App() {
     return (
-
         <div className="App">
-            <header className="header">
+            <header className="Header">
                 <nav>
                     <ul className="nav-list">
                         <li className="nav-item">

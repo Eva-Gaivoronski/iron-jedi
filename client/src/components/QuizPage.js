@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import '../App.css';
 import { Table, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import CreateQuizForm from './CreateQuizForm';
@@ -19,6 +18,11 @@ const QuizPage = () => {
         setShowCreateForm(false);
     }
 
+    // useEffect(() => {
+    //
+    // }, []);
+    // fetchQuizzes();
+
     const handleAddQuestions = (quizId) => {
         // TODO: Need logic for editing questions from Kevin
         console.log(`Add questions for quiz with ID ${quizId}`);
@@ -37,7 +41,7 @@ const QuizPage = () => {
                 <Modal.Body>
                     {/* Render CreateQuizForm component and pass form-related props */}
                     <CreateQuizForm
-                        //onSubmit={handleCreateQuiz}
+                       // onSubmit={handleCreateQuizButtonClick}
                         onCancel={handleCloseCreateForm}
                         newQuiz={newQuiz}
                         setNewQuiz={setNewQuiz}

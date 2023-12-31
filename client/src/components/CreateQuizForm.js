@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
 import fetchQuizzes from './QuizTable';
-
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle';
 const CreateQuiz=()=> {
     const [showModal, setShowModal] = useState(true);
     const handleCloseModal = () => {
@@ -17,7 +18,7 @@ const CreateQuiz=()=> {
                 // TODO finish the logic
                // TODO post it
                 // TODO fetch quizes again
-                //fetchQuizzes();
+                //await fetchQuizzes();
                 // TODO close the model
                 handleCloseModal();
 
