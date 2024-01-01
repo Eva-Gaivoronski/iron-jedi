@@ -28,11 +28,6 @@ function App() {
                                 Question Form
                             </Link>
                         </li>
-                        {/*<li className="nav-item">*/}
-                        {/*    <Link to="/edit-quiz" className="nav-link">*/}
-                        {/*        EditQuizPage*/}
-                        {/*    </Link>*/}
-                        {/*</li>*/}
                     </ul>
                 </nav>
             </header>
@@ -41,7 +36,7 @@ function App() {
                 <Route path="/addQuiz" element={<QuizPage/>}/>
                 <Route path="/question-form" element={<QuestionForm/>}/>
                 <Route path="/" element={<HomePage/>}/>
-                <Route path="/edit-quiz/:quizId" element={<EditQuizPage/>}/>
+                <Route path="/addQuiz/:quizId" element={<QuizPage/>}/>
             </Routes>
         </div>
 
