@@ -8,38 +8,47 @@ function App() {
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [result, setResult] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
-
-  const incorrectResponses = [
-    'Not quite right. Try again!',
-    'Incorrect. Keep going!',
-    'Nice try, but that\'s not the correct answer.',
-    // Add more custom incorrect responses as needed
-  ];
+  const [incorrectResponses, setIncorrectResponses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setTimeout(() => {
-        getQuiz();
-      }, 5000);
-    }
+    const timer = setTimeout(() => {
+      getQuiz();
+      setLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    // Check and submit the answer whenever selectedAnswer changes
     handleQuizSubmit();
-  }, [selectedAnswer, correctAnswer]);
+  }, [selectedAnswer, correctAnswer, options, incorrectResponses]);
 
   const getQuiz = async () => {
     try {
-      const response = await fetch('https://opentdb.com/api.php?amount=1&type=multiple');
+      setLoading(true);
+      const response = await fetch('https://opentdb.com/api.php?amount=1&difficulty=medium&type=multiple');
       const data = await response.json();
-      setQuiz(data.results[0].question);
-      setCorrectAnswer(data.results[0].correct_answer);
-      const allOptions = data.results[0].incorrect_answers.concat(data.results[0].correct_answer);
-      setOptions(shuffleArray(allOptions));
+      const questionData = data.results[0];
+      setQuiz(questionData.question);
+      setCorrectAnswer(questionData.correct_answer);
+      const allOptions = shuffleArray(questionData.incorrect_answers.concat(questionData.correct_answer));
+      setOptions(allOptions);
+
+      const questionResponses = allOptions.map((option, index) => {
+        if (option === questionData.correct_answer) {
+          return 'Correct!';
+        } else {
+          return `${option} is incorrect.`;
+        }
+      });
+      setIncorrectResponses(questionResponses);
+
+      setLoading(false);
       console.log(data);
     } catch (error) {
       console.log('Error fetching quiz:', error);
+      setLoading(false);
     }
   };
 
@@ -56,7 +65,6 @@ function App() {
 
   const handleQuizSubmit = () => {
     if (selectedAnswer === '') {
-      // Check if an answer is selected before displaying the message
       setResult('~ Choose Wisely ~');
       return;
     }
@@ -64,16 +72,18 @@ function App() {
     const isCorrect = selectedAnswer === correctAnswer;
     if (isCorrect) {
       setResult('Correct!');
+      setTimeout(() => {
+        getQuiz();
+        setResult('');
+      }, 5000);
     } else {
-      // Randomly select an incorrect response
-      const randomIncorrectResponse =
-        incorrectResponses[Math.floor(Math.random() * incorrectResponses.length)];
-      setResult(randomIncorrectResponse);
+      const currentIndex = options.indexOf(selectedAnswer);
+      const currentResponse = incorrectResponses[currentIndex];
+      setResult(currentResponse);
     }
   };
 
   const shuffleArray = (array) => {
-    // Fisher-Yates shuffle algorithm
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -87,33 +97,39 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p></p>
         <div>
-          <p dangerouslySetInnerHTML={{ __html: quiz }}></p>
-          <form>
-            {options.map((option, index) => (
-              <div key={index}>
-                <input
-                  type="radio"
-                  id={`option${index}`}
-                  name="quizOptions"
-                  value={option}
-                  checked={selectedAnswer === option}
-                  onChange={handleAnswerChange}
-                />
-                <label
-                  htmlFor={`option${index}`}
-                  dangerouslySetInnerHTML={{ __html: option }}
-                ></label>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <>
+              <p dangerouslySetInnerHTML={{ __html: quiz }}></p>
+              <form>
+                {options.map((option, index) => (
+                  <div key={index}>
+                    <input
+                      type="radio"
+                      id={`option${index}`}
+                      name="quizOptions"
+                      value={option}
+                      checked={selectedAnswer === option}
+                      onChange={handleAnswerChange}
+                    />
+                    <label
+                      htmlFor={`option${index}`}
+                      dangerouslySetInnerHTML={{ __html: option }}
+                    ></label>
+                  </div>
+                ))}
+              </form>
+              {result && (
+                <div style={{ marginTop: '20px' }}>
+                  <p>{result}</p>
+                </div>
+              )}
+              <div style={{ marginTop: '20px' }}>
+                <button onClick={handleGenerateQuiz}>Generate Quiz</button>
               </div>
-            ))}
-          </form>
-          {result && (
-            <div style={{ marginTop: '20px' }}>
-              <p>{result}</p>
-            </div>
+            </>
           )}
-          <div style={{ marginTop: '20px' }}>
-            <button onClick={handleGenerateQuiz}>Generate Quiz</button>
-          </div>
         </div>
       </header>
     </div>
