@@ -47,7 +47,7 @@ public class QuizController {
     @GetMapping("/{quizId}")
     public Quiz getQuizById(@PathVariable Long quizId) {return quizRepository.findById(quizId).orElse(null);}
 
-    @PostMapping("/addQuiz")
+    @PostMapping("/quizzes")
     public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz) {
         // TODO Get UserId from cookie
         long userId = 1;

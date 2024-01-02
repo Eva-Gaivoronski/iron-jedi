@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
-import fetchQuizzes from './QuizTable';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 const CreateQuiz=()=> {
@@ -12,7 +11,7 @@ const CreateQuiz=()=> {
 
     const handleSubmit = async (values, { setSubmitting }) => {
             try {
-                const response = await axios.post('http://localhost:8080/quiz/addQuiz', values);
+                const response = await axios.post('http://localhost:8080/quiz/quizzes', values);
                 console.log('Quiz data submitted:', values);
                 alert('Quiz saved successfully!');
                 // TODO finish the logic
@@ -21,9 +20,10 @@ const CreateQuiz=()=> {
                 //await fetchQuizzes();
                 // TODO close the model
                 handleCloseModal();
-
     } catch (error) {
                 console.error('Error creating quiz:', error);
+            } finally {
+                setSubmitting(false);
             }
         };
     return (
@@ -38,7 +38,7 @@ const CreateQuiz=()=> {
                         // TODO Add validation logic is needed
                         return errors;
                     }}
-                    //Submission logic for the form
+                    //Submission logic
                     onSubmit={(values, { setSubmitting }) => {
                         handleSubmit(values, true)
                             .catch(e => {

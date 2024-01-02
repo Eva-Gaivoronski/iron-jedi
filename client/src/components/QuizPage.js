@@ -85,6 +85,11 @@ const QuizPage = () => {
         handleUpdateQuiz(quiz);
     };
 
+    // const handleAddQuestions = (quizId) => {
+//         // TODO: Need logic for editing questions from Kevin
+//         console.log(`Add questions for quiz with ID ${quizId}`);
+//     };
+
     return (
         <div>
             <Button variant="success" onClick={handleCreateQuizButtonClick}>
@@ -105,7 +110,7 @@ const QuizPage = () => {
                         <td>{quiz.title}</td>
                         <td>{quiz.category}</td>
                         <td>
-                            <Link to={`/addQuiz/${quiz.id}`}>
+                            <Link to={`/quizzes/${quiz.id}`}>
                                 <Button variant="success" onClick={() => handleEditQuiz(quiz)}>
                                     Edit
                                 </Button>
@@ -176,164 +181,3 @@ const QuizPage = () => {
 export default QuizPage;
 
 
-//merged QuizPage and Quiz Table
-
-// import React, { useState, useEffect } from 'react';
-// import { Table, Button, Modal } from 'react-bootstrap';
-// import axios from 'axios';
-// import {Link, useParams} from "react-router-dom";
-// import CreateQuizForm from './CreateQuizForm';
-// import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap/dist/js/bootstrap.bundle';
-//
-// const QuizPage = () => {
-//     const [quizzes, setQuizzes] = useState([]);
-//     const [newQuiz, setNewQuiz] = useState({ title: '' });
-//     const [showCreateForm, setShowCreateForm] = useState(false);
-//
-//     const handleCreateQuizButtonClick = () => {
-//         setShowCreateForm(true);
-//     };
-//
-//     const handleCloseCreateForm = () => {
-//         setShowCreateForm(false);
-//     };
-//
-//     const fetchQuizzes = async () => {
-//         try {
-//             const response = await axios.get('http://localhost:8080/quiz/getQuizzes');
-//             setQuizzes(response.data);
-//         } catch (error) {
-//             console.error('Error fetching quizzes:', error);
-//         }
-//     };
-//
-//     useEffect(() => {
-//         fetchQuizzes();
-//     }, []); // Fetch quizzes on component mount
-//
-//     const handleAddQuestions = (quizId) => {
-//         console.log(`Add questions for quiz with ID ${quizId}`);
-//     };
-//
-//     const handleDeleteQuiz = async (quizId) => {
-//         try {
-//             await axios.delete(`http://localhost:8080/quiz/${quizId}`);
-//             fetchQuizzes();
-//         } catch (error) {
-//             console.error('Error deleting quiz:', error);
-//         }
-//     };
-//
-//     return (
-//         <div>
-//             <Button variant="success" onClick={handleCreateQuizButtonClick}>
-//                 Create Quiz
-//             </Button>
-//
-//             <Table>
-//                 <thead>
-//                 <tr>
-//                     <th>Title</th>
-//                     <th>Category</th>
-//                     <th>Actions</th>
-//                 </tr>
-//                 </thead>
-//                 <tbody>
-//                 {quizzes.map((quiz) => (
-//                     <tr key={quiz.id}>
-//                         <td>{quiz.title}</td>
-//                         <td>{quiz.category}</td>
-//                         <td>
-//                             <Link to={`/edit-quiz/${quiz.id}`}>
-//                                 <Button variant="success" onClick={handleCreateQuizButtonClick}>
-//                                     Edit
-//                                 </Button>
-//                             </Link>
-//                         </td>
-//                         <td>
-//                             <Button onClick={() => handleDeleteQuiz(quiz.id)}>
-//                                 Delete
-//                             </Button>
-//                         </td>
-//                     </tr>
-//                 ))}
-//                 </tbody>
-//             </Table>
-//
-//             <Modal show={showCreateForm} onHide={handleCloseCreateForm}>
-//                 <Modal.Header closeButton>
-//                     <Modal.Title>Create a New Quiz</Modal.Title>
-//                 </Modal.Header>
-//                 <Modal.Body>
-//                     <CreateQuizForm
-//                         onCancel={handleCloseCreateForm}
-//                         newQuiz={newQuiz}
-//                         setNewQuiz={setNewQuiz}
-//                         fetchQuizzes={fetchQuizzes} // Pass the fetchQuizzes function to update quiz list after creation
-//                     />
-//                 </Modal.Body>
-//             </Modal>
-//         </div>
-//     )
-// };
-//
-// export default QuizPage;
-
-// Original
-
-// import React, { useState, useEffect } from 'react';
-// import { Table, Button, Modal } from 'react-bootstrap';
-// import axios from 'axios';
-// import CreateQuizForm from './CreateQuizForm';
-// import QuizTable from './QuizTable';
-//
-//
-// const QuizPage = () => {
-//     const [userQuizzes, setUserQuizzes] = useState([]);
-//     const [newQuiz, setNewQuiz] = useState({ title: '' });
-//     const [showCreateForm, setShowCreateForm] = useState(false);
-//
-//     const handleCreateQuizButtonClick = () => {
-//         setShowCreateForm(true);
-//     };
-//
-//     const handleCloseCreateForm = () => {
-//         setShowCreateForm(false);
-//     }
-//
-//     // useEffect(() => {
-//     //
-//     // }, []);
-//     // fetchQuizzes();
-//
-//     const handleAddQuestions = (quizId) => {
-//         // TODO: Need logic for editing questions from Kevin
-//         console.log(`Add questions for quiz with ID ${quizId}`);
-//     };
-//     return (
-//         <div>
-//             <Button variant="success" onClick={handleCreateQuizButtonClick}>
-//                 Create Quiz
-//             </Button>
-//             {/* Display quizzes using QuizTable component */}
-//             <QuizTable quizzes={userQuizzes} />
-//             <Modal show={showCreateForm} onHide={handleCloseCreateForm}>
-//                 <Modal.Header closeButton>
-//                     <Modal.Title>Create a New Quiz</Modal.Title>
-//                 </Modal.Header>
-//                 <Modal.Body>
-//                     {/* Render CreateQuizForm component and pass form-related props */}
-//                     <CreateQuizForm
-//                        // onSubmit={handleCreateQuizButtonClick}
-//                         onCancel={handleCloseCreateForm}
-//                         newQuiz={newQuiz}
-//                         setNewQuiz={setNewQuiz}
-//                     />
-//                 </Modal.Body>
-//             </Modal>
-//         </div>
-//     );
-// };
-//
-// export default QuizPage;

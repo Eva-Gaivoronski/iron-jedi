@@ -4,7 +4,6 @@ import './App.css';
 import HomePage from './components/HomePage';
 import QuestionForm from './components/QuestionForm';
 import QuizPage from './components/QuizPage';
-import EditQuizPage from "./components/EditQuizPage";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 function App() {
@@ -19,7 +18,7 @@ function App() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/addQuiz" className="nav-link">
+                            <Link to="/quizzes" className="nav-link">
                                 Quiz Page
                             </Link>
                         </li>
@@ -33,10 +32,10 @@ function App() {
             </header>
 
             <Routes>
-                <Route path="/addQuiz" element={<QuizPage/>}/>
+                <Route path="/quizzes" element={<QuizPage/>}/>
                 <Route path="/question-form" element={<QuestionForm/>}/>
                 <Route path="/" element={<HomePage/>}/>
-                <Route path="/addQuiz/:quizId" element={<QuizPage/>}/>
+                <Route path="/quizzes/:quizId" element={<QuizPage/>}/>
             </Routes>
         </div>
 
