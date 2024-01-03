@@ -40,10 +40,7 @@ const CreateQuiz=()=> {
                     }}
                     //Submission logic
                     onSubmit={(values, { setSubmitting }) => {
-                        handleSubmit(values, true)
-                            .catch(e => {
-                                console.log(e);
-                            })
+                        handleSubmit(values, { setSubmitting });
                     }}
                 >
                     {({ values, handleChange, handleSubmit }) => (

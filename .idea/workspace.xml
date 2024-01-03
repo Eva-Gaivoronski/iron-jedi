@@ -4,17 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="843f8013-a532-4783-ad37-5c6a94f5ae86" name="Changes" comment="more changes">
+    <list default="true" id="843f8013-a532-4783-ad37-5c6a94f5ae86" name="Changes" comment="cleaned code for better clarity and this is the last comit before start working on &quot;take quiz&quot; task">
+      <change afterPath="$PROJECT_DIR$/client/src/components/TakeQuizPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/QuizResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/UserAnswer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/controllers/QuizController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/controllers/QuizController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/helpers/QuizService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/helpers/QuizService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/Question.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/Question.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/Quiz.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/Quiz.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/repositories/QuizRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/repositories/QuizRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/CreateQuizForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CreateQuizForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/EditQuizForm.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/EditQuizPage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/QuizTable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/QuizPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/QuizPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/controllers/QuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/controllers/QuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/helpers/QuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/helpers/QuizService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/Quiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/Quiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/repositories/QuizRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/repositories/QuizRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,8 +83,8 @@
       <list>
         <option value="Interface" />
         <option value="module-info" />
-        <option value="Class" />
         <option value="JavaScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -217,7 +232,11 @@
       <workItem from="1704060202133" duration="618000" />
       <workItem from="1704065578697" duration="2124000" />
       <workItem from="1704070267338" duration="1514000" />
-      <workItem from="1704147566283" duration="1361000" />
+      <workItem from="1704147566283" duration="11646000" />
+      <workItem from="1704166117418" duration="2795000" />
+      <workItem from="1704205081877" duration="2672000" />
+      <workItem from="1704207818295" duration="4392000" />
+      <workItem from="1704227071534" duration="2591000" />
     </task>
     <task id="LOCAL-00001" summary="update and chages after fetching Kevins code">
       <option name="closed" value="true" />
@@ -251,7 +270,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704066989340</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="cleaned code for better clarity and this is the last comit before start working on &quot;take quiz&quot; task">
+      <option name="closed" value="true" />
+      <created>1704155094457</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1704155094457</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,6 +300,7 @@
     <MESSAGE value="now we can create, save and delete quiz. working on editing" />
     <MESSAGE value="edded adit quiz - we can now change the title and category and save it" />
     <MESSAGE value="more changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="more changes" />
+    <MESSAGE value="cleaned code for better clarity and this is the last comit before start working on &quot;take quiz&quot; task" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaned code for better clarity and this is the last comit before start working on &quot;take quiz&quot; task" />
   </component>
 </project>

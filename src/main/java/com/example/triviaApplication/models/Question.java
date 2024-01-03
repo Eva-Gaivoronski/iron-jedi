@@ -22,13 +22,13 @@ public class Question {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "quiz_id")
+    private Quiz quiz;
     public Quiz getQuiz() {return quiz;}
 
     public void setQuiz(Quiz quiz) {this.quiz = quiz;}
 
-    @ManyToOne
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
     public Question() {
     }
 

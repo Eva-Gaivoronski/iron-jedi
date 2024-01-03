@@ -6,6 +6,7 @@ import QuestionForm from './components/QuestionForm';
 import QuizPage from './components/QuizPage';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
+import TakeQuizPage from "./components/TakeQuizPage";
 function App() {
     return (
         <div className="App">
@@ -36,6 +37,8 @@ function App() {
                 <Route path="/question-form" element={<QuestionForm/>}/>
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/quizzes/:quizId" element={<QuizPage/>}/>
+                <Route path="/takeQuiz/:quizId" element={<TakeQuizPage/>}/>
+                <Route path="/submitQuiz/:quizId" element={<TakeQuizPage/>}/>
             </Routes>
         </div>
 

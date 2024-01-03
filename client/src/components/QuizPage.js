@@ -10,7 +10,7 @@ const QuizPage = () => {
     const [quizzes, setQuizzes] = useState([]);
     const [newQuiz, setNewQuiz] = useState({ title: '' });
     const [showCreateForm, setShowCreateForm] = useState(false);
-    const [showEditForm, setShowEditForm] = useState(false); // Corrected to false
+    const [showEditForm, setShowEditForm] = useState(false); // Corrected true?
     const [editedQuiz, setEditedQuiz] = useState({});
     const { quizId } = useParams();
     const [quiz, setQuiz] = useState({});
@@ -37,7 +37,7 @@ const QuizPage = () => {
 
     const fetchQuizzes = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/quiz/getQuizzes');
+            const response = await axios.get('http://localhost:8080/quiz/getQuizzes', { timeout: 5000 });
             setQuizzes(response.data);
         } catch (error) {
             console.error('Error fetching quizzes:', error);
@@ -49,6 +49,7 @@ const QuizPage = () => {
     }, []); // Fetch quizzes on component mount
 
     const handleAddQuestions = (quizId) => {
+        // TODO: Need logic for editing questions from Kevin
         console.log(`Add questions for quiz with ID ${quizId}`);
     };
 
@@ -85,11 +86,6 @@ const QuizPage = () => {
         handleUpdateQuiz(quiz);
     };
 
-    // const handleAddQuestions = (quizId) => {
-//         // TODO: Need logic for editing questions from Kevin
-//         console.log(`Add questions for quiz with ID ${quizId}`);
-//     };
-
     return (
         <div>
             <Button variant="success" onClick={handleCreateQuizButtonClick}>
@@ -113,6 +109,13 @@ const QuizPage = () => {
                             <Link to={`/quizzes/${quiz.id}`}>
                                 <Button variant="success" onClick={() => handleEditQuiz(quiz)}>
                                     Edit
+                                </Button>
+                            </Link>
+                        </td>
+                        <td>
+                            <Link to={`/takeQuiz/${quiz.id}`}>
+                                <Button variant="success" onClick={() => (quiz)}>
+                                    Take Quiz
                                 </Button>
                             </Link>
                         </td>

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
@@ -19,5 +20,9 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     @Modifying
     @Query("DELETE FROM Quiz q WHERE q.id = :quizId AND q.user.id = :userId")
     void deleteByIdAndUserId(@Param("quizId") Long quizId, @Param("userId") Long userId);
+
+    @Query("SELECT q FROM Quiz q JOIN FETCH q.questions WHERE q.id = :quizId")
+    Optional<Quiz> findByIdWithQuestions(@Param("quizId") Long quizId);
+
 }
 
