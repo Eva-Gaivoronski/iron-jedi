@@ -1,11 +1,15 @@
 package com.example.triviaApplication.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import java.util.List;
 
 @Entity
 public class Question {
@@ -13,10 +17,6 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
-    private String correctAnswer;
-    private String option1;
-    private String option2;
-    private String option3;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -25,22 +25,16 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
-    public Quiz getQuiz() {return quiz;}
 
-    public void setQuiz(Quiz quiz) {this.quiz = quiz;}
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Answer> answers;
 
+    // Default constructor for JPA
     public Question() {
     }
 
-    public Question(String text, String correctAnswer, String option1, String option2, String option3, User user) {
-        this.text = text;
-        this.correctAnswer = correctAnswer;
-        this.option1 = option1;
-        this.option2 = option2;
-        this.option3 = option3;
-        this.user = user;
-    }
-
+    // Additional constructors, getters, and setters
 
     public Long getId() {
         return id;
@@ -58,43 +52,27 @@ public class Question {
         this.text = text;
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
-
-    public String getOption1() {
-        return option1;
-    }
-
-    public void setOption1(String option1) {
-        this.option1 = option1;
-    }
-
-    public String getOption2() {
-        return option2;
-    }
-
-    public void setOption2(String option2) {
-        this.option2 = option2;
-    }
-
-    public String getOption3() {
-        return option3;
-    }
-
-    public void setOption3(String option3) {
-        this.option3 = option3;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 }
