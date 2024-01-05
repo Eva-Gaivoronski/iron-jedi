@@ -6,6 +6,7 @@ import com.example.triviaApplication.repositories.UserRepository;
 import io.netty.handler.codec.http.HttpContentEncoder;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -76,17 +77,18 @@ public class QuizService {
         return quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
     }
-
-    public QuizResult submitQuiz(Long quizId, List<UserAnswer> userAnswers) {
+@Transactional
+public QuizResult submitQuiz(Long quizId, List<UserAnswer> userAnswers) {
+    try {
+        System.out.println("Received quiz submission for quizId: " + quizId);
+        System.out.println("User answers: " + userAnswers);
         // Retrieve the quiz from the database
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
-
         // Check if the quiz is in a state that allows submission
         if (quiz.isSubmitted()) {
             throw new IllegalStateException("Quiz has already been submitted.");
         }
-
         // Validate if the quiz has all the necessary details for scoring (e.g., questions, correct answers)
         if (quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
             throw new IllegalStateException("Quiz does not have valid questions for scoring.");
@@ -102,6 +104,11 @@ public class QuizService {
         quizRepository.save(quiz);
         // Return the result (score and percentage)
         return new QuizResult(correctAnswers, percentage);
+    } catch (Exception e) {
+        // Log the exception for further investigation
+        e.printStackTrace();
+        throw e;
+    }
     }
 
     // Implement the logic to calculate the score based on user answers and correct answers

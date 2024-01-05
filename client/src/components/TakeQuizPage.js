@@ -3,11 +3,13 @@ import axios from 'axios';
 import {useParams} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
+import {Button, Modal, Table} from "react-bootstrap";
 
 const TakeQuizPage = ({ match }) => {
     const [quiz, setQuiz] = useState(null);
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [submissionResult, setSubmissionResult] = useState(null);
+    const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
     const { quizId } = useParams();
 
     useEffect(() => {
@@ -16,6 +18,7 @@ const TakeQuizPage = ({ match }) => {
             try {
                 const response = await axios.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
                 setQuiz(response.data);
+                setIsQuizSubmitted(response.data.submitted);
             } catch (error) {
                 console.error('Error fetching quiz data:', error);
             }
@@ -32,20 +35,32 @@ const TakeQuizPage = ({ match }) => {
         }));
     };
 
-    const handleSubmitQuiz = async () => {
-        try {
-            console.log('Selected Answers:', selectedAnswers);
-            const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, selectedAnswers);
-            // Update state with submission result
-            setSubmissionResult(response.data);
-        } catch (error) {
-            console.error('Failed to submit quiz', error);
-        }
-    };
+        const handleSubmitQuiz = async () => {
+            try {
+                console.log('Quiz ID:', quizId);
+                if (isQuizSubmitted) {
+                    // TODO Display an alert to inform the user - need to think about better option than alert
+                    alert('Quiz has already been submitted!');
+                    return;
+                }
+                const formattedAnswers = Object.keys(selectedAnswers).map((questionId) => ({
+                    questionId,
+                    selectedAnswer: selectedAnswers[questionId],
+                }));
+                console.log('Selected Answers:', selectedAnswers);
 
-    if (!quiz) {
-        return <div>Loading...</div>;
-    }
+                const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, formattedAnswers);
+                // Update state with submission result
+                setSubmissionResult(response.data);
+                setIsQuizSubmitted(true);
+            } catch (error) {
+                console.error('Failed to submit quiz', error.response.data);
+            }
+        };
+
+        if (!quiz) {
+            return <div>Loading...</div>;
+        }
 
     return (
         <div className="container">
@@ -96,19 +111,51 @@ const TakeQuizPage = ({ match }) => {
                 </div>
             ))}
 
-            <button className="btn btn-primary" onClick={handleSubmitQuiz}>
+            {!isQuizSubmitted && (
+            <Button className="btn btn-primary" onClick={handleSubmitQuiz}>
                 Submit Quiz
-            </button>
-            {/* Display feedback */}
-            {submissionResult && (
-                <div>
-                    <p>Quiz submitted successfully!</p>
-                    <p>Score: {submissionResult.score}</p>
-                    <p>Percentage: {submissionResult.percentage}%</p>
+            </Button>
+            )}
+
+            {isQuizSubmitted && (
+                <div className="mb-4">
+                    <div className="alert alert-info" role="alert">
+                        <h4 className="alert-heading">Quiz already submitted!</h4>
+                    </div>
                 </div>
             )}
+
+            {/* Display feedback */}
+            {submissionResult && (
+                <Modal show={true} onHide={() => setSubmissionResult(null)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Quiz Submitted Successfully!</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Score: {submissionResult.score}</p>
+                        <p>Percentage: {submissionResult.percentage}%</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={() => setSubmissionResult(null)}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
+
+            {/*{submissionResult && (*/}
+            {/*    <div className="mb-4">*/}
+            {/*        <div className="alert alert-success" role="alert">*/}
+            {/*        <h4 className="alert-heading">Quiz submitted successfully!</h4>*/}
+            {/*        <p className="mb-0">Score: {submissionResult.score}</p>*/}
+            {/*        <p className="mb-0">Percentage: {submissionResult.percentage}%</p>*/}
+            {/*    </div>*/}
+            {/*    </div>*/}
+            {/*)}*/}
         </div>
     );
 };
+
+
 
 export default TakeQuizPage;

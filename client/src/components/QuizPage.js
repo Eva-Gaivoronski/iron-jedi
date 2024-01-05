@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal } from 'react-bootstrap';
+import {Table, Button, Modal} from 'react-bootstrap';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import CreateQuizForm from './CreateQuizForm';
@@ -89,11 +89,11 @@ const QuizPage = () => {
     return (
         <div>
             <Button variant="success" onClick={handleCreateQuizButtonClick}>
-                Create Quiz
+                CREATE QUIZ
             </Button>
 
             <Table>
-                <thead>
+                <thead className="table-header">
                 <tr>
                     <th>Title</th>
                     <th>Category</th>
@@ -109,6 +109,14 @@ const QuizPage = () => {
                             <Link to={`/quizzes/${quiz.id}`}>
                                 <Button variant="success" onClick={() => handleEditQuiz(quiz)}>
                                     Edit
+                                </Button>
+                            </Link>
+                        </td>
+                        {/*need to finish the logic*/}
+                        <td>
+                            <Link to={`/quizzes/${quiz.id}`}>
+                                <Button variant="success" onClick={() => handleAddQuestions(quiz)}>
+                                    Add questions
                                 </Button>
                             </Link>
                         </td>

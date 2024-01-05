@@ -1,13 +1,9 @@
 package com.example.triviaApplication.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name="question")//Iryna added
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +17,6 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
-    public Quiz getQuiz() {return quiz;}
-
-    public void setQuiz(Quiz quiz) {this.quiz = quiz;}
 
     public Question() {
     }
