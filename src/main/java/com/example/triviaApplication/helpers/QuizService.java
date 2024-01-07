@@ -1,7 +1,6 @@
 package com.example.triviaApplication.helpers;
 
 import com.example.triviaApplication.models.*;
-import com.example.triviaApplication.repositories.QuestionRepository;
 import com.example.triviaApplication.repositories.QuizRepository;
 import com.example.triviaApplication.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class QuizService {
@@ -24,44 +22,12 @@ public class QuizService {
     private QuizRepository quizRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private QuestionRepository questionRepository;
 
     public Quiz createQuiz(Quiz quiz, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
         quiz.setUser(user);
         return quizRepository.save(quiz);
-    }
-
-    @Transactional
-    public Question saveQuestion(Question question) {
-        if (question.getUser() != null && question.getUser().getUsername() != null) {
-            User user = userRepository.findByUsername(question.getUser().getUsername())
-                    .orElseGet(() -> userRepository.save(question.getUser()));
-            question.setUser(user);
-        }
-
-        if (question.getAnswers() != null) {
-            for (Answer answer : question.getAnswers()) {
-                // Log the isCorrect value of each answer
-                log.debug("Answer text: {}, isCorrect: {}", answer.getText(), answer.getCorrect());
-                answer.setQuestion(question);
-            }
-        }
-
-        return questionRepository.save(question);
-    }
-
-    public Optional<Question> findQuestionById(Long id) {
-        return questionRepository.findById(id);
-    }
-
-    @Transactional
-    public void deleteQuestion(Long id) {
-        Question question = questionRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Question not found with id: " + id));
-        questionRepository.delete(question);
     }
 
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
