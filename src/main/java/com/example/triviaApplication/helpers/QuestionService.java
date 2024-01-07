@@ -7,57 +7,54 @@ import com.example.triviaApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.NoSuchElementException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final UserRepository userRepository;  // Add UserRepository dependency
+    private final UserRepository userRepository;
 
     @Autowired
     public QuestionService(QuestionRepository questionRepository, UserRepository userRepository) {
         this.questionRepository = questionRepository;
-        this.userRepository = userRepository;  // Initialize UserRepository
+        this.userRepository = userRepository;
     }
 
     @Transactional
     public Question createOrUpdateQuestion(Question question) {
         if (question.getUser() != null && question.getUser().getUsername() != null) {
-            // Look up User by username
+            // Find the user by username or create a new user
             User user = userRepository.findByUsername(question.getUser().getUsername())
-                    .orElseThrow(() -> new NoSuchElementException("User not found with username: " + question.getUser().getUsername()));
+                    .orElseGet(() -> {
+                        User newUser = new User();
+                        newUser.setUsername(question.getUser().getUsername());
+                        return userRepository.save(newUser);
+                    });
             question.setUser(user);
         } else {
             throw new IllegalArgumentException("User information must be provided for the question");
         }
-
-        // Handle answers if necessary, e.g., setting the question for each answer
-
         return questionRepository.save(question);
     }
 
     public List<Question> findAllQuestions() {
-        // Logic to retrieve all questions
         return questionRepository.findAll();
     }
 
     public Question findQuestionById(Long id) {
-        // Logic to find a question by its ID
         return questionRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("Question not found with id: " + id));
     }
 
     @Transactional
     public void deleteQuestion(Long id) {
-        // Logic to delete a question
         questionRepository.deleteById(id);
     }
 
     public List<Question> findQuestionsByUserUsername(String username) {
-        // Logic to find questions by a specific user's username
         return questionRepository.findQuestionsByUserUsername(username);
     }
 
