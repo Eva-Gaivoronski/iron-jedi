@@ -1,2 +1,4 @@
-package Repository;public interface AnswerRepository {
+package Repository;
+
+public interface AnswerRepository {
 }

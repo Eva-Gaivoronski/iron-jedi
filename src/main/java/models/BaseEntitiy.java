@@ -1,2 +1,4 @@
-package Models;public class BaseEntitiy {
+package Models;
+
+public class BaseEntitiy {
 }

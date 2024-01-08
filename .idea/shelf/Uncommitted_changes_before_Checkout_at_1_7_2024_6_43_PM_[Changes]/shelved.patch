@@ -1,0 +1,16 @@
+Index: src/main/java/com/example/triviaApplication/TriviaApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/triviaApplication/TriviaApplication.java b/src/main/java/Repository/TriviaApplication.java
+rename from src/main/java/com/example/triviaApplication/TriviaApplication.java
+rename to src/main/java/Repository/TriviaApplication.java
+--- a/src/main/java/com/example/triviaApplication/TriviaApplication.java	(revision 9a23778aaf7e1d29d3580d822e8053f652e4d756)
++++ b/src/main/java/Repository/TriviaApplication.java	(date 1704674558705)
+@@ -1,4 +1,4 @@
+-package com.example.triviaApplication;
++package Repository;
+ 
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
