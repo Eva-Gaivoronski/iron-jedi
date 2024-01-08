@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
+import {Button} from "react-bootstrap";
 const CreateQuiz=()=> {
     const [showModal, setShowModal] = useState(true);
     const handleCloseModal = () => {
@@ -63,9 +64,9 @@ const CreateQuiz=()=> {
                             </label>
                             <br/>
                             {/* TODO: Add more fields dynamically  */}
-                            <button type="submit">
+                            <Button type="submit">
                                 Create Quiz
-                            </button>
+                            </Button>
                         </Form>
                     )}
                 </Formik>

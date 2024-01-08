@@ -39,7 +39,7 @@ function App() {
                 <Route path="/quizzes/:quizId" element={<QuizPage/>}/>
                 <Route path="/takeQuiz/:quizId" element={<TakeQuizPage/>}/>
                 <Route path="/submitQuiz/:quizId" element={<TakeQuizPage/>}/>
-                <Route path="/create-question" element={<QuestionForm/>} />
+                <Route path="/question-form/:quizId" element={<QuestionForm/>} />
             </Routes>
         </div>
 

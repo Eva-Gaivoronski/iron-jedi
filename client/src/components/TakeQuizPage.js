@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import {Button} from "react-bootstrap";
+import {Alert, Button} from "react-bootstrap";
 
 const TakeQuizPage = () => {
     const [quiz, setQuiz] = useState(null);
@@ -12,12 +12,16 @@ const TakeQuizPage = () => {
     const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
     const { quizId } = useParams();
     const { userId } = useParams();
+    const [showNoQuestionsAlert, setShowNoQuestionsAlert] = useState(false);
+    const [showUnansweredQuestionsAlert, setShowUnansweredQuestionsAlert] = useState(false);
+
 
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
-                console.log('Quiz Data:', response.data);
+                console.log('Quiz ID:', quizId);
+                console.log('Fetched Quiz Data:', response.data);
                 setQuiz(response.data);
             } catch (error) {
                 console.error('Error fetching quiz data:', error);
@@ -40,6 +44,18 @@ const TakeQuizPage = () => {
             if (isQuizSubmitted) {
                 // TODO Display an alert to inform the user - need to think about better option than alert
                 alert('Quiz has already been submitted!');
+                return;
+            }
+            // Check if there are questions in the quiz
+            if (!quiz.questions || quiz.questions.length === 0) {
+                setShowNoQuestionsAlert(true);
+                return;
+            }
+            // Check if all questions have been answered
+            if (
+                quiz.questions.some((question) => !selectedAnswers[question.id] && question.answers.length > 0)
+            ) {
+                setShowUnansweredQuestionsAlert(true);
                 return;
             }
             const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, selectedAnswers);
@@ -94,14 +110,32 @@ const TakeQuizPage = () => {
             )}
             {/* Display feedback */}
             {submissionResult && (
-                <div>
-                    <p>Quiz submitted successfully!</p>
-                    <p>Score: {submissionResult.score}</p>
-                    <p>Percentage: {submissionResult.percentage}%</p>
+                <div className="mb-4">
+                    <div className="alert alert-success" role="alert">
+                        <h4 className="alert-heading">Quiz submitted successfully!</h4>
+                        <p className="mb-0">Score: {submissionResult.score}</p>
+                        <p className="mb-0">Percentage: {submissionResult.percentage}%</p>
+                    </div>
                 </div>
             )}
+
+            {/* No Questions Alert */}
+            <Alert variant="danger" show={showNoQuestionsAlert} onClose={() => setShowNoQuestionsAlert(false)} dismissible>
+                No questions available in the quiz. Quiz cannot be submitted.
+            </Alert>
+
+            {/* Unanswered Questions Alert */}
+            <Alert
+                variant="danger"
+                show={showUnansweredQuestionsAlert}
+                onClose={() => setShowUnansweredQuestionsAlert(false)}
+                dismissible
+            >
+                Please answer all questions before submitting the quiz.
+            </Alert>
         </div>
     );
 };
+
 
 export default TakeQuizPage;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Table, Button, Modal} from 'react-bootstrap';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate} from 'react-router-dom';
 import CreateQuizForm from './CreateQuizForm';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -14,6 +14,8 @@ const QuizPage = () => {
     const [editedQuiz, setEditedQuiz] = useState({});
     const { quizId } = useParams();
     const [quiz, setQuiz] = useState({});
+    const navigate = useNavigate();
+    const [quizToDelete, setQuizToDelete] = useState(null);
 
     const handleCreateQuizButtonClick = () => {
         setShowCreateForm(true);
@@ -25,7 +27,7 @@ const QuizPage = () => {
     };
 
     const handleEditQuiz = (selectedQuiz) => {
-        setEditedQuiz(selectedQuiz);
+        setQuiz(selectedQuiz);
         setShowEditForm(true);
     };
 
@@ -38,6 +40,8 @@ const QuizPage = () => {
     const fetchQuizzes = async () => {
         try {
             const response = await axios.get('http://localhost:8080/quiz/getQuizzes', { timeout: 5000 });
+            console.log('Quiz ID:', quizId);
+            console.log('Fetched Quiz Data:', response.data);
             setQuizzes(response.data);
         } catch (error) {
             console.error('Error fetching quizzes:', error);
@@ -49,17 +53,27 @@ const QuizPage = () => {
     }, []); // Fetch quizzes on component mount
 
     const handleAddQuestions = (quizId) => {
+        navigate(`/question-form/${quizId}`);
         // TODO: Need logic for editing questions from Kevin
         console.log(`Add questions for quiz with ID ${quizId}`);
     };
 
-    const handleDeleteQuiz = async (quizId) => {
+    const handleDeleteQuiz = (quizId) => {
+        setQuizToDelete(quizId);
+    };
+
+    const handleConfirmDelete = async () => {
         try {
-            await axios.delete(`http://localhost:8080/quiz/${quizId}`);
+            await axios.delete(`http://localhost:8080/quiz/${quizToDelete}`);
             fetchQuizzes();
+            setQuizToDelete(null); // Clear the state after successful deletion
         } catch (error) {
             console.error('Error deleting quiz:', error);
         }
+    };
+
+    const handleCancelDelete = () => {
+        setQuizToDelete(null);
     };
 
     const handleInputChange = (e) => {
@@ -114,7 +128,7 @@ const QuizPage = () => {
                         </td>
                         {/*need to finish the logic*/}
                         <td>
-                            <Link to={`/quizzes/${quiz.id}`}>
+                            <Link to={`/question-form/${quiz.id}`}>
                                 <Button variant="success" onClick={() => handleAddQuestions(quiz)}>
                                     Add questions
                                 </Button>
@@ -122,7 +136,8 @@ const QuizPage = () => {
                         </td>
                         <td>
                             <Link to={`/takeQuiz/${quiz.id}`}>
-                                <Button variant="success" onClick={() => (quiz)}>
+                                <Button variant="success" >
+                                    {/*//onClick={() => (quiz)}*/}
                                     Take Quiz
                                 </Button>
                             </Link>
@@ -185,6 +200,25 @@ const QuizPage = () => {
                     </Modal.Footer>
                 </form>
             </Modal>
+
+            {/* Delete Modal */}
+            <Modal show={quizToDelete !== null} onHide={handleCancelDelete}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Deletion</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Are you sure you want to delete this quiz?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="danger" onClick={handleConfirmDelete}>
+                        Confirm
+                    </Button>
+                    <Button variant="secondary" onClick={handleCancelDelete}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </div>
     );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './QuestionForm.css';
+import { useParams } from 'react-router-dom';
 
 function QuestionForm() {
     const [username, setUsername] = useState('');
@@ -12,6 +13,7 @@ function QuestionForm() {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const { quizId } = useParams(); //Iryna added
 
     const handleSubmit = async (event) => {
         event.preventDefault();

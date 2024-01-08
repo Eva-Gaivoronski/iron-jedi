@@ -1,5 +1,6 @@
 package com.example.triviaApplication.models;
 
+import com.example.triviaApplication.helpers.QuizService;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -55,14 +56,6 @@ public class Question {
     public void setUser(User user) {
         this.user = user;
     }
-
-//    public Quiz getQuiz() {
-//        return quiz;
-//    }
-//
-//    public void setQuiz(Quiz quiz) {
-//        this.quiz = quiz;
-//    }
 
     public List<Answer> getAnswers() {
         return answers;

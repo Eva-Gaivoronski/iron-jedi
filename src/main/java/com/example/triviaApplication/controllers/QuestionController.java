@@ -1,5 +1,6 @@
 package com.example.triviaApplication.controllers;
 
+import com.example.triviaApplication.helpers.QuizService;
 import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.helpers.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;

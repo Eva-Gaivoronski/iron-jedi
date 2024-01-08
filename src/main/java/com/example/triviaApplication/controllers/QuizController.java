@@ -47,6 +47,7 @@ public class QuizController {
         try {
             // Use quizService or quizRepository to retrieve the quiz by ID
             Quiz quiz = quizService.getQuizForTaking(quizId);
+            System.out.println("Fetched Quiz for Taking: " + quiz);
             return new ResponseEntity<>(quiz, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
