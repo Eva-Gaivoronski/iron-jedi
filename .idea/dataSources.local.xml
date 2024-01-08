@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="IU-233.11799.241">
-    <data-source name="trivia@localhost" uuid="ec8ebddb-218e-4f7b-99c4-39c4550a6784">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
-      <secret-storage>master_key</secret-storage>
-      <user-name>trivia</user-name>
-      <schema-mapping />
-    </data-source>
     <data-source name="trivia_explosion@localhost" uuid="0b616f51-50b0-4e96-9a8c-49ed53509fdc">
       <database-info product="MySQL" version="8.1.0" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0)" dbms="MYSQL" exact-version="8.1.0" exact-driver-version="8.0">
         <extra-name-characters>#@</extra-name-characters>

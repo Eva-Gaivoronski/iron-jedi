@@ -32,18 +32,14 @@ public class QuizController {
 
     @GetMapping("/getQuizzes")
     public ResponseEntity<List<Quiz>> getUserQuizzes() {
-        //Optional<User> user = userService.getUserByUsername(principal.getName());
-        //return quizService.getUserQuiz(user.get().getId());
-
         // Get userID from Cookie
         //P changes
-//        long userId = 1;
-//        return new ResponseEntity<List<Quiz>>(quizService.getUserQuiz(userId), HttpStatus.ACCEPTED);
         return new ResponseEntity<>(quizRepository.findAll(), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{quizId}")
-    public Quiz getQuizById(@PathVariable Long quizId) {return quizRepository.findById(quizId).orElse(null);}
+    public Quiz getQuizById(@PathVariable Long quizId) {
+        return quizRepository.findById(quizId).orElse(null);}
 
     //takeQuiz page
     @GetMapping("/takeQuiz/{quizId}")
