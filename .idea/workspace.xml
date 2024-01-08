@@ -11,12 +11,25 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/helpers/QuestionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/helpers/QuestionService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/QuestionService.class.uniqueId1" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/QuestionService.class.uniqueId1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/helpers/QuestionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/helpers/QuestionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controllers/HomeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controllers/QuestionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controllers/QuizController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controllers/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/AnswerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/QuestionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/QuizRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Answer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/BaseEntitiy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/BaseEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Question.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Quiz.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/repositories/TriviaApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/TriviaApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +73,11 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="InvalidFacetManager">
+    <ignored-facets>
+      <facet id="TriviaApplication.main/invalid/JPA" />
+    </ignored-facets>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -96,5 +114,16 @@
       <updated>1702402851272</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
