@@ -58,7 +58,8 @@ public class QuizController {
     }
     //Take quiz Submission
     @PostMapping("/submitQuiz/{quizId}")
-    public ResponseEntity<QuizResult> submitQuiz(@PathVariable Long quizId, @RequestBody List<UserAnswer> userAnswers) {
+    @ResponseBody
+    public ResponseEntity<Object> submitQuiz(@PathVariable Long quizId, @RequestBody List<UserAnswer> userAnswers) {
         try {
             // Call a service method to handle quiz submission and retrieve the result
             QuizResult quizResult = quizService.submitQuiz(quizId, userAnswers);

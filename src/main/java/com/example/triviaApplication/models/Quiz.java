@@ -5,17 +5,21 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Table(name="quiz")
 //@NamedEntityGraph(
 //        name = "quiz-with-questions",
 //        attributeNodes = @NamedAttributeNode("questions")
 //)
 public class Quiz extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String category;
 
     @NotNull
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quiz_id")
     private List<Question> questions;
 
     @ManyToOne
