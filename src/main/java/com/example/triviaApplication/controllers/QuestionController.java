@@ -29,7 +29,7 @@ public class QuestionController {
             // Log the question and its answers
             log.info("Received question: {}", question.getText());
             question.getAnswers().forEach(answer ->
-                    log.info("Answer: {}, isCorrect: {}", answer.getText(), answer.getCorrect())
+                    log.info("Answer: {}, isCorrect: {}", answer.getText(), answer.getIsCorrect())
             );
 
             // Save the question using the question service

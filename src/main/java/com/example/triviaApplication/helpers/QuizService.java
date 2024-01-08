@@ -73,7 +73,7 @@ public class QuizService {
             for (Question question : questions) {
                 if (question.getId().equals(userAnswer.getQuestionId())) {
                     Answer correctAnswer = question.getAnswers().stream()
-                            .filter(Answer::getCorrect)
+                            .filter(Answer::getIsCorrect)
                             .findFirst()
                             .orElse(null);
 

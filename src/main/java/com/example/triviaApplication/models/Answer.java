@@ -15,7 +15,7 @@ public class Answer {
     private Boolean isCorrect = false; // Set default value to false
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="question_id")
+    @JoinColumn(name = "question_id")
     @JsonBackReference
     private Question question;
 
@@ -41,12 +41,12 @@ public class Answer {
         this.text = text;
     }
 
-    public Boolean getCorrect() {
+    public Boolean getIsCorrect() {
         return isCorrect;
     }
 
-    public void setCorrect(Boolean correct) {
-        isCorrect = correct;
+    public void setIsCorrect(Boolean isCorrect) {
+        this.isCorrect = isCorrect;
     }
 
     public Question getQuestion() {
