@@ -1,0 +1,1057 @@
+Index: package-lock.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"name\": \"iron-jedi\",\r\n  \"lockfileVersion\": 2,\r\n  \"requires\": true,\r\n  \"packages\": {}\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/package-lock.json b/package-lock.json
+--- a/package-lock.json	(revision 6491f7b2f2e7de217995701f71f1647cfb9fea8d)
++++ b/package-lock.json	(date 1704765074391)
+@@ -2,5 +2,168 @@
+   "name": "iron-jedi",
+   "lockfileVersion": 2,
+   "requires": true,
+-  "packages": {}
++  "packages": {
++    "": {
++      "dependencies": {
++        "react-router-dom": "^6.21.1"
++      }
++    },
++    "node_modules/@remix-run/router": {
++      "version": "1.14.1",
++      "resolved": "https://registry.npmjs.org/@remix-run/router/-/router-1.14.1.tgz",
++      "integrity": "sha512-Qg4DMQsfPNAs88rb2xkdk03N3bjK4jgX5fR24eHCTR9q6PrhZQZ4UJBPzCHJkIpTRN1UKxx2DzjZmnC+7Lj0Ow==",
++      "engines": {
++        "node": ">=14.0.0"
++      }
++    },
++    "node_modules/js-tokens": {
++      "version": "4.0.0",
++      "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz",
++      "integrity": "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==",
++      "peer": true
++    },
++    "node_modules/loose-envify": {
++      "version": "1.4.0",
++      "resolved": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz",
++      "integrity": "sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==",
++      "peer": true,
++      "dependencies": {
++        "js-tokens": "^3.0.0 || ^4.0.0"
++      },
++      "bin": {
++        "loose-envify": "cli.js"
++      }
++    },
++    "node_modules/react": {
++      "version": "18.2.0",
++      "resolved": "https://registry.npmjs.org/react/-/react-18.2.0.tgz",
++      "integrity": "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==",
++      "peer": true,
++      "dependencies": {
++        "loose-envify": "^1.1.0"
++      },
++      "engines": {
++        "node": ">=0.10.0"
++      }
++    },
++    "node_modules/react-dom": {
++      "version": "18.2.0",
++      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz",
++      "integrity": "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==",
++      "peer": true,
++      "dependencies": {
++        "loose-envify": "^1.1.0",
++        "scheduler": "^0.23.0"
++      },
++      "peerDependencies": {
++        "react": "^18.2.0"
++      }
++    },
++    "node_modules/react-router": {
++      "version": "6.21.1",
++      "resolved": "https://registry.npmjs.org/react-router/-/react-router-6.21.1.tgz",
++      "integrity": "sha512-W0l13YlMTm1YrpVIOpjCADJqEUpz1vm+CMo47RuFX4Ftegwm6KOYsL5G3eiE52jnJpKvzm6uB/vTKTPKM8dmkA==",
++      "dependencies": {
++        "@remix-run/router": "1.14.1"
++      },
++      "engines": {
++        "node": ">=14.0.0"
++      },
++      "peerDependencies": {
++        "react": ">=16.8"
++      }
++    },
++    "node_modules/react-router-dom": {
++      "version": "6.21.1",
++      "resolved": "https://registry.npmjs.org/react-router-dom/-/react-router-dom-6.21.1.tgz",
++      "integrity": "sha512-QCNrtjtDPwHDO+AO21MJd7yIcr41UetYt5jzaB9Y1UYaPTCnVuJq6S748g1dE11OQlCFIQg+RtAA1SEZIyiBeA==",
++      "dependencies": {
++        "@remix-run/router": "1.14.1",
++        "react-router": "6.21.1"
++      },
++      "engines": {
++        "node": ">=14.0.0"
++      },
++      "peerDependencies": {
++        "react": ">=16.8",
++        "react-dom": ">=16.8"
++      }
++    },
++    "node_modules/scheduler": {
++      "version": "0.23.0",
++      "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.23.0.tgz",
++      "integrity": "sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==",
++      "peer": true,
++      "dependencies": {
++        "loose-envify": "^1.1.0"
++      }
++    }
++  },
++  "dependencies": {
++    "@remix-run/router": {
++      "version": "1.14.1",
++      "resolved": "https://registry.npmjs.org/@remix-run/router/-/router-1.14.1.tgz",
++      "integrity": "sha512-Qg4DMQsfPNAs88rb2xkdk03N3bjK4jgX5fR24eHCTR9q6PrhZQZ4UJBPzCHJkIpTRN1UKxx2DzjZmnC+7Lj0Ow=="
++    },
++    "js-tokens": {
++      "version": "4.0.0",
++      "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz",
++      "integrity": "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==",
++      "peer": true
++    },
++    "loose-envify": {
++      "version": "1.4.0",
++      "resolved": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz",
++      "integrity": "sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==",
++      "peer": true,
++      "requires": {
++        "js-tokens": "^3.0.0 || ^4.0.0"
++      }
++    },
++    "react": {
++      "version": "18.2.0",
++      "resolved": "https://registry.npmjs.org/react/-/react-18.2.0.tgz",
++      "integrity": "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==",
++      "peer": true,
++      "requires": {
++        "loose-envify": "^1.1.0"
++      }
++    },
++    "react-dom": {
++      "version": "18.2.0",
++      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz",
++      "integrity": "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==",
++      "peer": true,
++      "requires": {
++        "loose-envify": "^1.1.0",
++        "scheduler": "^0.23.0"
++      }
++    },
++    "react-router": {
++      "version": "6.21.1",
++      "resolved": "https://registry.npmjs.org/react-router/-/react-router-6.21.1.tgz",
++      "integrity": "sha512-W0l13YlMTm1YrpVIOpjCADJqEUpz1vm+CMo47RuFX4Ftegwm6KOYsL5G3eiE52jnJpKvzm6uB/vTKTPKM8dmkA==",
++      "requires": {
++        "@remix-run/router": "1.14.1"
++      }
++    },
++    "react-router-dom": {
++      "version": "6.21.1",
++      "resolved": "https://registry.npmjs.org/react-router-dom/-/react-router-dom-6.21.1.tgz",
++      "integrity": "sha512-QCNrtjtDPwHDO+AO21MJd7yIcr41UetYt5jzaB9Y1UYaPTCnVuJq6S748g1dE11OQlCFIQg+RtAA1SEZIyiBeA==",
++      "requires": {
++        "@remix-run/router": "1.14.1",
++        "react-router": "6.21.1"
++      }
++    },
++    "scheduler": {
++      "version": "0.23.0",
++      "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.23.0.tgz",
++      "integrity": "sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==",
++      "peer": true,
++      "requires": {
++        "loose-envify": "^1.1.0"
++      }
++    }
++  }
+ }
+Index: client/src/components/QuestionForm.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/QuestionForm.js b/client/src/components/QuestionForm.js
+new file mode 100644
+--- /dev/null	(date 1704765074390)
++++ b/client/src/components/QuestionForm.js	(date 1704765074390)
+@@ -0,0 +1,107 @@
++import React, { useState } from 'react';
++import './QuestionForm.css';
++
++function QuestionForm() {
++    const [username, setUsername] = useState('');
++    const [questionText, setQuestionText] = useState('');
++    const [answers, setAnswers] = useState(new Array(4).fill({ text: '', isCorrect: false }));
++    const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
++
++    const handleAnswerChange = (index, event) => {
++        const newAnswers = answers.map((answer, i) => {
++            if (i === index) {
++                return { ...answer, text: event.target.value };
++            }
++            return answer;
++        });
++        setAnswers(newAnswers);
++    };
++
++    const handleCorrectAnswerChange = (index) => {
++        const updatedAnswers = answers.map((answer, i) => ({
++            ...answer,
++            isCorrect: i === index
++        }));
++        setAnswers(updatedAnswers);
++        setCorrectAnswerIndex(index);
++    };
++
++    const handleSubmit = async (event) => {
++        event.preventDefault();
++
++        if (!username || !questionText || answers.some(answer => !answer.text)) {
++            alert('Please fill out all fields.');
++            return;
++        }
++
++        const questionData = {
++            user: { username },
++            text: questionText,
++            answers
++        };
++       console.log('Sending question data:', questionData);
++        try {
++            const response = await fetch('http://localhost:8080/question', {
++                method: 'POST',
++                headers: {
++                    'Content-Type': 'application/json'
++                },
++                body: JSON.stringify(questionData)
++            });
++
++            if (!response.ok) {
++                throw new Error(`HTTP error! Status: ${response.status}`);
++            }
++
++            alert('Question saved successfully!');
++            setUsername('');
++            setQuestionText('');
++            setAnswers(new Array(4).fill(''));
++            setCorrectAnswerIndex(-1);
++        } catch (error) {
++            console.error('There was an error saving the question:', error);
++            alert('Error saving question.');
++        }
++    };
++
++     return (
++            <div>
++                <h2>Create a New Question</h2>
++                <form onSubmit={handleSubmit}>
++                    {/* User Input */}
++                    <div>
++                        <label>Username:</label>
++                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
++                    </div>
++
++                    {/* Question Input */}
++                    <div>
++                        <label>Question:</label>
++                        <input type="text" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
++                    </div>
++
++                    {/* Answers Input */}
++                    {answers.map((answer, index) => (
++                        <div key={index}>
++                            <label>
++                                Answer {index + 1}:
++                                <input type="text" value={answer.text} onChange={(e) => handleAnswerChange(index, e)} />
++                            </label>
++                            <label>
++                                Correct
++                                <input
++                                    type="checkbox"
++                                    checked={index === correctAnswerIndex}
++                                    onChange={() => handleCorrectAnswerChange(index)}
++                                />
++                            </label>
++                        </div>
++                    ))}
++
++                    <button type="submit">Save Question</button>
++                </form>
++            </div>
++        );
++    }
++
++    export default QuestionForm;
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"843f8013-a532-4783-ad37-5c6a94f5ae86\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/uiDesigner.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/uiDesigner.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/client/src/App.css\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/client/src/App.css\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/client/src/App.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/client/src/App.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/Repository/AnswerRepository.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/Repository/AnswerRepository.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/models/Answer.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/models/Answer.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/models/BaseEntitiy.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/models/BaseEntitiy.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/models/BaseEntity.java\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/models/Question.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/models/Question.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/models/Quiz.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/models/Quiz.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/models/User.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/models/User.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/repositories/TriviaApplication.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/repositories/TriviaApplication.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 6\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2ZS5sEXvZAKePLdxEqFpzIDa0cl\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;JoshuaAllen&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/Kevin/Desktop/Launchcode Class files/Java Projects/assignment-one&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RunManager\" selected=\"Gradle.iron-jedi [buildReact]\">\r\n    <configuration name=\"iron-jedi [buildReact]\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\r\n      <ExternalSystemSettings>\r\n        <option name=\"executionName\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\r\n        <option name=\"scriptParameters\" />\r\n        <option name=\"taskDescriptions\">\r\n          <list />\r\n        </option>\r\n        <option name=\"taskNames\">\r\n          <list>\r\n            <option value=\"buildReact\" />\r\n          </list>\r\n        </option>\r\n        <option name=\"vmOptions\" />\r\n      </ExternalSystemSettings>\r\n      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>\r\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\r\n      <DebugAllEnabled>false</DebugAllEnabled>\r\n      <RunAsTest>false</RunAsTest>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"iron-jedi [copyReact]\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\r\n      <ExternalSystemSettings>\r\n        <option name=\"executionName\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\r\n        <option name=\"scriptParameters\" />\r\n        <option name=\"taskDescriptions\">\r\n          <list />\r\n        </option>\r\n        <option name=\"taskNames\">\r\n          <list>\r\n            <option value=\"copyReact\" />\r\n          </list>\r\n        </option>\r\n        <option name=\"vmOptions\" />\r\n      </ExternalSystemSettings>\r\n      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>\r\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\r\n      <DebugAllEnabled>false</DebugAllEnabled>\r\n      <RunAsTest>false</RunAsTest>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Gradle.iron-jedi [buildReact]\" />\r\n        <item itemvalue=\"Gradle.iron-jedi [copyReact]\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"843f8013-a532-4783-ad37-5c6a94f5ae86\" name=\"Changes\" comment=\"\" />\r\n      <created>1702402851272</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1702402851272</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 6491f7b2f2e7de217995701f71f1647cfb9fea8d)
++++ b/.idea/workspace.xml	(date 1704765074387)
+@@ -5,19 +5,15 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="843f8013-a532-4783-ad37-5c6a94f5ae86" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/client/src/components/CreateQuizForm.js" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/client/src/components/EmailInvitationForm.js" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/client/src/components/HomePage.js" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/client/src/components/QuestionForm.css" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/client/src/components/QuestionForm.js" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/client/src/components/QuizPage.js" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/client/src/components/TakeQuizPage.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/client/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.css" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/AnswerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repository/AnswerRepository.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Answer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Answer.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/models/BaseEntitiy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/BaseEntitiy.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/models/BaseEntity.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Question.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Quiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Quiz.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/User.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/repositories/TriviaApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/repositories/TriviaApplication.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+Index: client/src/components/TakeQuizPage.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/TakeQuizPage.js b/client/src/components/TakeQuizPage.js
+new file mode 100644
+--- /dev/null	(date 1704765074391)
++++ b/client/src/components/TakeQuizPage.js	(date 1704765074391)
+@@ -0,0 +1,161 @@
++import React, { useState, useEffect } from 'react';
++import axios from 'axios';
++import {useParams} from "react-router-dom";
++import 'bootstrap/dist/css/bootstrap.css';
++import 'bootstrap/dist/js/bootstrap.bundle';
++import {Button, Modal, Table} from "react-bootstrap";
++
++const TakeQuizPage = ({ match }) => {
++    const [quiz, setQuiz] = useState(null);
++    const [selectedAnswers, setSelectedAnswers] = useState({});
++    const [submissionResult, setSubmissionResult] = useState(null);
++    const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
++    const { quizId } = useParams();
++
++    useEffect(() => {
++        // Fetch quiz data based on quiz ID from the URL parameter
++        const fetchQuizzes = async () => {
++            try {
++                const response = await axios.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
++                setQuiz(response.data);
++                setIsQuizSubmitted(response.data.submitted);
++            } catch (error) {
++                console.error('Error fetching quiz data:', error);
++            }
++        };
++
++        fetchQuizzes();
++    }, [quizId]);
++    console.log('Quiz State:', quiz);
++
++    const handleAnswerSelect = (questionId, selectedOption) => {
++        setSelectedAnswers((prevAnswers) => ({
++            ...prevAnswers,
++            [questionId]: selectedOption,
++        }));
++    };
++
++        const handleSubmitQuiz = async () => {
++            try {
++                console.log('Quiz ID:', quizId);
++                if (isQuizSubmitted) {
++                    // TODO Display an alert to inform the user - need to think about better option than alert
++                    alert('Quiz has already been submitted!');
++                    return;
++                }
++                const formattedAnswers = Object.keys(selectedAnswers).map((questionId) => ({
++                    questionId,
++                    selectedAnswer: selectedAnswers[questionId],
++                }));
++                console.log('Selected Answers:', selectedAnswers);
++
++                const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, formattedAnswers);
++                // Update state with submission result
++                setSubmissionResult(response.data);
++                setIsQuizSubmitted(true);
++            } catch (error) {
++                console.error('Failed to submit quiz', error.response.data);
++            }
++        };
++
++        if (!quiz) {
++            return <div>Loading...</div>;
++        }
++
++    return (
++        <div className="container">
++            <h2>{quiz.title}</h2>
++            <p className="lead">Category: {quiz.category}</p>
++
++            {quiz.questions.map((question) => (
++                <div key={question.id} className="mb-4">
++                    <h4>{question.text}</h4>
++                    <ul className="list-unstyled">
++                        <li>
++                            <label className="form-check-label">
++                                <input
++                                    type="radio"
++                                    className="form-check-input"
++                                    value={question.option1}
++                                    checked={selectedAnswers[question.id] === question.option1}
++                                    onChange={() => handleAnswerSelect(question.id, question.option1)}
++                                />
++                                {question.option1}
++                            </label>
++                        </li>
++                        <li>
++                            <label className="form-check-label">
++                                <input
++                                    type="radio"
++                                    className="form-check-input"
++                                    value={question.option2}
++                                    checked={selectedAnswers[question.id] === question.option2}
++                                    onChange={() => handleAnswerSelect(question.id, question.option2)}
++                                />
++                                {question.option2}
++                            </label>
++                        </li>
++                        <li>
++                            <label className="form-check-label">
++                                <input
++                                    type="radio"
++                                    className="form-check-input"
++                                    value={question.option3}
++                                    checked={selectedAnswers[question.id] === question.option3}
++                                    onChange={() => handleAnswerSelect(question.id, question.option3)}
++                                />
++                                {question.option3}
++                            </label>
++                        </li>
++                    </ul>
++                </div>
++            ))}
++
++            {!isQuizSubmitted && (
++            <Button className="btn btn-primary" onClick={handleSubmitQuiz}>
++                Submit Quiz
++            </Button>
++            )}
++
++            {isQuizSubmitted && (
++                <div className="mb-4">
++                    <div className="alert alert-info" role="alert">
++                        <h4 className="alert-heading">Quiz already submitted!</h4>
++                    </div>
++                </div>
++            )}
++
++            {/* Display feedback */}
++            {submissionResult && (
++                <Modal show={true} onHide={() => setSubmissionResult(null)}>
++                    <Modal.Header closeButton>
++                        <Modal.Title>Quiz Submitted Successfully!</Modal.Title>
++                    </Modal.Header>
++                    <Modal.Body>
++                        <p>Score: {submissionResult.score}</p>
++                        <p>Percentage: {submissionResult.percentage}%</p>
++                    </Modal.Body>
++                    <Modal.Footer>
++                        <Button variant="primary" onClick={() => setSubmissionResult(null)}>
++                            Close
++                        </Button>
++                    </Modal.Footer>
++                </Modal>
++            )}
++
++            {/*{submissionResult && (*/}
++            {/*    <div className="mb-4">*/}
++            {/*        <div className="alert alert-success" role="alert">*/}
++            {/*        <h4 className="alert-heading">Quiz submitted successfully!</h4>*/}
++            {/*        <p className="mb-0">Score: {submissionResult.score}</p>*/}
++            {/*        <p className="mb-0">Percentage: {submissionResult.percentage}%</p>*/}
++            {/*    </div>*/}
++            {/*    </div>*/}
++            {/*)}*/}
++        </div>
++    );
++};
++
++
++
++export default TakeQuizPage;
+\ No newline at end of file
+Index: client/src/components/CreateQuizForm.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/CreateQuizForm.js b/client/src/components/CreateQuizForm.js
+new file mode 100644
+--- /dev/null	(date 1704765074387)
++++ b/client/src/components/CreateQuizForm.js	(date 1704765074387)
+@@ -0,0 +1,76 @@
++import React, {useState} from 'react';
++import { Formik, Form, Field, ErrorMessage } from 'formik';
++import axios from 'axios';
++import 'bootstrap/dist/css/bootstrap.css';
++import 'bootstrap/dist/js/bootstrap.bundle';
++const CreateQuiz=()=> {
++    const [showModal, setShowModal] = useState(true);
++    const handleCloseModal = () => {
++        setShowModal(false);
++    };
++
++    const handleSubmit = async (values, { setSubmitting }) => {
++            try {
++                const response = await axios.post('http://localhost:8080/quiz/quizzes', values);
++                console.log('Quiz data submitted:', values);
++                alert('Quiz saved successfully!');
++                // TODO finish the logic
++               // TODO post it
++                // TODO fetch quizes again
++                //await fetchQuizzes();
++                // TODO close the model
++                handleCloseModal();
++    } catch (error) {
++                console.error('Error creating quiz:', error);
++            } finally {
++                setSubmitting(false);
++            }
++        };
++    return (
++        <div>
++            <header className="App-header">
++                <h1>Create Quiz</h1>
++                {/* Formik handles form state and submission logic */}
++                <Formik
++                    initialValues={{ title: '', category: '' }}
++                    validate={(values) => {
++                        const errors = {};
++                        // TODO Add validation logic is needed
++                        return errors;
++                    }}
++                    //Submission logic
++                    onSubmit={(values, { setSubmitting }) => {
++                        handleSubmit(values, { setSubmitting });
++                    }}
++                >
++                    {({ values, handleChange, handleSubmit }) => (
++                        <Form>
++                            <label>
++                                Title:
++                                <Field type="text" name="title" value={values.title} onChange={handleChange} />
++                                {/* ErrorMessage  */}
++                                <ErrorMessage name="title" component="div" />
++                            </label>
++                            <br />
++                            <label>
++                                Category:
++                                <Field type="text" name="category" value={values.category} onChange={handleChange}>
++                                    {/*<option value=""></option>*/}
++                                    {/*we can do dropdown*/}
++                                    {/* TODO Add other options here */}
++                                </Field>
++                                <ErrorMessage name="category" component="div" />
++                            </label>
++                            <br/>
++                            {/* TODO: Add more fields dynamically  */}
++                            <button type="submit">
++                                Create Quiz
++                            </button>
++                        </Form>
++                    )}
++                </Formik>
++            </header>
++        </div>
++    );
++}
++export default CreateQuiz;
+\ No newline at end of file
+Index: client/src/components/HomePage.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/HomePage.js b/client/src/components/HomePage.js
+new file mode 100644
+--- /dev/null	(date 1704765074388)
++++ b/client/src/components/HomePage.js	(date 1704765074388)
+@@ -0,0 +1,141 @@
++import React, {useEffect, useState} from 'react';
++import 'bootstrap/dist/css/bootstrap.css';
++import 'bootstrap/dist/js/bootstrap.bundle';
++import {Button, Table} from "react-bootstrap";
++
++function HomePage() {
++        const [quiz, setQuiz] = useState('');
++        const [options, setOptions] = useState([]);
++        const [selectedAnswer, setSelectedAnswer] = useState('');
++        const [result, setResult] = useState('');
++        const [correctAnswer, setCorrectAnswer] = useState('');
++        const [incorrectResponses, setIncorrectResponses] = useState([]);
++        const [loading, setLoading] = useState(true);
++
++        useEffect(() => {
++            const timer = setTimeout(() => {
++                getQuiz();
++                setLoading(false);
++            }, 5000);
++
++            return () => clearTimeout(timer);
++        }, []);
++
++        useEffect(() => {
++            handleQuizSubmit();
++        }, [selectedAnswer, correctAnswer, options, incorrectResponses]);
++
++        const getQuiz = async () => {
++            try {
++                setLoading(true);
++                const response = await fetch('https://opentdb.com/api.php?amount=1&difficulty=medium&type=multiple');
++                const data = await response.json();
++                const questionData = data.results[0];
++                setQuiz(questionData.question);
++                setCorrectAnswer(questionData.correct_answer);
++                const allOptions = shuffleArray(questionData.incorrect_answers.concat(questionData.correct_answer));
++                setOptions(allOptions);
++
++                const questionResponses = allOptions.map((option, index) => {
++                    if (option === questionData.correct_answer) {
++                        return 'Correct!';
++                    } else {
++                        return `${option} is incorrect.`;
++                    }
++                });
++                setIncorrectResponses(questionResponses);
++
++                setLoading(false);
++                console.log(data);
++            } catch (error) {
++                console.log('Error fetching quiz:', error);
++                setLoading(false);
++            }
++        };
++
++        const handleGenerateQuiz = (event) => {
++            event.preventDefault();
++            getQuiz();
++            setSelectedAnswer('');
++            setResult('');
++        };
++
++        const handleAnswerChange = (event) => {
++            setSelectedAnswer(event.target.value);
++        };
++
++        const handleQuizSubmit = () => {
++            if (selectedAnswer === '') {
++                setResult('~ Choose Wisely ~');
++                return;
++            }
++
++            const isCorrect = selectedAnswer === correctAnswer;
++            if (isCorrect) {
++                setResult('Correct!');
++                setTimeout(() => {
++                    getQuiz();
++                    setResult('');
++                }, 5000);
++            } else {
++                const currentIndex = options.indexOf(selectedAnswer);
++                const currentResponse = incorrectResponses[currentIndex];
++                setResult(currentResponse);
++            }
++        };
++
++        const shuffleArray = (array) => {
++            for (let i = array.length - 1; i > 0; i--) {
++                const j = Math.floor(Math.random() * (i + 1));
++                [array[i], array[j]] = [array[j], array[i]];
++            }
++            return array;
++        };
++
++        return (
++            <div className="App">
++                <header className="Header">
++                    <p></p>
++                    <div>
++                        {loading ? (
++                            <p>Loading...</p>
++                        ) : (
++                            <>
++                                <p dangerouslySetInnerHTML={{ __html: quiz }}></p>
++                                <form>
++                                    {options.map((option, index) => (
++                                        <div key={index}>
++                                            <input
++                                                type="radio"
++                                                id={`option${index}`}
++                                                name="quizOptions"
++                                                value={option}
++                                                checked={selectedAnswer === option}
++                                                onChange={handleAnswerChange}
++                                            />
++                                            <label
++                                                htmlFor={`option${index}`}
++                                                dangerouslySetInnerHTML={{ __html: option }}
++                                            ></label>
++                                        </div>
++                                    ))}
++                                </form>
++                                {result && (
++                                    <div style={{ marginTop: '20px' }}>
++                                        <p>{result}</p>
++                                    </div>
++                                )}
++                                <div style={{ marginTop: '20px' }}>
++                                    <Button onClick={handleGenerateQuiz}>Generate Quiz</Button>
++                                </div>
++                            </>
++                        )}
++
++                    </div>
++                </header>
++
++            </div>
++        );
++    }
++
++export default HomePage;
+\ No newline at end of file
+Index: client/src/components/QuestionForm.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/QuestionForm.css b/client/src/components/QuestionForm.css
+new file mode 100644
+--- /dev/null	(date 1704765074389)
++++ b/client/src/components/QuestionForm.css	(date 1704765074389)
+@@ -0,0 +1,22 @@
++.question-item {
++    display: flex;
++    align-items: center;
++    justify-content: space-between;
++    margin-bottom: 10px;
++}
++
++.question-text {
++    flex-grow: 1;
++    margin-right: 10px; /* Optional: for spacing between text and buttons */
++}
++
++.question-actions {
++    display: flex;
++    gap: 10px;
++}
++
++.question-button {
++    padding: 5px 10px;
++    font-size: 0.8rem;
++    /* Additional styling for buttons */
++}
+\ No newline at end of file
+Index: client/src/components/QuizPage.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/QuizPage.js b/client/src/components/QuizPage.js
+new file mode 100644
+--- /dev/null	(date 1704765074390)
++++ b/client/src/components/QuizPage.js	(date 1704765074390)
+@@ -0,0 +1,193 @@
++import React, { useState, useEffect } from 'react';
++import {Table, Button, Modal} from 'react-bootstrap';
++import axios from 'axios';
++import { Link, useParams } from 'react-router-dom';
++import CreateQuizForm from './CreateQuizForm';
++import 'bootstrap/dist/css/bootstrap.css';
++import 'bootstrap/dist/js/bootstrap.bundle';
++
++const QuizPage = () => {
++    const [quizzes, setQuizzes] = useState([]);
++    const [newQuiz, setNewQuiz] = useState({ title: '' });
++    const [showCreateForm, setShowCreateForm] = useState(false);
++    const [showEditForm, setShowEditForm] = useState(false); // Corrected true?
++    const [editedQuiz, setEditedQuiz] = useState({});
++    const { quizId } = useParams();
++    const [quiz, setQuiz] = useState({});
++
++    const handleCreateQuizButtonClick = () => {
++        setShowCreateForm(true);
++    };
++
++    const handleCloseCreateForm = () => {
++        setShowCreateForm(false);
++        fetchQuizzes(); // Fetch quizzes again after closing the form
++    };
++
++    const handleEditQuiz = (selectedQuiz) => {
++        setEditedQuiz(selectedQuiz);
++        setShowEditForm(true);
++    };
++
++    const handleCloseEditForm = () => {
++        setShowEditForm(false);
++        setEditedQuiz({});
++        fetchQuizzes(); // Fetch quizzes again after closing the form
++    };
++
++    const fetchQuizzes = async () => {
++        try {
++            const response = await axios.get('http://localhost:8080/quiz/getQuizzes', { timeout: 5000 });
++            setQuizzes(response.data);
++        } catch (error) {
++            console.error('Error fetching quizzes:', error);
++        }
++    };
++
++    useEffect(() => {
++        fetchQuizzes();
++    }, []); // Fetch quizzes on component mount
++
++    const handleAddQuestions = (quizId) => {
++        // TODO: Need logic for editing questions from Kevin
++        console.log(`Add questions for quiz with ID ${quizId}`);
++    };
++
++    const handleDeleteQuiz = async (quizId) => {
++        try {
++            await axios.delete(`http://localhost:8080/quiz/${quizId}`);
++            fetchQuizzes();
++        } catch (error) {
++            console.error('Error deleting quiz:', error);
++        }
++    };
++
++    const handleInputChange = (e) => {
++        const { name, value } = e.target;
++        setQuiz({
++            ...quiz,
++            [name]: value,
++        });
++    };
++
++    const handleUpdateQuiz = async (updatedQuiz) => {
++        try {
++            await axios.put(`http://localhost:8080/quiz/${quizId}`, updatedQuiz);
++            setShowEditForm(false);
++            setQuiz(updatedQuiz);
++            fetchQuizzes(); // Fetch quizzes again after updating
++        } catch (error) {
++            console.error('Error updating quiz:', error);
++        }
++    };
++
++    const handleSubmit = (e) => {
++        e.preventDefault();
++        handleUpdateQuiz(quiz);
++    };
++
++    return (
++        <div>
++            <Button variant="success" onClick={handleCreateQuizButtonClick}>
++                CREATE QUIZ
++            </Button>
++
++            <Table>
++                <thead className="table-header">
++                <tr>
++                    <th>Title</th>
++                    <th>Category</th>
++                    <th>Actions</th>
++                </tr>
++                </thead>
++                <tbody>
++                {quizzes.map((quiz) => (
++                    <tr key={quiz.id}>
++                        <td>{quiz.title}</td>
++                        <td>{quiz.category}</td>
++                        <td>
++                            <Link to={`/quizzes/${quiz.id}`}>
++                                <Button variant="success" onClick={() => handleEditQuiz(quiz)}>
++                                    Edit
++                                </Button>
++                            </Link>
++                        </td>
++                        {/*need to finish the logic*/}
++                        <td>
++                            <Link to={`/quizzes/${quiz.id}`}>
++                                <Button variant="success" onClick={() => handleAddQuestions(quiz)}>
++                                    Add questions
++                                </Button>
++                            </Link>
++                        </td>
++                        <td>
++                            <Link to={`/takeQuiz/${quiz.id}`}>
++                                <Button variant="success" onClick={() => (quiz)}>
++                                    Take Quiz
++                                </Button>
++                            </Link>
++                        </td>
++                        <td>
++                            <Button onClick={() => handleDeleteQuiz(quiz.id)}>Delete</Button>
++                        </td>
++                    </tr>
++                ))}
++                </tbody>
++            </Table>
++
++            {/* Create Quiz Form Modal */}
++            <Modal show={showCreateForm} onHide={handleCloseCreateForm}>
++                <Modal.Header closeButton>
++                    <Modal.Title>Create a New Quiz</Modal.Title>
++                </Modal.Header>
++                <Modal.Body>
++                    {/* Render CreateQuizForm component and pass form-related props */}
++                    <CreateQuizForm
++                        onCancel={handleCloseCreateForm}
++                        newQuiz={newQuiz}
++                        setNewQuiz={setNewQuiz}
++                        fetchQuizzes={fetchQuizzes} // Pass the fetchQuizzes function to update quiz list after creation
++                    />
++                </Modal.Body>
++            </Modal>
++
++            {/* Edit Quiz Form Modal */}
++            <Modal show={showEditForm} onHide={handleCloseEditForm}>
++                <form onSubmit={handleSubmit}>
++                    <Modal.Header closeButton>
++                        <Modal.Title>Edit Quiz</Modal.Title>
++                    </Modal.Header>
++                    <Modal.Body>
++                        <label>
++                            Title:
++                            <input
++                                type="text"
++                                name="title"
++                                value={quiz.title || ''}
++                                onChange={handleInputChange}
++                            />
++                        </label>
++                        <br />
++                        <label>
++                            Category:
++                            <input
++                                type="text"
++                                name="category"
++                                value={quiz.category || ''}
++                                onChange={handleInputChange}
++                            />
++                        </label>
++                        {/* Add other form fields */}
++                        <br />
++                    </Modal.Body>
++                    <Modal.Footer>
++                        <Button type="submit">Update Quiz</Button>
++                    </Modal.Footer>
++                </form>
++            </Modal>
++        </div>
++    );
++};
++
++export default QuizPage;
++
+Index: client/src/components/EmailInvitationForm.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/EmailInvitationForm.js b/client/src/components/EmailInvitationForm.js
+new file mode 100644
+--- /dev/null	(date 1704765074388)
++++ b/client/src/components/EmailInvitationForm.js	(date 1704765074388)
+@@ -0,0 +1,63 @@
++import React, { useState } from 'react';
++
++const EmailInvitationForm = () => {
++  const [recipientEmail, setRecipientEmail] = useState('');
++  const [message, setMessage] = useState('');
++
++  const handleEmailChange = (e) => {
++    setRecipientEmail(e.target.value);
++  };
++
++  const handleMessageChange = (e) => {
++    setMessage(e.target.value);
++  };
++
++  const handleSubmit = (e) => {
++    e.preventDefault();
++    // Call a function to send the email via your backend
++    sendEmailInvitation(recipientEmail, message);
++  };
++
++  const sendEmailInvitation = (email, message) => {
++    // Make an API call to your backend to send the email
++    // Replace this with your actual API endpoint and logic
++    fetch('https://your-backend-api.com/send-invitation', {
++      method: 'POST',
++      headers: {
++        'Content-Type': 'application/json',
++      },
++      body: JSON.stringify({
++        email: email,
++        message: message,
++      }),
++    })
++      .then(response => response.json())
++      .then(data => {
++        console.log('Email sent successfully:', data);
++        alert('Email invitation sent successfully!');
++      })
++      .catch(error => {
++        console.error('Error sending email invitation:', error);
++        alert('Failed to send email invitation. Please try again.');
++      });
++  };
++
++  return (
++    <div>
++      <h2>Email Invitation Form</h2>
++      <form onSubmit={handleSubmit}>
++        <label>
++          Recipient's Email:
++          <input type="email" value={recipientEmail} onChange={handleEmailChange} required />
++        </label>
++        <label>
++          Your Message:
++          <textarea value={message} onChange={handleMessageChange} rows="4" required />
++        </label>
++        <button type="submit">Send Invitation</button>
++      </form>
++    </div>
++  );
++};
++
++export default EmailInvitationForm;
+\ No newline at end of file

@@ -1,0 +1,857 @@
+Index: client/src/components/QuestionForm.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState } from 'react';\r\nimport axios from 'axios';\r\n\r\nfunction QuestionForm() {\r\n    const [username, setUsername] = useState('');\r\n    const [questionText, setQuestionText] = useState('');\r\n    const [correctAnswer, setCorrectAnswer] = useState('');\r\n    const [option1, setOption1] = useState('');\r\n    const [option2, setOption2] = useState('');\r\n    const [option3, setOption3] = useState('');\r\n\r\n    const handleSubmit = async (event) => {\r\n        event.preventDefault();\r\n\r\n        const questionData = {\r\n             user: { username },\r\n             text: questionText,\r\n             correctAnswer,\r\n             option1,\r\n             option2,\r\n             option3\r\n        };\r\n\r\n        try {\r\n             const response = await axios.post('http://localhost:8080/question', questionData);\r\n             console.log(response.data);\r\n             alert('Question saved successfully!');\r\n        } catch (error) {\r\n           console.error('There was an error saving the question', error);\r\n           alert('Error saving question.');\r\n        }\r\n    };\r\n\r\n     return (\r\n            <div>\r\n                <h2>Create a New Question</h2>\r\n                <form onSubmit={handleSubmit}>\r\n                    <div>\r\n                        <label>Username:</label>\r\n                        <input type=\"text\" value={username} onChange={(e) => setUsername(e.target.value)} />\r\n                    </div>\r\n                    <div>\r\n                        <label>Question:</label>\r\n                        <input type=\"text\" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />\r\n                    </div>\r\n                    <div>\r\n                        <label>Correct Answer:</label>\r\n                        <input type=\"text\" value={correctAnswer} onChange={(e) => setCorrectAnswer(e.target.value)} />\r\n                    </div>\r\n                    <div>\r\n                        <label>Option 1:</label>\r\n                        <input type=\"text\" value={option1} onChange={(e) => setOption1(e.target.value)} />\r\n                    </div>\r\n                    <div>\r\n                        <label>Option 2:</label>\r\n                        <input type=\"text\" value={option2} onChange={(e) => setOption2(e.target.value)} />\r\n                    </div>\r\n                    <div>\r\n                        <label>Option 3:</label>\r\n                        <input type=\"text\" value={option3} onChange={(e) => setOption3(e.target.value)} />\r\n                    </div>\r\n                    <button type=\"submit\">Save Question</button>\r\n                </form>\r\n            </div>\r\n        );\r\n    }\r\n\r\n    export default QuestionForm;\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/QuestionForm.js b/client/src/components/QuestionForm.js
+--- a/client/src/components/QuestionForm.js	
++++ b/client/src/components/QuestionForm.js	
+@@ -1,33 +1,66 @@
+ import React, { useState } from 'react';
+-import axios from 'axios';
++import './QuestionForm.css';
+ 
+ function QuestionForm() {
+     const [username, setUsername] = useState('');
+     const [questionText, setQuestionText] = useState('');
+-    const [correctAnswer, setCorrectAnswer] = useState('');
+-    const [option1, setOption1] = useState('');
+-    const [option2, setOption2] = useState('');
+-    const [option3, setOption3] = useState('');
++    const [answers, setAnswers] = useState(new Array(4).fill({ text: '', isCorrect: false }));
++    const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
++
++    const handleAnswerChange = (index, event) => {
++        const newAnswers = answers.map((answer, i) => {
++            if (i === index) {
++                return { ...answer, text: event.target.value };
++            }
++            return answer;
++        });
++        setAnswers(newAnswers);
++    };
++
++    const handleCorrectAnswerChange = (index) => {
++        const updatedAnswers = answers.map((answer, i) => ({
++            ...answer,
++            isCorrect: i === index
++        }));
++        setAnswers(updatedAnswers);
++        setCorrectAnswerIndex(index);
++    };
+ 
+     const handleSubmit = async (event) => {
+         event.preventDefault();
+ 
++        if (!username || !questionText || answers.some(answer => !answer.text)) {
++            alert('Please fill out all fields.');
++            return;
++        }
++
+         const questionData = {
+-             user: { username },
+-             text: questionText,
+-             correctAnswer,
+-             option1,
+-             option2,
+-             option3
++            user: { username },
++            text: questionText,
++            answers
+         };
+-
++       console.log('Sending question data:', questionData);
+         try {
+-             const response = await axios.post('http://localhost:8080/question', questionData);
+-             console.log(response.data);
+-             alert('Question saved successfully!');
++            const response = await fetch('http://localhost:8080/question', {
++                method: 'POST',
++                headers: {
++                    'Content-Type': 'application/json'
++                },
++                body: JSON.stringify(questionData)
++            });
++
++            if (!response.ok) {
++                throw new Error(`HTTP error! Status: ${response.status}`);
++            }
++
++            alert('Question saved successfully!');
++            setUsername('');
++            setQuestionText('');
++            setAnswers(new Array(4).fill(''));
++            setCorrectAnswerIndex(-1);
+         } catch (error) {
+-           console.error('There was an error saving the question', error);
+-           alert('Error saving question.');
++            console.error('There was an error saving the question:', error);
++            alert('Error saving question.');
+         }
+     };
+ 
+@@ -35,35 +68,40 @@
+             <div>
+                 <h2>Create a New Question</h2>
+                 <form onSubmit={handleSubmit}>
++                    {/* User Input */}
+                     <div>
+                         <label>Username:</label>
+                         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                     </div>
++
++                    {/* Question Input */}
+                     <div>
+                         <label>Question:</label>
+                         <input type="text" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
+                     </div>
+-                    <div>
+-                        <label>Correct Answer:</label>
+-                        <input type="text" value={correctAnswer} onChange={(e) => setCorrectAnswer(e.target.value)} />
+-                    </div>
+-                    <div>
+-                        <label>Option 1:</label>
+-                        <input type="text" value={option1} onChange={(e) => setOption1(e.target.value)} />
+-                    </div>
+-                    <div>
+-                        <label>Option 2:</label>
+-                        <input type="text" value={option2} onChange={(e) => setOption2(e.target.value)} />
+-                    </div>
+-                    <div>
+-                        <label>Option 3:</label>
+-                        <input type="text" value={option3} onChange={(e) => setOption3(e.target.value)} />
+-                    </div>
++
++                    {/* Answers Input */}
++                    {answers.map((answer, index) => (
++                        <div key={index}>
++                            <label>
++                                Answer {index + 1}:
++                                <input type="text" value={answer.text} onChange={(e) => handleAnswerChange(index, e)} />
++                            </label>
++                            <label>
++                                Correct
++                                <input
++                                    type="checkbox"
++                                    checked={index === correctAnswerIndex}
++                                    onChange={() => handleCorrectAnswerChange(index)}
++                                />
++                            </label>
++                        </div>
++                    ))}
++
+                     <button type="submit">Save Question</button>
+                 </form>
+             </div>
+         );
+     }
+ 
+-    export default QuestionForm;
+-
++    export default QuestionForm;
+\ No newline at end of file
+Index: client/src/components/CreateQuizForm.js
+===================================================================
+diff --git a/client/src/components/CreateQuizForm.js b/client/src/components/CreateQuizForm.js
+new file mode 100644
+--- /dev/null	
++++ b/client/src/components/CreateQuizForm.js	
+@@ -0,0 +1,76 @@
++import React, {useState} from 'react';
++import { Formik, Form, Field, ErrorMessage } from 'formik';
++import axios from 'axios';
++import 'bootstrap/dist/css/bootstrap.css';
++import 'bootstrap/dist/js/bootstrap.bundle';
++const CreateQuiz=()=> {
++    const [showModal, setShowModal] = useState(true);
++    const handleCloseModal = () => {
++        setShowModal(false);
++    };
++
++    const handleSubmit = async (values, { setSubmitting }) => {
++            try {
++                const response = await axios.post('http://localhost:8080/quiz/quizzes', values);
++                console.log('Quiz data submitted:', values);
++                alert('Quiz saved successfully!');
++                // TODO finish the logic
++               // TODO post it
++                // TODO fetch quizes again
++                //await fetchQuizzes();
++                // TODO close the model
++                handleCloseModal();
++    } catch (error) {
++                console.error('Error creating quiz:', error);
++            } finally {
++                setSubmitting(false);
++            }
++        };
++    return (
++        <div>
++            <header className="App-header">
++                <h1>Create Quiz</h1>
++                {/* Formik handles form state and submission logic */}
++                <Formik
++                    initialValues={{ title: '', category: '' }}
++                    validate={(values) => {
++                        const errors = {};
++                        // TODO Add validation logic is needed
++                        return errors;
++                    }}
++                    //Submission logic
++                    onSubmit={(values, { setSubmitting }) => {
++                        handleSubmit(values, { setSubmitting });
++                    }}
++                >
++                    {({ values, handleChange, handleSubmit }) => (
++                        <Form>
++                            <label>
++                                Title:
++                                <Field type="text" name="title" value={values.title} onChange={handleChange} />
++                                {/* ErrorMessage  */}
++                                <ErrorMessage name="title" component="div" />
++                            </label>
++                            <br />
++                            <label>
++                                Category:
++                                <Field type="text" name="category" value={values.category} onChange={handleChange}>
++                                    {/*<option value=""></option>*/}
++                                    {/*we can do dropdown*/}
++                                    {/* TODO Add other options here */}
++                                </Field>
++                                <ErrorMessage name="category" component="div" />
++                            </label>
++                            <br/>
++                            {/* TODO: Add more fields dynamically  */}
++                            <button type="submit">
++                                Create Quiz
++                            </button>
++                        </Form>
++                    )}
++                </Formik>
++            </header>
++        </div>
++    );
++}
++export default CreateQuiz;
+\ No newline at end of file
+Index: client/src/components/HomePage.js
+===================================================================
+diff --git a/client/src/components/HomePage.js b/client/src/components/HomePage.js
+new file mode 100644
+--- /dev/null	
++++ b/client/src/components/HomePage.js	
+@@ -0,0 +1,141 @@
++import React, {useEffect, useState} from 'react';
++import 'bootstrap/dist/css/bootstrap.css';
++import 'bootstrap/dist/js/bootstrap.bundle';
++import {Button, Table} from "react-bootstrap";
++
++function HomePage() {
++        const [quiz, setQuiz] = useState('');
++        const [options, setOptions] = useState([]);
++        const [selectedAnswer, setSelectedAnswer] = useState('');
++        const [result, setResult] = useState('');
++        const [correctAnswer, setCorrectAnswer] = useState('');
++        const [incorrectResponses, setIncorrectResponses] = useState([]);
++        const [loading, setLoading] = useState(true);
++
++        useEffect(() => {
++            const timer = setTimeout(() => {
++                getQuiz();
++                setLoading(false);
++            }, 5000);
++
++            return () => clearTimeout(timer);
++        }, []);
++
++        useEffect(() => {
++            handleQuizSubmit();
++        }, [selectedAnswer, correctAnswer, options, incorrectResponses]);
++
++        const getQuiz = async () => {
++            try {
++                setLoading(true);
++                const response = await fetch('https://opentdb.com/api.php?amount=1&difficulty=medium&type=multiple');
++                const data = await response.json();
++                const questionData = data.results[0];
++                setQuiz(questionData.question);
++                setCorrectAnswer(questionData.correct_answer);
++                const allOptions = shuffleArray(questionData.incorrect_answers.concat(questionData.correct_answer));
++                setOptions(allOptions);
++
++                const questionResponses = allOptions.map((option, index) => {
++                    if (option === questionData.correct_answer) {
++                        return 'Correct!';
++                    } else {
++                        return `${option} is incorrect.`;
++                    }
++                });
++                setIncorrectResponses(questionResponses);
++
++                setLoading(false);
++                console.log(data);
++            } catch (error) {
++                console.log('Error fetching quiz:', error);
++                setLoading(false);
++            }
++        };
++
++        const handleGenerateQuiz = (event) => {
++            event.preventDefault();
++            getQuiz();
++            setSelectedAnswer('');
++            setResult('');
++        };
++
++        const handleAnswerChange = (event) => {
++            setSelectedAnswer(event.target.value);
++        };
++
++        const handleQuizSubmit = () => {
++            if (selectedAnswer === '') {
++                setResult('~ Choose Wisely ~');
++                return;
++            }
++
++            const isCorrect = selectedAnswer === correctAnswer;
++            if (isCorrect) {
++                setResult('Correct!');
++                setTimeout(() => {
++                    getQuiz();
++                    setResult('');
++                }, 5000);
++            } else {
++                const currentIndex = options.indexOf(selectedAnswer);
++                const currentResponse = incorrectResponses[currentIndex];
++                setResult(currentResponse);
++            }
++        };
++
++        const shuffleArray = (array) => {
++            for (let i = array.length - 1; i > 0; i--) {
++                const j = Math.floor(Math.random() * (i + 1));
++                [array[i], array[j]] = [array[j], array[i]];
++            }
++            return array;
++        };
++
++        return (
++            <div className="App">
++                <header className="Header">
++                    <p></p>
++                    <div>
++                        {loading ? (
++                            <p>Loading...</p>
++                        ) : (
++                            <>
++                                <p dangerouslySetInnerHTML={{ __html: quiz }}></p>
++                                <form>
++                                    {options.map((option, index) => (
++                                        <div key={index}>
++                                            <input
++                                                type="radio"
++                                                id={`option${index}`}
++                                                name="quizOptions"
++                                                value={option}
++                                                checked={selectedAnswer === option}
++                                                onChange={handleAnswerChange}
++                                            />
++                                            <label
++                                                htmlFor={`option${index}`}
++                                                dangerouslySetInnerHTML={{ __html: option }}
++                                            ></label>
++                                        </div>
++                                    ))}
++                                </form>
++                                {result && (
++                                    <div style={{ marginTop: '20px' }}>
++                                        <p>{result}</p>
++                                    </div>
++                                )}
++                                <div style={{ marginTop: '20px' }}>
++                                    <Button onClick={handleGenerateQuiz}>Generate Quiz</Button>
++                                </div>
++                            </>
++                        )}
++
++                    </div>
++                </header>
++
++            </div>
++        );
++    }
++
++export default HomePage;
+\ No newline at end of file
+Index: client/src/components/TakeQuizPage.js
+===================================================================
+diff --git a/client/src/components/TakeQuizPage.js b/client/src/components/TakeQuizPage.js
+new file mode 100644
+--- /dev/null	
++++ b/client/src/components/TakeQuizPage.js	
+@@ -0,0 +1,161 @@
++import React, { useState, useEffect } from 'react';
++import axios from 'axios';
++import {useParams} from "react-router-dom";
++import 'bootstrap/dist/css/bootstrap.css';
++import 'bootstrap/dist/js/bootstrap.bundle';
++import {Button, Modal, Table} from "react-bootstrap";
++
++const TakeQuizPage = ({ match }) => {
++    const [quiz, setQuiz] = useState(null);
++    const [selectedAnswers, setSelectedAnswers] = useState({});
++    const [submissionResult, setSubmissionResult] = useState(null);
++    const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
++    const { quizId } = useParams();
++
++    useEffect(() => {
++        // Fetch quiz data based on quiz ID from the URL parameter
++        const fetchQuizzes = async () => {
++            try {
++                const response = await axios.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
++                setQuiz(response.data);
++                setIsQuizSubmitted(response.data.submitted);
++            } catch (error) {
++                console.error('Error fetching quiz data:', error);
++            }
++        };
++
++        fetchQuizzes();
++    }, [quizId]);
++    console.log('Quiz State:', quiz);
++
++    const handleAnswerSelect = (questionId, selectedOption) => {
++        setSelectedAnswers((prevAnswers) => ({
++            ...prevAnswers,
++            [questionId]: selectedOption,
++        }));
++    };
++
++        const handleSubmitQuiz = async () => {
++            try {
++                console.log('Quiz ID:', quizId);
++                if (isQuizSubmitted) {
++                    // TODO Display an alert to inform the user - need to think about better option than alert
++                    alert('Quiz has already been submitted!');
++                    return;
++                }
++                const formattedAnswers = Object.keys(selectedAnswers).map((questionId) => ({
++                    questionId,
++                    selectedAnswer: selectedAnswers[questionId],
++                }));
++                console.log('Selected Answers:', selectedAnswers);
++
++                const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, formattedAnswers);
++                // Update state with submission result
++                setSubmissionResult(response.data);
++                setIsQuizSubmitted(true);
++            } catch (error) {
++                console.error('Failed to submit quiz', error.response.data);
++            }
++        };
++
++        if (!quiz) {
++            return <div>Loading...</div>;
++        }
++
++    return (
++        <div className="container">
++            <h2>{quiz.title}</h2>
++            <p className="lead">Category: {quiz.category}</p>
++
++            {quiz.questions.map((question) => (
++                <div key={question.id} className="mb-4">
++                    <h4>{question.text}</h4>
++                    <ul className="list-unstyled">
++                        <li>
++                            <label className="form-check-label">
++                                <input
++                                    type="radio"
++                                    className="form-check-input"
++                                    value={question.option1}
++                                    checked={selectedAnswers[question.id] === question.option1}
++                                    onChange={() => handleAnswerSelect(question.id, question.option1)}
++                                />
++                                {question.option1}
++                            </label>
++                        </li>
++                        <li>
++                            <label className="form-check-label">
++                                <input
++                                    type="radio"
++                                    className="form-check-input"
++                                    value={question.option2}
++                                    checked={selectedAnswers[question.id] === question.option2}
++                                    onChange={() => handleAnswerSelect(question.id, question.option2)}
++                                />
++                                {question.option2}
++                            </label>
++                        </li>
++                        <li>
++                            <label className="form-check-label">
++                                <input
++                                    type="radio"
++                                    className="form-check-input"
++                                    value={question.option3}
++                                    checked={selectedAnswers[question.id] === question.option3}
++                                    onChange={() => handleAnswerSelect(question.id, question.option3)}
++                                />
++                                {question.option3}
++                            </label>
++                        </li>
++                    </ul>
++                </div>
++            ))}
++
++            {!isQuizSubmitted && (
++            <Button className="btn btn-primary" onClick={handleSubmitQuiz}>
++                Submit Quiz
++            </Button>
++            )}
++
++            {isQuizSubmitted && (
++                <div className="mb-4">
++                    <div className="alert alert-info" role="alert">
++                        <h4 className="alert-heading">Quiz already submitted!</h4>
++                    </div>
++                </div>
++            )}
++
++            {/* Display feedback */}
++            {submissionResult && (
++                <Modal show={true} onHide={() => setSubmissionResult(null)}>
++                    <Modal.Header closeButton>
++                        <Modal.Title>Quiz Submitted Successfully!</Modal.Title>
++                    </Modal.Header>
++                    <Modal.Body>
++                        <p>Score: {submissionResult.score}</p>
++                        <p>Percentage: {submissionResult.percentage}%</p>
++                    </Modal.Body>
++                    <Modal.Footer>
++                        <Button variant="primary" onClick={() => setSubmissionResult(null)}>
++                            Close
++                        </Button>
++                    </Modal.Footer>
++                </Modal>
++            )}
++
++            {/*{submissionResult && (*/}
++            {/*    <div className="mb-4">*/}
++            {/*        <div className="alert alert-success" role="alert">*/}
++            {/*        <h4 className="alert-heading">Quiz submitted successfully!</h4>*/}
++            {/*        <p className="mb-0">Score: {submissionResult.score}</p>*/}
++            {/*        <p className="mb-0">Percentage: {submissionResult.percentage}%</p>*/}
++            {/*    </div>*/}
++            {/*    </div>*/}
++            {/*)}*/}
++        </div>
++    );
++};
++
++
++
++export default TakeQuizPage;
+\ No newline at end of file
+Index: client/src/components/EmailInvitationForm.js
+===================================================================
+diff --git a/client/src/components/EmailInvitationForm.js b/client/src/components/EmailInvitationForm.js
+new file mode 100644
+--- /dev/null	
++++ b/client/src/components/EmailInvitationForm.js	
+@@ -0,0 +1,63 @@
++import React, { useState } from 'react';
++
++const EmailInvitationForm = () => {
++  const [recipientEmail, setRecipientEmail] = useState('');
++  const [message, setMessage] = useState('');
++
++  const handleEmailChange = (e) => {
++    setRecipientEmail(e.target.value);
++  };
++
++  const handleMessageChange = (e) => {
++    setMessage(e.target.value);
++  };
++
++  const handleSubmit = (e) => {
++    e.preventDefault();
++    // Call a function to send the email via your backend
++    sendEmailInvitation(recipientEmail, message);
++  };
++
++  const sendEmailInvitation = (email, message) => {
++    // Make an API call to your backend to send the email
++    // Replace this with your actual API endpoint and logic
++    fetch('https://your-backend-api.com/send-invitation', {
++      method: 'POST',
++      headers: {
++        'Content-Type': 'application/json',
++      },
++      body: JSON.stringify({
++        email: email,
++        message: message,
++      }),
++    })
++      .then(response => response.json())
++      .then(data => {
++        console.log('Email sent successfully:', data);
++        alert('Email invitation sent successfully!');
++      })
++      .catch(error => {
++        console.error('Error sending email invitation:', error);
++        alert('Failed to send email invitation. Please try again.');
++      });
++  };
++
++  return (
++    <div>
++      <h2>Email Invitation Form</h2>
++      <form onSubmit={handleSubmit}>
++        <label>
++          Recipient's Email:
++          <input type="email" value={recipientEmail} onChange={handleEmailChange} required />
++        </label>
++        <label>
++          Your Message:
++          <textarea value={message} onChange={handleMessageChange} rows="4" required />
++        </label>
++        <button type="submit">Send Invitation</button>
++      </form>
++    </div>
++  );
++};
++
++export default EmailInvitationForm;
+\ No newline at end of file
+Index: client/src/components/QuestionForm.css
+===================================================================
+diff --git a/client/src/components/QuestionForm.css b/client/src/components/QuestionForm.css
+new file mode 100644
+--- /dev/null	
++++ b/client/src/components/QuestionForm.css	
+@@ -0,0 +1,22 @@
++.question-item {
++    display: flex;
++    align-items: center;
++    justify-content: space-between;
++    margin-bottom: 10px;
++}
++
++.question-text {
++    flex-grow: 1;
++    margin-right: 10px; /* Optional: for spacing between text and buttons */
++}
++
++.question-actions {
++    display: flex;
++    gap: 10px;
++}
++
++.question-button {
++    padding: 5px 10px;
++    font-size: 0.8rem;
++    /* Additional styling for buttons */
++}
+\ No newline at end of file
+Index: client/src/components/QuizPage.js
+===================================================================
+diff --git a/client/src/components/QuizPage.js b/client/src/components/QuizPage.js
+new file mode 100644
+--- /dev/null	
++++ b/client/src/components/QuizPage.js	
+@@ -0,0 +1,193 @@
++import React, { useState, useEffect } from 'react';
++import {Table, Button, Modal} from 'react-bootstrap';
++import axios from 'axios';
++import { Link, useParams } from 'react-router-dom';
++import CreateQuizForm from './CreateQuizForm';
++import 'bootstrap/dist/css/bootstrap.css';
++import 'bootstrap/dist/js/bootstrap.bundle';
++
++const QuizPage = () => {
++    const [quizzes, setQuizzes] = useState([]);
++    const [newQuiz, setNewQuiz] = useState({ title: '' });
++    const [showCreateForm, setShowCreateForm] = useState(false);
++    const [showEditForm, setShowEditForm] = useState(false); // Corrected true?
++    const [editedQuiz, setEditedQuiz] = useState({});
++    const { quizId } = useParams();
++    const [quiz, setQuiz] = useState({});
++
++    const handleCreateQuizButtonClick = () => {
++        setShowCreateForm(true);
++    };
++
++    const handleCloseCreateForm = () => {
++        setShowCreateForm(false);
++        fetchQuizzes(); // Fetch quizzes again after closing the form
++    };
++
++    const handleEditQuiz = (selectedQuiz) => {
++        setEditedQuiz(selectedQuiz);
++        setShowEditForm(true);
++    };
++
++    const handleCloseEditForm = () => {
++        setShowEditForm(false);
++        setEditedQuiz({});
++        fetchQuizzes(); // Fetch quizzes again after closing the form
++    };
++
++    const fetchQuizzes = async () => {
++        try {
++            const response = await axios.get('http://localhost:8080/quiz/getQuizzes', { timeout: 5000 });
++            setQuizzes(response.data);
++        } catch (error) {
++            console.error('Error fetching quizzes:', error);
++        }
++    };
++
++    useEffect(() => {
++        fetchQuizzes();
++    }, []); // Fetch quizzes on component mount
++
++    const handleAddQuestions = (quizId) => {
++        // TODO: Need logic for editing questions from Kevin
++        console.log(`Add questions for quiz with ID ${quizId}`);
++    };
++
++    const handleDeleteQuiz = async (quizId) => {
++        try {
++            await axios.delete(`http://localhost:8080/quiz/${quizId}`);
++            fetchQuizzes();
++        } catch (error) {
++            console.error('Error deleting quiz:', error);
++        }
++    };
++
++    const handleInputChange = (e) => {
++        const { name, value } = e.target;
++        setQuiz({
++            ...quiz,
++            [name]: value,
++        });
++    };
++
++    const handleUpdateQuiz = async (updatedQuiz) => {
++        try {
++            await axios.put(`http://localhost:8080/quiz/${quizId}`, updatedQuiz);
++            setShowEditForm(false);
++            setQuiz(updatedQuiz);
++            fetchQuizzes(); // Fetch quizzes again after updating
++        } catch (error) {
++            console.error('Error updating quiz:', error);
++        }
++    };
++
++    const handleSubmit = (e) => {
++        e.preventDefault();
++        handleUpdateQuiz(quiz);
++    };
++
++    return (
++        <div>
++            <Button variant="success" onClick={handleCreateQuizButtonClick}>
++                CREATE QUIZ
++            </Button>
++
++            <Table>
++                <thead className="table-header">
++                <tr>
++                    <th>Title</th>
++                    <th>Category</th>
++                    <th>Actions</th>
++                </tr>
++                </thead>
++                <tbody>
++                {quizzes.map((quiz) => (
++                    <tr key={quiz.id}>
++                        <td>{quiz.title}</td>
++                        <td>{quiz.category}</td>
++                        <td>
++                            <Link to={`/quizzes/${quiz.id}`}>
++                                <Button variant="success" onClick={() => handleEditQuiz(quiz)}>
++                                    Edit
++                                </Button>
++                            </Link>
++                        </td>
++                        {/*need to finish the logic*/}
++                        <td>
++                            <Link to={`/quizzes/${quiz.id}`}>
++                                <Button variant="success" onClick={() => handleAddQuestions(quiz)}>
++                                    Add questions
++                                </Button>
++                            </Link>
++                        </td>
++                        <td>
++                            <Link to={`/takeQuiz/${quiz.id}`}>
++                                <Button variant="success" onClick={() => (quiz)}>
++                                    Take Quiz
++                                </Button>
++                            </Link>
++                        </td>
++                        <td>
++                            <Button onClick={() => handleDeleteQuiz(quiz.id)}>Delete</Button>
++                        </td>
++                    </tr>
++                ))}
++                </tbody>
++            </Table>
++
++            {/* Create Quiz Form Modal */}
++            <Modal show={showCreateForm} onHide={handleCloseCreateForm}>
++                <Modal.Header closeButton>
++                    <Modal.Title>Create a New Quiz</Modal.Title>
++                </Modal.Header>
++                <Modal.Body>
++                    {/* Render CreateQuizForm component and pass form-related props */}
++                    <CreateQuizForm
++                        onCancel={handleCloseCreateForm}
++                        newQuiz={newQuiz}
++                        setNewQuiz={setNewQuiz}
++                        fetchQuizzes={fetchQuizzes} // Pass the fetchQuizzes function to update quiz list after creation
++                    />
++                </Modal.Body>
++            </Modal>
++
++            {/* Edit Quiz Form Modal */}
++            <Modal show={showEditForm} onHide={handleCloseEditForm}>
++                <form onSubmit={handleSubmit}>
++                    <Modal.Header closeButton>
++                        <Modal.Title>Edit Quiz</Modal.Title>
++                    </Modal.Header>
++                    <Modal.Body>
++                        <label>
++                            Title:
++                            <input
++                                type="text"
++                                name="title"
++                                value={quiz.title || ''}
++                                onChange={handleInputChange}
++                            />
++                        </label>
++                        <br />
++                        <label>
++                            Category:
++                            <input
++                                type="text"
++                                name="category"
++                                value={quiz.category || ''}
++                                onChange={handleInputChange}
++                            />
++                        </label>
++                        {/* Add other form fields */}
++                        <br />
++                    </Modal.Body>
++                    <Modal.Footer>
++                        <Button type="submit">Update Quiz</Button>
++                    </Modal.Footer>
++                </form>
++            </Modal>
++        </div>
++    );
++};
++
++export default QuizPage;
++
