@@ -15,5 +15,22 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
+    <data-source name="cfphpl_triviaexplosion" uuid="74305c7c-606c-40d7-9038-32586f6ba651">
+      <database-info product="MariaDB" version="10.9.8-MariaDB" jdbc-version="4.2" driver-name="MariaDB Connector/J" driver-version="3.0.7" dbms="MARIADB" exact-version="10.9.8" exact-driver-version="3.0">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>cfphpl_trivia_explosion</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema">
+            <name qname="@" />
+            <name qname="cfphpl_triviaexplosion" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
   </component>
 </project>

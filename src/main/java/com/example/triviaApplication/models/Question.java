@@ -22,9 +22,17 @@ public class Question {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
+
+
+    //Iryna start
+//    @ManyToOne
+//    @JoinColumn(name = "quiz_id")
+//    private Quiz quiz;
+//    private String quiz_id;
+//    public void setQuiz_id(String quiz_id) {
+//        this.quiz_id = quiz_id;
+//    }
+    //Iryna end changes;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -60,13 +68,13 @@ public class Question {
         this.user = user;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
-    }
-
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
+//    public Quiz getQuiz() {
+//        return quiz;
+//    }
+//
+//    public void setQuiz(Quiz quiz) {
+//        this.quiz = quiz;
+//    }
 
     public List<Answer> getAnswers() {
         return answers;

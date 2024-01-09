@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './QuestionForm.css';
+import axios from "axios";
+import { useParams} from "react-router-dom";
 
 function QuestionForm() {
     const [username, setUsername] = useState('');
@@ -8,6 +10,31 @@ function QuestionForm() {
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
     const [userQuestions, setUserQuestions] = useState([]);
     const [searchUsername, setSearchUsername] = useState('');
+
+    //Iryna added
+    const [quiz, setQuiz] = useState({});
+
+    const handleLoadQuiz = () =>{
+        // TODO: Get quizID from query string that you passed in
+        const { quizId } = useParams;
+        // Make sure quizID has value
+        if (quizId) {
+        // TODO: Make API call to quiz controller to get quiz
+            axios.get(`http://localhost:8080/quiz/${quizId}`)
+                .then(response => {
+        // if quiz has value, set our state
+                    setQuiz(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching quiz:', error);
+                });
+        }
+    };
+    useEffect(() => {
+        handleLoadQuiz();
+    }, []);
+    //end Iryna added
+
 
     const handleAnswerChange = (index, event) => {
         const newAnswers = answers.map((answer, i) => {
@@ -49,7 +76,25 @@ function QuestionForm() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(questionData)
-            });
+            })
+                // Iryna added
+            // .then(responseData => {
+            //     // response is Question object
+            //     if (responseData.id != null){
+            //         // get our quiz and see if it has value
+            //         const { quizId } = useParams;
+            //         // Make sure quizID has value
+            //         if (quizId !=null) {
+            //             axios.post(`/quiz/addQuestion/${quizId}`, response.id);
+            //         }
+            //
+            //     }
+            // });
+
+            if (response.ok){
+                console.log(response);
+            }
+            //Iryna end
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);

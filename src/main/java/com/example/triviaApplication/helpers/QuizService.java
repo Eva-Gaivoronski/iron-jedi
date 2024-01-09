@@ -1,6 +1,7 @@
 package com.example.triviaApplication.helpers;
 
 import com.example.triviaApplication.models.*;
+import com.example.triviaApplication.repositories.QuestionRepository;
 import com.example.triviaApplication.repositories.QuizRepository;
 import com.example.triviaApplication.repositories.UserRepository;
 import io.netty.handler.codec.http.HttpContentEncoder;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,13 @@ public class QuizService {
     private UserRepository userRepository;
     @Autowired
     EntityManager em;
+    @Autowired
+    private QuestionRepository questionRepository;
 
+
+
+    //This is working
+    @Transactional
     public Quiz createQuiz(Quiz quiz, Long userId) {
         // TODO Input validation
         if (quiz.getTitle() == null || quiz.getTitle().isEmpty()) {
@@ -44,11 +52,11 @@ public class QuizService {
         if (user == null) {throw new Error("User not found with ID: " + userId);}
         quiz.setUser(user);
         // TODO validation logic for the quiz
-        //quiz.setQuestions(new ArrayList<Question>());
-        // Set questions to an empty list
-        quiz.setQuestions(new ArrayList<>());
+        quiz.setQuestions(new ArrayList<Question>());
 
         return quizRepository.save(quiz);}
+
+
     public Quiz getQuizById(Long id, Long userId) {
         return quizRepository.findByIdAndUserId(id, userId);}
 
@@ -108,7 +116,7 @@ public class QuizService {
             for (Question question : questions) {
                 if (question.getId().equals(userAnswer.getQuestionId())) {
                     Answer correctAnswer = question.getAnswers().stream()
-                            .filter(Answer::getCorrect)
+                            .filter(Answer::getIsCorrect)
                             .findFirst()
                             .orElse(null);
 

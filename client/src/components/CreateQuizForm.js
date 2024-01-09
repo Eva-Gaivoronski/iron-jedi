@@ -6,12 +6,22 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import {Button} from "react-bootstrap";
 const CreateQuiz=()=> {
     const [showModal, setShowModal] = useState(true);
+
     const handleCloseModal = () => {
         setShowModal(false);
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
-            try {
+        try {
+            const user = {
+                id: 1, // Replace with the user ID
+                username: values.username, // username is entered in the form
+            };
+
+            const quizData = {
+                ...values,
+                user,
+            };
                 const response = await axios.post('http://localhost:8080/quiz/quizzes', values);
                 console.log('Quiz data submitted:', values);
                 alert('Quiz saved successfully!');
@@ -33,7 +43,7 @@ const CreateQuiz=()=> {
                 <h1>Create Quiz</h1>
                 {/* Formik handles form state and submission logic */}
                 <Formik
-                    initialValues={{ title: '', category: '' }}
+                    initialValues={{ title: '', category: '', username: '' }}
                     validate={(values) => {
                         const errors = {};
                         // TODO Add validation logic is needed
@@ -48,11 +58,11 @@ const CreateQuiz=()=> {
                         <Form>
                             <label>
                                 Title:
-                                <Field type="text" name="title" value={values.title} onChange={handleChange} />
+                                <Field type="text" name="title" value={values.title} onChange={handleChange}/>
                                 {/* ErrorMessage  */}
-                                <ErrorMessage name="title" component="div" />
+                                <ErrorMessage name="title" component="div"/>
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Category:
                                 <Field type="text" name="category" value={values.category} onChange={handleChange}>
@@ -60,10 +70,15 @@ const CreateQuiz=()=> {
                                     {/*we can do dropdown*/}
                                     {/* TODO Add other options here */}
                                 </Field>
-                                <ErrorMessage name="category" component="div" />
+                                <ErrorMessage name="category" component="div"/>
                             </label>
                             <br/>
-                            {/* TODO: Add more fields dynamically  */}
+                            <label>
+                                User
+                                <Field type="text" name="username" value={values.username} onChange={handleChange} />
+                                {/* ErrorMessage  */}
+                                <ErrorMessage name="username" component="div"/>
+                            </label>
                             <Button type="submit">
                                 Create Quiz
                             </Button>

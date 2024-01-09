@@ -3,6 +3,7 @@ package com.example.triviaApplication.controllers;
 import com.example.triviaApplication.helpers.QuizService;
 import com.example.triviaApplication.helpers.UserService;
 import com.example.triviaApplication.models.*;
+import com.example.triviaApplication.repositories.QuestionRepository;
 import com.example.triviaApplication.repositories.QuizRepository;
 import com.example.triviaApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 
 @RestController
@@ -29,6 +29,8 @@ public class QuizController {
     private QuizService quizService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @GetMapping("/getQuizzes")
     public ResponseEntity<List<Quiz>> getUserQuizzes() {
@@ -53,7 +55,17 @@ public class QuizController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     //Take quiz Submission
+    @PostMapping("/addQuestion/{quizId}")
+    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody Long questionId){
+        questionRepository.addQuestionToQuiz(quizId, questionId);
+
+        // TODO: Do a look-up to esnure it actually updated
+
+        return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
+    }
+
     @PostMapping("/submitQuiz/{quizId}")
     @ResponseBody
     public ResponseEntity<Object> submitQuiz(@PathVariable Long quizId, @RequestBody List<UserAnswer> userAnswers) {
@@ -75,8 +87,7 @@ public class QuizController {
     }
 
     @PostMapping("/quizzes")
-    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz) {
-        // TODO Get UserId from cookie
+    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz, Principal principal) {
         long userId = 1;
 
         try { Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
@@ -85,12 +96,7 @@ public class QuizController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
 
-//    @PutMapping("/{quizId}")
-//    public Quiz updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
-//        // Delegate quiz updating to the QuizService
-//        return quizService.updateQuiz(quizId, updatedQuiz);
-//    }
-@PutMapping("/{quizId}")
+    @PutMapping("/{quizId}")
 public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
     try {
         Quiz result = quizService.updateQuiz(quizId, updatedQuiz);

@@ -10,7 +10,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String username;
+    private String password; // Should be hashed
+    private String email;
+    private boolean isVerified;
+    private String profilePictureUrl;
+
     public Long getId() {
         return id;
     }
