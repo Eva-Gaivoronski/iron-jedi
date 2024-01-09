@@ -18,5 +18,18 @@
 .question-button {
     padding: 5px 10px;
     font-size: 0.8rem;
-    /* Additional styling for buttons */
+    cursor: pointer; /* Makes it clear that buttons are clickable */
+}
+
+/* Specific styles for edit and delete buttons */
+.edit-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none; /* Optional: remove border for cleaner look */
+}
+
+.delete-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
 }

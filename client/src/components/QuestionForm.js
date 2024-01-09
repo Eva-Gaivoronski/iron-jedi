@@ -6,6 +6,8 @@ function QuestionForm() {
     const [questionText, setQuestionText] = useState('');
     const [answers, setAnswers] = useState(new Array(4).fill({ text: '', isCorrect: false }));
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
+    const [userQuestions, setUserQuestions] = useState([]);
+    const [searchUsername, setSearchUsername] = useState('');
 
     const handleAnswerChange = (index, event) => {
         const newAnswers = answers.map((answer, i) => {
@@ -39,7 +41,7 @@ function QuestionForm() {
             text: questionText,
             answers
         };
-       console.log('Sending question data:', questionData);
+
         try {
             const response = await fetch('http://localhost:8080/question', {
                 method: 'POST',
@@ -56,7 +58,7 @@ function QuestionForm() {
             alert('Question saved successfully!');
             setUsername('');
             setQuestionText('');
-            setAnswers(new Array(4).fill(''));
+            setAnswers(new Array(4).fill({ text: '', isCorrect: false }));
             setCorrectAnswerIndex(-1);
         } catch (error) {
             console.error('There was an error saving the question:', error);
@@ -64,44 +66,102 @@ function QuestionForm() {
         }
     };
 
-     return (
+    const handleSearch = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/users/${searchUsername}/questions`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setUserQuestions(data);
+        } catch (error) {
+            console.error('Error fetching questions:', error);
+            alert('Error fetching questions.');
+        }
+    };
+
+    const handleDelete = async (questionId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/question/${questionId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            setUserQuestions(prevQuestions => prevQuestions.filter(question => question.id !== questionId));
+            alert('Question deleted successfully!');
+        } catch (error) {
+            console.error('Error deleting question:', error);
+            alert('Error deleting question.');
+        }
+    };
+
+    const handleEdit = (question) => {
+        setUsername(question.user.username);
+        setQuestionText(question.text);
+        setAnswers(question.answers);
+        const correctIndex = question.answers.findIndex(answer => answer.isCorrect);
+        setCorrectAnswerIndex(correctIndex);
+    };
+
+    return (
+        <div>
+            <h2>Create a New Question</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Username:</label>
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                </div>
+                <div>
+                    <label>Question:</label>
+                    <input type="text" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
+                </div>
+                {answers.map((answer, index) => (
+                    <div key={index}>
+                        <label>
+                            Answer {index + 1}:
+                            <input type="text" value={answer.text} onChange={(e) => handleAnswerChange(index, e)} />
+                        </label>
+                        <label>
+                            Correct
+                            <input
+                                type="checkbox"
+                                checked={index === correctAnswerIndex}
+                                onChange={() => handleCorrectAnswerChange(index)}
+                            />
+                        </label>
+                    </div>
+                ))}
+                <button type="submit">Save Question</button>
+            </form>
+
             <div>
-                <h2>Create a New Question</h2>
-                <form onSubmit={handleSubmit}>
-                    {/* User Input */}
-                    <div>
-                        <label>Username:</label>
-                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                    </div>
+                <h2>Search Questions by Username</h2>
+                <input
+                    type="text"
+                    value={searchUsername}
+                    onChange={(e) => setSearchUsername(e.target.value)}
+                    placeholder="Username"
+                />
+                <button type="button" onClick={handleSearch}>Search</button>
 
-                    {/* Question Input */}
-                    <div>
-                        <label>Question:</label>
-                        <input type="text" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
-                    </div>
-
-                    {/* Answers Input */}
-                    {answers.map((answer, index) => (
-                        <div key={index}>
-                            <label>
-                                Answer {index + 1}:
-                                <input type="text" value={answer.text} onChange={(e) => handleAnswerChange(index, e)} />
-                            </label>
-                            <label>
-                                Correct
-                                <input
-                                    type="checkbox"
-                                    checked={index === correctAnswerIndex}
-                                    onChange={() => handleCorrectAnswerChange(index)}
-                                />
-                            </label>
+                <div>
+                    <h3>Search Results</h3>
+                    {userQuestions.map((question, index) => (
+                        <div key={index} className="question-item">
+                            <span className="question-text">{question.text}</span>
+                            <div className="question-actions">
+                                <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
+                                <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
+                            </div>
                         </div>
                     ))}
-
-                    <button type="submit">Save Question</button>
-                </form>
+                </div>
             </div>
-        );
-    }
+        </div>
+    );
+}
 
-    export default QuestionForm;
+export default QuestionForm;
