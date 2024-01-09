@@ -1,6 +1,5 @@
 package com.example.triviaApplication.controllers;
 
-import com.example.triviaApplication.helpers.QuizService;
 import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.helpers.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +26,30 @@ public class QuestionController {
     @PostMapping
     public ResponseEntity<?> createOrUpdateQuestion(@RequestBody Question question) {
         try {
-            // Log the question and its answers
             log.info("Received question: {}", question.getText());
             question.getAnswers().forEach(answer ->
-                    log.info("Answer: {}, isCorrect: {}", answer.getText(), answer.getCorrect())
+                    log.info("Answer: {}, isCorrect: {}", answer.getText(), answer.getIsCorrect())
             );
-
-            // Save the question using the question service
             Question savedQuestion = questionService.createOrUpdateQuestion(question);
             return ResponseEntity.ok(savedQuestion);
         } catch (Exception e) {
-            // Log the exception details for debugging
             log.error("Error saving question: ", e);
             return ResponseEntity.badRequest().body("Error saving question: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateQuestion(@PathVariable Long id, @RequestBody Question question) {
+        try {
+            question.setId(id);
+            Question updatedQuestion = questionService.createOrUpdateQuestion(question);
+            return ResponseEntity.ok(updatedQuestion);
+        } catch (NoSuchElementException e) {
+            log.error("Question not found with id: " + id, e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            log.error("Error updating question: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating question: " + e.getMessage());
         }
     }
 
