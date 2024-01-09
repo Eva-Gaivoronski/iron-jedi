@@ -1,150 +1,48 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
-import React, { useState, useEffect } from 'react';
-
+import HomePage from './components/HomePage';
+import QuestionForm from './components/QuestionForm';
+import QuizPage from './components/QuizPage';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle';
+import TakeQuizPage from "./components/TakeQuizPage";
 function App() {
-  const [quiz, setQuiz] = useState('');
-  const [options, setOptions] = useState([]);
-  const [selectedAnswer, setSelectedAnswer] = useState('');
-  const [result, setResult] = useState('');
-  const [correctAnswer, setCorrectAnswer] = useState('');
-  const [incorrectResponses, setIncorrectResponses] = useState([]);
-  const [loading, setLoading] = useState(true);
+    return (
+        <div className="App">
+            <header className="Header">
+                <nav>
+                    <ul className="nav-list">
+                        <li className="nav-item">
+                            <Link to="/" className="nav-link">
+                                Home
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/quizzes" className="nav-link">
+                                Quiz Page
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/question-form" className="nav-link">
+                                Question Form
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      getQuiz();
-      setLoading(false);
-    }, 5000);
+            <Routes>
+                <Route path="/quizzes" element={<QuizPage/>}/>
+                <Route path="/question-form" element={<QuestionForm/>}/>
+                <Route path="/" element={<HomePage/>}/>
+                <Route path="/quizzes/:quizId" element={<QuizPage/>}/>
+                <Route path="/takeQuiz/:quizId" element={<TakeQuizPage/>}/>
+                <Route path="/submitQuiz/:quizId" element={<TakeQuizPage/>}/>
+            </Routes>
+        </div>
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    handleQuizSubmit();
-  }, [selectedAnswer, correctAnswer, options, incorrectResponses]);
-
-  const getQuiz = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('https://opentdb.com/api.php?amount=1&difficulty=medium&type=multiple');
-      const data = await response.json();
-      const questionData = data.results[0];
-      setQuiz(questionData.question);
-      setCorrectAnswer(questionData.correct_answer);
-      const allOptions = shuffleArray(questionData.incorrect_answers.concat(questionData.correct_answer));
-      setOptions(allOptions);
-
-      const questionResponses = allOptions.map((option, index) => {
-        if (option === questionData.correct_answer) {
-          return 'Correct!';
-        } else {
-          return `${option} is incorrect.`;
-        }
-      });
-      setIncorrectResponses(questionResponses);
-
-      setLoading(false);
-      console.log(data);
-    } catch (error) {
-      console.log('Error fetching quiz:', error);
-      setLoading(false);
-    }
-  };
-
-  const handleGenerateQuiz = (event) => {
-    event.preventDefault();
-    getQuiz();
-    setSelectedAnswer('');
-    setResult('');
-  };
-
-  const handleAnswerChange = (event) => {
-    setSelectedAnswer(event.target.value);
-  };
-
-  const handleQuizSubmit = () => {
-    if (selectedAnswer === '') {
-      return;
-    }
-
-    const isCorrect = selectedAnswer === correctAnswer;
-
-
-    if (isCorrect) {
-      setResult('Correct!');
-    } else {
-      const currentIndex = options.indexOf(selectedAnswer);
-      const currentResponse = incorrectResponses[currentIndex];
-      setResult(currentResponse);
-    }
-
-
-    setTimeout(() => {
-      if (isCorrect) {
-        getQuiz();
-        setResult('');
-      }
-    }, isCorrect ? 5000 : 0);
-  };
-
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
-
-  return (
-   <div className="App">
-     <header className="App-header">
-       <div className="header-buttons">
-         <div className="left-buttons">
-           <button className="login-button">Login</button>
-           <button className="register-button">Register</button>
-         </div>
-         <button className="leaderBoard-button">Leader Board</button>
-       </div>
-       <p></p>
-       <div>
-         {loading ? (
-           <p>Loading...</p>
-         ) : (
-           <>
-             <p dangerouslySetInnerHTML={{ __html: quiz }}></p>
-             <form>
-               {options.map((option, index) => (
-                 <div key={index}>
-                   <input
-                     type="radio"
-                     id={`option${index}`}
-                     name="quizOptions"
-                     value={option}
-                     checked={selectedAnswer === option}
-                     onChange={handleAnswerChange}
-                   />
-                   <label
-                     htmlFor={`option${index}`}
-                     dangerouslySetInnerHTML={{ __html: option }}
-                   ></label>
-                 </div>
-               ))}
-             </form>
-             {result && (
-               <div style={{ marginTop: '20px' }}>
-                 <p>{result}</p>
-               </div>
-             )}
-             <div style={{ marginTop: '20px' }}>
-               <button onClick={handleGenerateQuiz}>Trivia Explosion!</button>
-             </div>
-           </>
-         )}
-       </div>
-     </header>
-   </div>
-
-  );
+    );
 }
 
 export default App;

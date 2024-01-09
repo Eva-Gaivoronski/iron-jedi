@@ -1,10 +1,7 @@
 package com.example.triviaApplication.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 @Entity
 public class Answer {
@@ -13,13 +10,20 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
-    private Boolean isCorrect;
 
-    public Answer(Long id, String text, Boolean isCorrect) {
-        this.id = id;
-        this.text = text;
-        this.isCorrect = isCorrect;
+    @Column(name = "is_Correct", nullable = false)
+    private Boolean isCorrect = false; // Set default value to false
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    @JsonBackReference
+    private Question question;
+
+    // Default constructor for JPA
+    public Answer() {
     }
+
+    // Additional constructors, getters, and setters
 
     public Long getId() {
         return id;
@@ -37,11 +41,19 @@ public class Answer {
         this.text = text;
     }
 
-    public Boolean getCorrect() {
+    public Boolean getIsCorrect() {
         return isCorrect;
     }
 
-    public void setCorrect(Boolean correct) {
-        isCorrect = correct;
+    public void setIsCorrect(Boolean isCorrect) {
+        this.isCorrect = isCorrect;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 }
