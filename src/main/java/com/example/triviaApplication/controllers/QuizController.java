@@ -58,8 +58,8 @@ public class QuizController {
 
     //Take quiz Submission
     @PostMapping("/addQuestion/{quizId}")
-    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody Long questionId){
-        questionRepository.addQuestionToQuiz(quizId, questionId);
+    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody String questionId){
+        questionRepository.addQuestionToQuiz(quizId, Long.parseLong(questionId));
 
         // TODO: Do a look-up to esnure it actually updated
 

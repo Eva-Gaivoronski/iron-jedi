@@ -10,31 +10,7 @@ function QuestionForm() {
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
     const [userQuestions, setUserQuestions] = useState([]);
     const [searchUsername, setSearchUsername] = useState('');
-
-    //Iryna added
-    const [quiz, setQuiz] = useState({});
-
-    const handleLoadQuiz = () =>{
-        // TODO: Get quizID from query string that you passed in
-        const { quizId } = useParams;
-        // Make sure quizID has value
-        if (quizId) {
-        // TODO: Make API call to quiz controller to get quiz
-            axios.get(`http://localhost:8080/quiz/${quizId}`)
-                .then(response => {
-        // if quiz has value, set our state
-                    setQuiz(response.data);
-                })
-                .catch(error => {
-                    console.error('Error fetching quiz:', error);
-                });
-        }
-    };
-    useEffect(() => {
-        handleLoadQuiz();
-    }, []);
-    //end Iryna added
-
+    const {quizId} = useParams();
 
     const handleAnswerChange = (index, event) => {
         const newAnswers = answers.map((answer, i) => {
@@ -70,35 +46,19 @@ function QuestionForm() {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/question', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(questionData)
-            })
+            //Iryna changed
+            const response =  axios.post('http://localhost:8080/question', questionData)
                 // Iryna added
-            // .then(responseData => {
-            //     // response is Question object
-            //     if (responseData.id != null){
-            //         // get our quiz and see if it has value
-            //         const { quizId } = useParams;
-            //         // Make sure quizID has value
-            //         if (quizId !=null) {
-            //             axios.post(`/quiz/addQuestion/${quizId}`, response.id);
-            //         }
-            //
-            //     }
-            // });
-
-            if (response.ok){
-                console.log(response);
-            }
+            .then(responseData => {
+                // response is Question object
+                if (responseData.data != null && responseData.data.id !=null){
+                    // Make sure quizID has value
+                    if (quizId !=null) {
+                        axios.post(`/quiz/addQuestion/${quizId}`, responseData.data.id.toString());
+                    }
+                }
+            });
             //Iryna end
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
 
             alert('Question saved successfully!');
             setUsername('');
