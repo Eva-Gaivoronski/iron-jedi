@@ -63,13 +63,12 @@ const TakeQuizPage = () => {
 
             const answersArray = Object.keys(selectedAnswers).map(questionId => ({
                 questionId: parseInt(questionId),
-                selectedOption: selectedAnswers[questionId],
+                selectedAnswer: selectedAnswers[questionId],
             }));
 
             console.log('Formatted Answers Array:', answersArray);
 
             const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, answersArray);
-            // const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, selectedAnswers);
             setSubmissionResult(response.data);
             setIsQuizSubmitted(true);
         } catch (error) {

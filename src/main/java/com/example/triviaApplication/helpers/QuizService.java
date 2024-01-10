@@ -91,10 +91,10 @@ public class QuizService {
         Quiz quiz = quizRepository.findById(quizId)
         //return quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
-        for (Question question : quiz.getQuestions()) { //KEvin
-            Collections.shuffle(question.getAnswers()); //KEvin
+        for (Question question : quiz.getQuestions()) {
+            Collections.shuffle(question.getAnswers());
         }
-        return quiz;//KEvin
+        return quiz;
     }
 
     public QuizResult submitQuiz(Long quizId, List<UserAnswer> userAnswers) {
