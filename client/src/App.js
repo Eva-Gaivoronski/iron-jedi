@@ -10,6 +10,7 @@ import TakeQuizPage from "./components/TakeQuizPage";
 import LeaderBoardPage from './components/LeaderBoardPage';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
+
 function App() {
     return (
         <div className="App">
@@ -22,16 +23,6 @@ function App() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/quizzes" className="nav-link">
-                                Quiz Page
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/question-form" className="nav-link">
-                                Question Form
-                            </Link>
-                        </li>
-                        <li className="nav-item">
                             <Link to="/login" className="nav-link">
                                 Login
                             </Link>
@@ -39,6 +30,16 @@ function App() {
                         <li className="nav-item">
                             <Link to="/register" className="nav-link">
                                 Register
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/quizzes" className="nav-link">
+                                Quiz Page
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/question-form" className="nav-link">
+                                Question Form
                             </Link>
                         </li>
                         <li className="nav-item">
