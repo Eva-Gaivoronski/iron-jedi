@@ -6,10 +6,6 @@ import java.util.List;
 
 @Entity
 @Table(name="quiz")
-//@NamedEntityGraph(
-//        name = "quiz-with-questions",
-//        attributeNodes = @NamedAttributeNode("questions")
-//)
 public class Quiz extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

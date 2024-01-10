@@ -1,10 +1,12 @@
 package com.example.triviaApplication.repositories;
 
+import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.models.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
     List<Quiz> findByUserId(Long userId);
     Quiz findByIdAndUserId(Long id, Long userId);
+    //    List<Question> findByQuizId(Long quizId);
     // Update quiz
     @Modifying
     @Query("UPDATE Quiz q SET q.title = :title WHERE q.id = :id")
@@ -25,4 +28,3 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     Optional<Quiz> findByIdWithQuestions(@Param("quizId") Long quizId);
 
 }
-
