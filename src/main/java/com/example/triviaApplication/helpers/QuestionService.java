@@ -1,26 +1,20 @@
 package com.example.triviaApplication.helpers;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.models.Answer;
+import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.models.User;
-import com.example.triviaApplication.repositories.QuestionRepository;
 import com.example.triviaApplication.repositories.AnswerRepository;
+import com.example.triviaApplication.repositories.QuestionRepository;
 import com.example.triviaApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
-    @PersistenceContext
-    private EntityManager entityManager;
 
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
@@ -53,27 +47,32 @@ public class QuestionService {
                 .orElseThrow(() -> new NoSuchElementException("Question not found with id: " + updatedQuestion.getId()));
 
         existingQuestion.setText(updatedQuestion.getText());
-        handleAnswers(existingQuestion, updatedQuestion.getAnswers());
+        updateAnswers(existingQuestion, updatedQuestion.getAnswers());
         return questionRepository.save(existingQuestion);
     }
 
-    private void handleAnswers(Question question, List<Answer> updatedAnswers) {
-        Map<Long, Answer> existingAnswersMap = question.getAnswers().stream()
-                .collect(Collectors.toMap(Answer::getId, answer -> answer));
-        List<Answer> mergedAnswers = new ArrayList<>();
+    private void updateAnswers(Question existingQuestion, List<Answer> updatedAnswers) {
+        // Remove answers that are no longer present
+        existingQuestion.getAnswers().removeIf(answer ->
+                updatedAnswers.stream().noneMatch(updatedAnswer ->
+                        updatedAnswer.getId() != null && updatedAnswer.getId().equals(answer.getId())));
 
+        // Update existing answers and add new ones
         for (Answer updatedAnswer : updatedAnswers) {
-            if (updatedAnswer.getId() != null && existingAnswersMap.containsKey(updatedAnswer.getId())) {
-                Answer existingAnswer = existingAnswersMap.get(updatedAnswer.getId());
+            if (updatedAnswer.getId() != null) {
+                // Update existing answer
+                Answer existingAnswer = existingQuestion.getAnswers().stream()
+                        .filter(a -> a.getId().equals(updatedAnswer.getId()))
+                        .findFirst()
+                        .orElseThrow(() -> new NoSuchElementException("Answer not found with id: " + updatedAnswer.getId()));
                 existingAnswer.setText(updatedAnswer.getText());
                 existingAnswer.setIsCorrect(updatedAnswer.getIsCorrect());
-                mergedAnswers.add(existingAnswer);
             } else {
-                updatedAnswer.setQuestion(question);
-                mergedAnswers.add(updatedAnswer);
+                // Add new answer
+                updatedAnswer.setQuestion(existingQuestion);
+                existingQuestion.getAnswers().add(updatedAnswer);
             }
         }
-        question.setAnswers(mergedAnswers);
     }
 
     private void setUserForQuestion(Question question) {

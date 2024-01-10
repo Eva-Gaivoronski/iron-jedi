@@ -9,6 +9,9 @@ function QuestionForm() {
     const [userQuestions, setUserQuestions] = useState([]);
     const [searchUsername, setSearchUsername] = useState('');
     const [keyword, setKeyword] = useState('');
+    const [editMode, setEditMode] = useState(false);
+    const [editQuestionId, setEditQuestionId] = useState(null);
+    const [keywordSearchUsername, setKeywordSearchUsername] = useState('');
 
     const handleAnswerChange = (index, event) => {
         const newAnswers = answers.map((answer, i) => {
@@ -37,9 +40,12 @@ function QuestionForm() {
             answers: answers.map((answer, index) => ({ ...answer, isCorrect: index === correctAnswerIndex })),
         };
 
+        const method = editMode ? 'PUT' : 'POST';
+        const url = editMode ? `http://localhost:8080/question/${editQuestionId}` : 'http://localhost:8080/question';
+
         try {
-            const response = await fetch('http://localhost:8080/question', {
-                method: 'POST',
+            const response = await fetch(url, {
+                method: method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(questionData),
             });
@@ -48,6 +54,8 @@ function QuestionForm() {
             setQuestionText('');
             setAnswers(new Array(4).fill({ text: '', isCorrect: false }));
             setCorrectAnswerIndex(-1);
+            setEditMode(false);
+            setEditQuestionId(null);
         } catch (error) {
             alert('Error saving question.');
             console.error('There was an error saving the question:', error);
@@ -57,13 +65,9 @@ function QuestionForm() {
     const handleSearch = async () => {
         try {
             const response = await fetch(`http://localhost:8080/users/${searchUsername}/questions`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const questions = await response.json();
-            console.log(questions);
             setUserQuestions(questions);
-            console.log(userQuestions);
         } catch (error) {
             console.error('Error fetching questions:', error);
             alert('Error fetching questions.');
@@ -71,8 +75,13 @@ function QuestionForm() {
     };
 
     const handleKeywordSearch = async () => {
+        console.log(`Searching for keyword '${keyword}' in user '${keywordSearchUsername}' questions.`);
+        if (!keywordSearchUsername || !keyword) {
+            alert('Please enter both a username and a keyword.');
+            return;
+        }
         try {
-            const response = await fetch(`http://localhost:8080/question/search?username=${searchUsername}&keyword=${keyword}`);
+            const response = await fetch(`http://localhost:8080/users/${keywordSearchUsername}/search?keyword=${keyword}`);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const questions = await response.json();
             setUserQuestions(questions);
@@ -101,6 +110,8 @@ function QuestionForm() {
         setQuestionText(question.text);
         setAnswers(question.answers);
         setCorrectAnswerIndex(question.answers.findIndex((answer) => answer.isCorrect));
+        setEditMode(true);
+        setEditQuestionId(question.id);
     };
 
     return (
@@ -134,50 +145,58 @@ function QuestionForm() {
                 <button type="submit">Save Question</button>
             </form>
 
-            <div>
-                <h2>Search Questions by Username</h2>
-                <input
-                    type="text"
-                    value={searchUsername}
-                    onChange={(e) => setSearchUsername(e.target.value)}
-                    placeholder="Username"
-                />
-                <button type="button" onClick={handleSearch}>Search</button>
+             <div>
+                             <h2>Search Questions by Username</h2>
+                             <input
+                                 type="text"
+                                 value={searchUsername}
+                                 onChange={(e) => setSearchUsername(e.target.value)}
+                                 placeholder="Username"
+                             />
+                             <button type="button" onClick={handleSearch}>Search</button>
+                         </div>
 
-                <h2>Search by Keyword</h2>
-                <input
-                    type="text"
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    placeholder="Keyword"
-                />
-                <button type="button" onClick={handleKeywordSearch}>Search Keyword</button>
-<div>
-    <h3>Search Results</h3>
-    {userQuestions.map((question, index) => (
-        <div key={index} className="question-item">
-            <div className="question-content">
-                <h3>Question {index + 1}</h3>
-                <p>Question Text: {question.text}</p>
-                <p>Question User: {question.user.username}</p>
-                <h4>Answers:</h4>
-                <ul>
-                    {question.answers.map((answer, ansIndex) => (
-                        <li key={ansIndex}>
-                            Answer {ansIndex + 1}: {answer.text}
-                            {answer.isCorrect ? ' (Correct)' : ''}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            <div className="question-actions">
-                <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
-                <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
-            </div>
-        </div>
+                         <div>
+                             <h2>Search by Keyword</h2>
+                             <input
+                                 type="text"
+                                 value={keywordSearchUsername}
+                                 onChange={(e) => setKeywordSearchUsername(e.target.value)}
+                                 placeholder="Username for Keyword Search"
+                             />
+                             <input
+                                 type="text"
+                                 value={keyword}
+                                 onChange={(e) => setKeyword(e.target.value)}
+                                 placeholder="Keyword"
+                             />
+                             <button type="button" onClick={handleKeywordSearch}>Search Keyword</button>
+                         </div>
 
-                    ))}
-                </div>
+              <div>
+                <h3>Search Results</h3>
+                {userQuestions.map((question, index) => (
+                    <div key={index} className="question-item">
+                        <div className="question-content">
+                            <h3>Question {index + 1}</h3>
+                            <p>Question Text: {question.text}</p>
+                            <p>Question User: {question.user.username}</p>
+                            <h4>Answers:</h4>
+                            <ul>
+                                {question.answers.map((answer, ansIndex) => (
+                                    <li key={ansIndex}>
+                                        Answer {ansIndex + 1}: {answer.text}
+                                        {answer.isCorrect ? ' (Correct)' : ''}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="question-actions">
+                            <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
+                            <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );
