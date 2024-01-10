@@ -36,6 +36,8 @@ const TakeQuizPage = () => {
             ...prevAnswers,
             [questionId]: selectedOption,
         }));
+
+        console.log('Selected Answers:', selectedAnswers);
     };
 
     const handleSubmitQuiz = async () => {
@@ -58,7 +60,16 @@ const TakeQuizPage = () => {
                 setShowUnansweredQuestionsAlert(true);
                 return;
             }
-            const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, selectedAnswers);
+
+            const answersArray = Object.keys(selectedAnswers).map(questionId => ({
+                questionId: parseInt(questionId),
+                selectedOption: selectedAnswers[questionId],
+            }));
+
+            console.log('Formatted Answers Array:', answersArray);
+
+            const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, answersArray);
+            // const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, selectedAnswers);
             setSubmissionResult(response.data);
             setIsQuizSubmitted(true);
         } catch (error) {

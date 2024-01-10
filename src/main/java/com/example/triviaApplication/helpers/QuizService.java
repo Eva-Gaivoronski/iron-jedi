@@ -60,6 +60,11 @@ public class QuizService {
     public Quiz getQuizById(Long id, Long userId) {
         return quizRepository.findByIdAndUserId(id, userId);}
 
+    //Edit Quiz
+//    public List<Question> findQuestionsByQuizId(Long quizId) {
+//        return quizRepository.findByQuizId(quizId);
+//    }
+
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
 //         TODO quiz update
         Quiz existingQuiz = quizRepository.findById(quizId)
@@ -109,87 +114,26 @@ public class QuizService {
         return new QuizResult(correctAnswers, percentage);
     }
 
-    private int calculateScore(List<Question> questions, List<UserAnswer> userAnswers) {
-        int correctAnswers = 0;
+private int calculateScore(List<Question> questions, List<UserAnswer> userAnswers) {
+    int correctAnswers = 0;
 
-        for (UserAnswer userAnswer : userAnswers) {
-            for (Question question : questions) {
-                if (question.getId().equals(userAnswer.getQuestionId())) {
-                    Answer correctAnswer = question.getAnswers().stream()
-                            .filter(Answer::getIsCorrect)
-                            .findFirst()
-                            .orElse(null);
+    for (UserAnswer userAnswer : userAnswers) {
+        for (Question question : questions) {
+            if (question.getId().equals(userAnswer.getQuestionId())) {
+                Answer correctAnswer = question.getAnswers().stream()
+                        .filter(Answer::getIsCorrect)
+                        .findFirst()
+                        .orElse(null);
 
-                    if (correctAnswer != null && correctAnswer.getId().equals(userAnswer.getSelectedAnswer())) {
-                        correctAnswers++;
-                    }
+                // Check if userAnswer.getSelectedAnswer() is a Long
+                Long selectedAnswerId = Long.valueOf(userAnswer.getSelectedAnswer());
+
+                if (correctAnswer != null && correctAnswer.getId().equals(selectedAnswerId)) {
+                    correctAnswers++;
                 }
             }
         }
-        return correctAnswers;
     }
+    return correctAnswers;
 }
-//@Transactional
-//public QuizResult submitQuiz(Long quizId, List<UserAnswer> userAnswers) {
-//    try {
-//        System.out.println("Received quiz submission for quizId: " + quizId);
-//        System.out.println("User answers: " + userAnswers);
-//        // Retrieve the quiz from the database
-//        Quiz quiz = quizRepository.findById(quizId)
-//                .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
-//        // Check if the quiz is in a state that allows submission
-//        if (quiz.isSubmitted()) {
-//            throw new IllegalStateException("Quiz has already been submitted.");
-//        }
-//        // Validate if the quiz has all the necessary details for scoring (e.g., questions, correct answers)
-//        if (quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
-//            throw new IllegalStateException("Quiz does not have valid questions for scoring.");
-//        }
-//        // Calculate the score and percentage based on user answers
-//        int correctAnswers = calculateScore(quiz.getQuestions(), userAnswers);
-//        int totalQuestions = quiz.getQuestions().size();
-//        double percentage = calculatePercentage(correctAnswers, totalQuestions);
-//        // Update the quiz entity with submission details
-//        quiz.setSubmitted(true);
-//        quiz.setScore(correctAnswers);
-//        // Save the updated quiz entity
-//        quizRepository.save(quiz);
-//        // Return the result (score and percentage)
-//        return new QuizResult(correctAnswers, percentage);
-//    } catch (Exception e) {
-//        // Log the exception for further investigation
-//        e.printStackTrace();
-//        throw e;
-//    }
-//    }
-//
-//    // Implement the logic to calculate the score based on user answers and correct answers
-//    private int calculateScore(List<Question> questions, List<UserAnswer> userAnswers) {
-//        int correctAnswers = 0;
-//
-//
-//        for (UserAnswer userAnswer : userAnswers) {
-//            Optional<Question> question = questions.stream()
-//                    .filter(q -> q.getId().equals(userAnswer.getQuestionId()))
-//                    .findFirst();
-//
-//            if (question.isPresent() && question.get().getAnswers().equals(userAnswer.getSelectedAnswer())) {
-//                correctAnswers++;
-//            }
-//        }
-//
-//        return correctAnswers;
-//    }
-//
-//    // Implement the logic to calculate the percentage of correct responses
-//    private double calculatePercentage(int correctAnswers, int totalQuestions) {
-//        if (totalQuestions == 0) {
-//            return 0.0;
-//        }
-//        return ((double) correctAnswers / totalQuestions) * 100.0;
-//    }
-//
-//
-//
-//
-//}
+}

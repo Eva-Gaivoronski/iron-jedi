@@ -12,9 +12,11 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     // Method to find questions by username
     List<Question> findQuestionsByUserUsername(String username);
-
-    @Modifying //Iryna changed
-    @Query(value = "UPDATE Question q SET q.quiz_id = :quizId WHERE q.id = :questionID", nativeQuery = true)
+    //Iryna changed
+    @Modifying
+    @Query(value = "UPDATE Question q SET q.quiz_id = :quizId WHERE q.id = :questionId", nativeQuery = true)
     @Transactional
-    void addQuestionToQuiz(@Param("quizId") Long quizId, @Param("questionID") Long questionID);
+    void addQuestionToQuiz(@Param("quizId") Long quizId, @Param("questionId") Long questionId);
+
+        //Iryna changed end
 }

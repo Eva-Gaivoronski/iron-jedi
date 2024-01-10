@@ -52,8 +52,7 @@ public class QuestionService {
 
         return questionRepository.save(question);
     }
-    public List<Question> findAllQuestions() {
-        return questionRepository.findAll();
+    public List<Question> findAllQuestions() {return questionRepository.findAll();
     }
 
     public Question findQuestionById(Long id) {

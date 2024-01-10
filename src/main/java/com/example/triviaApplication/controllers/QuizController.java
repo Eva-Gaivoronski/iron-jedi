@@ -6,6 +6,8 @@ import com.example.triviaApplication.models.*;
 import com.example.triviaApplication.repositories.QuestionRepository;
 import com.example.triviaApplication.repositories.QuizRepository;
 import com.example.triviaApplication.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/quiz")
 @CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
+    private static final Logger log = LoggerFactory.getLogger(QuizController.class);
 
     @Autowired
     private QuizRepository quizRepository;
@@ -42,6 +45,21 @@ public class QuizController {
     @GetMapping("/{quizId}")
     public Quiz getQuizById(@PathVariable Long quizId) {
         return quizRepository.findById(quizId).orElse(null);}
+
+    //Edit Quiz Page
+//    @GetMapping("/quiz/{quizId}")
+//    public ResponseEntity<List<Question>> getQuestionsForQuiz(@PathVariable Long quizId) {
+//        try {
+//            List<Question> questions = quizService.findQuestionsByQuizId(quizId);
+//            return ResponseEntity.ok(questions);
+//        } catch (NoSuchElementException e) {
+//            log.error("Questions not found for quiz with id: " + quizId, e);
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        } catch (Exception e) {
+//            log.error("Error retrieving questions for quiz: ", e);
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     //takeQuiz page
     @GetMapping("/takeQuiz/{quizId}")
