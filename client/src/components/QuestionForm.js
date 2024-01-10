@@ -8,6 +8,7 @@ function QuestionForm() {
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
     const [userQuestions, setUserQuestions] = useState([]);
     const [searchUsername, setSearchUsername] = useState('');
+    const [keyword, setKeyword] = useState('');
 
     const handleAnswerChange = (index, event) => {
         const newAnswers = answers.map((answer, i) => {
@@ -30,39 +31,26 @@ function QuestionForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        if (!username || !questionText || answers.some(answer => !answer.text)) {
-            alert('Please fill out all fields.');
-            return;
-        }
-
         const questionData = {
             user: { username },
             text: questionText,
-            answers
+            answers: answers.map((answer, index) => ({ ...answer, isCorrect: index === correctAnswerIndex })),
         };
 
         try {
             const response = await fetch('http://localhost:8080/question', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(questionData)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(questionData),
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             alert('Question saved successfully!');
-            setUsername('');
             setQuestionText('');
             setAnswers(new Array(4).fill({ text: '', isCorrect: false }));
             setCorrectAnswerIndex(-1);
         } catch (error) {
-            console.error('There was an error saving the question:', error);
             alert('Error saving question.');
+            console.error('There was an error saving the question:', error);
         }
     };
 
@@ -72,11 +60,25 @@ function QuestionForm() {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            const data = await response.json();
-            setUserQuestions(data);
+            const questions = await response.json();
+            console.log(questions);
+            setUserQuestions(questions);
+            console.log(userQuestions);
         } catch (error) {
             console.error('Error fetching questions:', error);
             alert('Error fetching questions.');
+        }
+    };
+
+    const handleKeywordSearch = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/question/search?username=${searchUsername}&keyword=${keyword}`);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const questions = await response.json();
+            setUserQuestions(questions);
+        } catch (error) {
+            alert('Error fetching questions by keyword.');
+            console.error('Error fetching questions:', error);
         }
     };
 
@@ -85,16 +87,12 @@ function QuestionForm() {
             const response = await fetch(`http://localhost:8080/question/${questionId}`, {
                 method: 'DELETE',
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            setUserQuestions(prevQuestions => prevQuestions.filter(question => question.id !== questionId));
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            setUserQuestions(userQuestions.filter((question) => question.id !== questionId));
             alert('Question deleted successfully!');
         } catch (error) {
-            console.error('Error deleting question:', error);
             alert('Error deleting question.');
+            console.error('Error deleting question:', error);
         }
     };
 
@@ -102,8 +100,7 @@ function QuestionForm() {
         setUsername(question.user.username);
         setQuestionText(question.text);
         setAnswers(question.answers);
-        const correctIndex = question.answers.findIndex(answer => answer.isCorrect);
-        setCorrectAnswerIndex(correctIndex);
+        setCorrectAnswerIndex(question.answers.findIndex((answer) => answer.isCorrect));
     };
 
     return (
@@ -147,16 +144,38 @@ function QuestionForm() {
                 />
                 <button type="button" onClick={handleSearch}>Search</button>
 
-                <div>
-                    <h3>Search Results</h3>
-                    {userQuestions.map((question, index) => (
-                        <div key={index} className="question-item">
-                            <span className="question-text">{question.text}</span>
-                            <div className="question-actions">
-                                <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
-                                <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
-                            </div>
-                        </div>
+                <h2>Search by Keyword</h2>
+                <input
+                    type="text"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    placeholder="Keyword"
+                />
+                <button type="button" onClick={handleKeywordSearch}>Search Keyword</button>
+<div>
+    <h3>Search Results</h3>
+    {userQuestions.map((question, index) => (
+        <div key={index} className="question-item">
+            <div className="question-content">
+                <h3>Question {index + 1}</h3>
+                <p>Question Text: {question.text}</p>
+                <p>Question User: {question.user.username}</p>
+                <h4>Answers:</h4>
+                <ul>
+                    {question.answers.map((answer, ansIndex) => (
+                        <li key={ansIndex}>
+                            Answer {ansIndex + 1}: {answer.text}
+                            {answer.isCorrect ? ' (Correct)' : ''}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <div className="question-actions">
+                <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
+                <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
+            </div>
+        </div>
+
                     ))}
                 </div>
             </div>
