@@ -10,7 +10,7 @@ import TakeQuizPage from "./components/TakeQuizPage";
 import LeaderBoardPage from './components/LeaderBoardPage';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
-
+import QuizChallengeForm from './components/QuizChallengeForm';
 function App() {
     return (
         <div className="App">
@@ -40,6 +40,11 @@ function App() {
                         <li className="nav-item">
                             <Link to="/question-form" className="nav-link">
                                 Question Form
+                            </Link>
+                        </li>
+                            <li className="nav-item">
+                            <Link to="/quiz-challenge" className="nav-link">
+                                Send Quiz
                             </Link>
                         </li>
                         <li className="nav-item">
