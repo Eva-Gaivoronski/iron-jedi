@@ -126,7 +126,7 @@ function HomePage() {
                                     </div>
                                 )}
                                 <div style={{ marginTop: '20px' }}>
-                                    <Button onClick={handleGenerateQuiz}>Generate Quiz</Button>
+                                    <Button onClick={handleGenerateQuiz}>Trivia Explosion!</Button>
                                 </div>
                             </>
                         )}

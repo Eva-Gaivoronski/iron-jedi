@@ -6,6 +6,7 @@ import CreateQuizForm from './CreateQuizForm';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 
+
 const QuizPage = () => {
     const [quizzes, setQuizzes] = useState([]);
     const [newQuiz, setNewQuiz] = useState({ title: '' });
