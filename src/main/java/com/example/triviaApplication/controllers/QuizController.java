@@ -121,11 +121,21 @@ public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Q
     }
 }
 
-
     @DeleteMapping("/{quizId}")
     public void deleteUserQuiz(@PathVariable Long quizId) {
         // Delete a specific quiz associated with a user
         quizRepository.deleteById(quizId);
     }
+
+    @DeleteMapping("/removeQuestion/{quizId}/{questionId}")
+    public ResponseEntity<Quiz> removeQuestionFromQuiz(@PathVariable Long quizId, @PathVariable Long questionId) {
+        try {
+            Quiz updatedQuiz = quizService.removeQuestionFromQuiz(quizId, questionId);
+            return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
 

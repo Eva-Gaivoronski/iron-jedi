@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 
 @Service
@@ -73,6 +73,20 @@ public class QuizService {
         return quizRepository.findById(quizId)
                 .map(Quiz::getQuestions)
                 .orElse(Collections.emptyList());
+    }
+
+    @Transactional
+    public Quiz removeQuestionFromQuiz(Long quizId, Long questionId) {
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
+
+        List<Question> updatedQuestions = quiz.getQuestions()
+                .stream()
+                .filter(question -> !question.getId().equals(questionId))
+                .collect(Collectors.toList());
+
+        quiz.setQuestions(updatedQuestions);
+        return quizRepository.save(quiz);
     }
 
 //update quiz end

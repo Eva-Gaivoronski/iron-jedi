@@ -7,12 +7,17 @@ import QuizPage from './components/QuizPage';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import TakeQuizPage from "./components/TakeQuizPage";
+import {Container, Nav, Navbar} from "react-bootstrap";
 function App() {
     return (
         <div className="App">
-            <header className="Header">
-                <nav>
-                    <ul className="nav-list">
+            <header>
+                <Navbar expand="sm" className="bg-success bg-gradient">
+                    <Container>
+                        <Navbar.Brand href="#home">Trivia Explosion!</Navbar.Brand>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
                         <li className="nav-item">
                             <Link to="/" className="nav-link">
                                 Home
@@ -20,16 +25,18 @@ function App() {
                         </li>
                         <li className="nav-item">
                             <Link to="/quizzes" className="nav-link">
-                                Quiz Page
+                                My Quizzes
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link to="/question-form" className="nav-link">
-                                Question Form
+                                Add Question
                             </Link>
                         </li>
-                    </ul>
-                </nav>
+                        </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
             </header>
 
             <Routes>

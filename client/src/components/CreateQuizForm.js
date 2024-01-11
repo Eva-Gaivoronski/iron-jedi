@@ -14,12 +14,17 @@ const CreateQuiz=({ onClose })=> {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-            if (!values.title) {
-                setTitleError('Please enter the Title ');
+            // Validate if all fields are filled
+            const requiredFields = ['title', 'category', 'username']; // Add other required fields if needed
+            const emptyFields = requiredFields.filter(field => !values[field]);
+
+            if (emptyFields.length > 0) {
+                // Display notification to the user
+                alert(`Please fill in the following fields: ${emptyFields.join(', ')}`);
                 return;
             }
 
-            setTitleError('');
+            // Rest of your submission logic...
 
             const user = {
                 id: 1, // Replace with the user ID
@@ -57,7 +62,12 @@ const CreateQuiz=({ onClose })=> {
                         if (!values.title) {
                             errors.title = 'Title is required';
                         }
-                        // TODO Add validation logic is needed
+                        if (!values.category) {
+                            errors.category = 'Category is required';
+                        }
+                        if (!values.username) {
+                            errors.username = 'User is required';
+                        }
                         return errors;
                     }}
                     //Submission logic
