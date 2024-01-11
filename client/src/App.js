@@ -11,6 +11,7 @@ import LeaderBoardPage from './components/LeaderBoardPage';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import QuizChallengeForm from './components/QuizChallengeForm';
+
 function App() {
     return (
         <div className="App">
@@ -42,7 +43,7 @@ function App() {
                                 Question Form
                             </Link>
                         </li>
-                            <li className="nav-item">
+                        <li className="nav-item">
                             <Link to="/quiz-challenge" className="nav-link">
                                 Send Quiz
                             </Link>
@@ -62,6 +63,7 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />
+                <Route path="/quiz-challenge" element={<QuizChallengeForm />} />
                 <Route path="/" element={<HomePage />} />
                 <Route path="/quizzes/:quizId" element={<QuizPage />} />
                 <Route path="/takeQuiz/:quizId" element={<TakeQuizPage />} />
