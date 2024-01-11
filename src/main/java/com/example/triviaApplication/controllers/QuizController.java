@@ -46,20 +46,17 @@ public class QuizController {
     public Quiz getQuizById(@PathVariable Long quizId) {
         return quizRepository.findById(quizId).orElse(null);}
 
-    //Edit Quiz Page
-//    @GetMapping("/quiz/{quizId}")
-//    public ResponseEntity<List<Question>> getQuestionsForQuiz(@PathVariable Long quizId) {
-//        try {
-//            List<Question> questions = quizService.findQuestionsByQuizId(quizId);
-//            return ResponseEntity.ok(questions);
-//        } catch (NoSuchElementException e) {
-//            log.error("Questions not found for quiz with id: " + quizId, e);
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        } catch (Exception e) {
-//            log.error("Error retrieving questions for quiz: ", e);
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    //Update quiz
+    @GetMapping("/question/quiz/{quizId}")
+    public ResponseEntity<List<Question>> getQuestionsForQuiz(@PathVariable Long quizId) {
+        try {
+            List<Question> questions = quizService.getQuestionsForQuiz(quizId);
+            return new ResponseEntity<>(questions, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     //takeQuiz page
     @GetMapping("/takeQuiz/{quizId}")

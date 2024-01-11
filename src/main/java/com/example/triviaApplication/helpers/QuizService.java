@@ -59,28 +59,26 @@ public class QuizService {
 
     public Quiz getQuizById(Long id, Long userId) {
         return quizRepository.findByIdAndUserId(id, userId);}
-
-    //Edit Quiz
-//    public List<Question> findQuestionsByQuizId(Long quizId) {
-//        return quizRepository.findByQuizId(quizId);
-//    }
-
+//update quiz
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
-//         TODO quiz update
         Quiz existingQuiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
+
         existingQuiz.setTitle(updatedQuiz.getTitle());
         existingQuiz.setCategory(updatedQuiz.getCategory());
-        return quizRepository.save(existingQuiz);}
 
+        return quizRepository.save(existingQuiz);
+    }
+    public List<Question> getQuestionsForQuiz(Long quizId) {
+        return quizRepository.findById(quizId)
+                .map(Quiz::getQuestions)
+                .orElse(Collections.emptyList());
+    }
+
+//update quiz end
         public List<Quiz> getAllQuizzes() {
-
         return quizRepository.findAll();
     }
-//    public Quiz getQuizById(Long quizId) {
-//        return quizRepository.findById(quizId)
-//                .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
-//    }
 
     public List<Quiz> getUserQuiz(Long userId) {
 

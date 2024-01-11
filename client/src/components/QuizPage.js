@@ -40,19 +40,6 @@ const QuizPage = () => {
         }
     };
 
-    // Function to handle deletion of a question
-    const handleDeleteQuestion = async (questionId) => {
-        try {
-            // Make a DELETE request to your backend API to delete the question
-            await axios.delete(`http://localhost:8080/question/${questionId}`);
-
-            // Update the questions state after successful deletion
-            setQuestions((prevQuestions) => prevQuestions.filter((question) => question.id !== questionId));
-        } catch (error) {
-            console.error('Error deleting question:', error);
-        }
-    };
-
     const handleCloseEditForm = () => {
         setShowEditForm(false);
         setEditedQuiz({});
@@ -173,7 +160,7 @@ const QuizPage = () => {
             </Table>
 
             {/* Create Quiz Form Modal */}
-            <Modal show={showCreateForm} onHide={handleCloseCreateForm}>
+            <Modal show={showCreateForm} onHide={handleCloseCreateForm} >
                 <Modal.Header closeButton>
                     <Modal.Title>Create a New Quiz</Modal.Title>
                 </Modal.Header>
@@ -184,11 +171,11 @@ const QuizPage = () => {
                         newQuiz={newQuiz}
                         setNewQuiz={setNewQuiz}
                         fetchQuizzes={fetchQuizzes} // Pass the fetchQuizzes function to update quiz list after creation
+                        onClose={handleCloseCreateForm}
                     />
                 </Modal.Body>
             </Modal>
 
-            {/* Edit Quiz Form Modal */}
             {/* Edit Quiz Form Modal */}
             <Modal show={showEditForm} onHide={handleCloseEditForm}>
                 <form onSubmit={handleSubmit}>
@@ -215,24 +202,24 @@ const QuizPage = () => {
                                 onChange={handleInputChange}
                             />
                         </label>
-                        {/* Display list of questions */}
-                        <div>
-                            <h3>Questions:</h3>
-                            <ul>
-                                {questions.map((question) => (
-                                    <li key={question.id}>
-                                        {question.text}
-                                        <Button
-                                            variant="danger"
-                                            onClick={() => handleDeleteQuestion(question.id)}
-                                        >
-                                            Delete
-                                        </Button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        {/* Add other form fields */}
+                        {/*/!* Display list of questions *!/*/}
+                        {/*<div>*/}
+                        {/*    <h3>Questions:</h3>*/}
+                        {/*    <ul>*/}
+                        {/*        {questions.map((question) => (*/}
+                        {/*            <li key={question.id}>*/}
+                        {/*                {question.text}*/}
+                        {/*                <Button*/}
+                        {/*                    variant="danger"*/}
+                        {/*                    onClick={() => handleRemoveQuestion(question.id)}*/}
+                        {/*                >*/}
+                        {/*                    Remove*/}
+                        {/*                </Button>*/}
+                        {/*            </li>*/}
+                        {/*        ))}*/}
+                        {/*    </ul>*/}
+                        {/*</div>*/}
+                        {/*/!* Add other form fields *!/*/}
                         <br />
                     </Modal.Body>
                     <Modal.Footer>
