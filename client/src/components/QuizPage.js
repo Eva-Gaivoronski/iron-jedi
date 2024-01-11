@@ -33,11 +33,16 @@ const QuizPage = () => {
 
         // Fetch questions for the current quiz
         try {
-            const response = await axios.get(`http://localhost:8080/question/quiz/${selectedQuiz.id}`);
+            const response = await axios.get(`http://localhost:8080/quiz/questions/${selectedQuiz.id}`);
             setQuestions(response.data);
         } catch (error) {
             console.error('Error fetching questions:', error);
         }
+    };
+
+    const handleRemoveQuestion = (questionId) => {
+        // Implement logic to remove the question from the quiz
+        // You may want to make an API call to update the server and then update the local state.
     };
 
     const handleCloseEditForm = () => {
@@ -192,7 +197,7 @@ const QuizPage = () => {
                                 onChange={handleInputChange}
                             />
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Category:
                             <input
@@ -202,68 +207,31 @@ const QuizPage = () => {
                                 onChange={handleInputChange}
                             />
                         </label>
-                        {/*/!* Display list of questions *!/*/}
-                        {/*<div>*/}
-                        {/*    <h3>Questions:</h3>*/}
-                        {/*    <ul>*/}
-                        {/*        {questions.map((question) => (*/}
-                        {/*            <li key={question.id}>*/}
-                        {/*                {question.text}*/}
-                        {/*                <Button*/}
-                        {/*                    variant="danger"*/}
-                        {/*                    onClick={() => handleRemoveQuestion(question.id)}*/}
-                        {/*                >*/}
-                        {/*                    Remove*/}
-                        {/*                </Button>*/}
-                        {/*            </li>*/}
-                        {/*        ))}*/}
-                        {/*    </ul>*/}
-                        {/*</div>*/}
-                        {/*/!* Add other form fields *!/*/}
-                        <br />
+                        {/* Display list of questions */}
+                        <div>
+                            <h3>Questions:</h3>
+                            <ul>
+                                {questions.map((question) => (
+                                    <li key={question.id}>
+                                        {question.text}
+                                        <Button
+                                            variant="danger"
+                                            onClick={() => handleRemoveQuestion(question.id)}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        {/* Add other form fields */}
+                        <br/>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button type="submit">Update Quiz</Button>
                     </Modal.Footer>
                 </form>
             </Modal>
-
-
-
-
-            {/*<Modal show={showEditForm} onHide={handleCloseEditForm}>*/}
-            {/*    <form onSubmit={handleSubmit}>*/}
-            {/*        <Modal.Header closeButton>*/}
-            {/*            <Modal.Title>Edit Quiz</Modal.Title>*/}
-            {/*        </Modal.Header>*/}
-            {/*        <Modal.Body>*/}
-            {/*            <label>*/}
-            {/*                Title:*/}
-            {/*                <input*/}
-            {/*                    type="text"*/}
-            {/*                    name="title"*/}
-            {/*                    value={quiz.title || ''}*/}
-            {/*                    onChange={handleInputChange}*/}
-            {/*                />*/}
-            {/*            </label>*/}
-            {/*            <br />*/}
-            {/*            <label>*/}
-            {/*                Category:*/}
-            {/*                <input*/}
-            {/*                    type="text"*/}
-            {/*                    name="category"*/}
-            {/*                    value={quiz.category || ''}*/}
-            {/*                    onChange={handleInputChange}*/}
-            {/*                />*/}
-            {/*            </label>*/}
-            {/*            /!* Add other form fields *!/*/}
-            {/*            <br />*/}
-            {/*        </Modal.Body>*/}
-            {/*        <Modal.Footer>*/}
-            {/*            <Button type="submit">Update Quiz</Button>*/}
-            {/*        </Modal.Footer>*/}
-            {/*    </form>*/}
-            {/*</Modal>*/}
 
             {/* Delete Modal */}
             <Modal show={quizToDelete !== null} onHide={handleCancelDelete}>

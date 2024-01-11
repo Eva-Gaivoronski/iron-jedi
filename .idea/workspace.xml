@@ -4,33 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="843f8013-a532-4783-ad37-5c6a94f5ae86" name="Changes" comment="fixed the questions saved to quiz. working on quiz taking issue">
-      <change beforePath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_1_3_2024_2_39_PM_[Changes]/buildOutputCleanup.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_1_3_2024_2_39_PM_[Changes]/executionHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_1_3_2024_2_39_PM_[Changes]/file-system.probe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_1_3_2024_2_39_PM_[Changes]/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_1_3_2024_2_39_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_1_3_2024_2_39_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="843f8013-a532-4783-ad37-5c6a94f5ae86" name="Changes" comment=" working on quiz question">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/controllers/QuizController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/controllers/QuizController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/helpers/QuizService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/helpers/QuizService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/Quiz.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/Quiz.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/UserAnswer.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/UserAnswer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/repositories/QuizRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/repositories/QuizRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/CreateQuizForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CreateQuizForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/QuizPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/QuizPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/controllers/QuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/controllers/QuizController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/helpers/QuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/helpers/QuizService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/Quiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/Quiz.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/repositories/QuestionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/repositories/QuestionRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/repositories/QuizRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/repositories/QuizRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -256,7 +233,7 @@
       <workItem from="1704858465100" duration="5132000" />
       <workItem from="1704902098040" duration="4147000" />
       <workItem from="1704909563098" duration="2866000" />
-      <workItem from="1704989167054" duration="926000" />
+      <workItem from="1704989167054" duration="2977000" />
     </task>
     <task id="LOCAL-00001" summary="update and chages after fetching Kevins code">
       <option name="closed" value="true" />
@@ -330,7 +307,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704906605325</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary=" working on quiz question">
+      <option name="closed" value="true" />
+      <created>1704992063685</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1704992063685</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -357,7 +342,8 @@
     <MESSAGE value="don't merge this commit. I'm working on issue quiz/question issue" />
     <MESSAGE value="made the question saved to quiz" />
     <MESSAGE value="fixed the questions saved to quiz. working on quiz taking issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed the questions saved to quiz. working on quiz taking issue" />
+    <MESSAGE value=" working on quiz question" />
+    <option name="LAST_COMMIT_MESSAGE" value=" working on quiz question" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

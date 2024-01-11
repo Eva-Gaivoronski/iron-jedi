@@ -46,8 +46,8 @@ public class QuizController {
     public Quiz getQuizById(@PathVariable Long quizId) {
         return quizRepository.findById(quizId).orElse(null);}
 
-    //Update quiz
-    @GetMapping("/question/quiz/{quizId}")
+    //Update quiz with list of questions
+    @GetMapping("/questions/{quizId}")
     public ResponseEntity<List<Question>> getQuestionsForQuiz(@PathVariable Long quizId) {
         try {
             List<Question> questions = quizService.getQuestionsForQuiz(quizId);

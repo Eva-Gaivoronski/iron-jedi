@@ -21,6 +21,7 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     @Modifying
     @Query("UPDATE Quiz q SET q.title = :title WHERE q.id = :id")
     void updateQuiz(@Param("id") Long id, @Param("title") String title);
+
     @Modifying
     @Query("DELETE FROM Quiz q WHERE q.id = :quizId AND q.user.id = :userId")
     void deleteByIdAndUserId(@Param("quizId") Long quizId, @Param("userId") Long userId);
