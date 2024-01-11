@@ -100,7 +100,7 @@ function HomePage() {
              </nav>
          </header>
 
-         <div className="Content"> {/* Add a container for centering */}
+         <div className="content-container"> {/* Add a container for centering */}
              {loading ? (
                  <p>Loading...</p>
              ) : (

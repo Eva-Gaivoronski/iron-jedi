@@ -108,5 +108,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px; /* Adjust the margin as needed */
+  margin-top: 20vh; /* Adjust the margin as needed */
+  text-align: center;
 }
+
