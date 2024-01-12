@@ -953,7 +953,7 @@ trivia\\_explosion|schema||trivia_explosion|localhost|UPDATE|G</Grants>
     </schema>
     <schema id="291" parent="1" name="trivia_explosion">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2023-12-20.18:27:31</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-01-09.04:11:19</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="292" parent="1" name="trivia_explosion">
@@ -980,149 +980,157 @@ trivia\\_explosion|schema||trivia_explosion|localhost|UPDATE|G</Grants>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
     <column id="298" parent="293" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>5</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
     <column id="299" parent="293" name="is_correct">
       <DasType>bit(1)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
     <column id="300" parent="293" name="text">
       <DasType>varchar(255)|0s</DasType>
       <Position>3</Position>
     </column>
-    <index id="301" parent="293" name="PRIMARY">
+    <column id="301" parent="293" name="question_id">
+      <DasType>bigint|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <foreign-key id="302" parent="293" name="FK8frr4bcabmmeyyu60qt7iiblo">
+      <ColNames>question_id</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>question</RefTableName>
+    </foreign-key>
+    <index id="303" parent="293" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="302" parent="293" name="PRIMARY">
+    <index id="304" parent="293" name="FK8frr4bcabmmeyyu60qt7iiblo">
+      <ColNames>question_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="305" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="303" parent="294" name="id">
-      <AutoIncrement>4</AutoIncrement>
+    <column id="306" parent="294" name="id">
+      <AutoIncrement>3</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="304" parent="294" name="correct_answer">
+    <column id="307" parent="294" name="text">
       <DasType>varchar(255)|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="305" parent="294" name="option1">
-      <DasType>varchar(255)|0s</DasType>
+    <column id="308" parent="294" name="user_id">
+      <DasType>bigint|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>3</Position>
-    </column>
-    <column id="306" parent="294" name="option2">
-      <DasType>varchar(255)|0s</DasType>
-      <Position>4</Position>
-    </column>
-    <column id="307" parent="294" name="option3">
-      <DasType>varchar(255)|0s</DasType>
-      <Position>5</Position>
-    </column>
-    <column id="308" parent="294" name="text">
-      <DasType>varchar(255)|0s</DasType>
-      <Position>6</Position>
     </column>
     <column id="309" parent="294" name="quiz_id">
       <DasType>bigint|0s</DasType>
-      <Position>7</Position>
+      <Position>4</Position>
     </column>
-    <column id="310" parent="294" name="user_id">
-      <DasType>bigint|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>8</Position>
-    </column>
+    <foreign-key id="310" parent="294" name="FK4ekrlbqiybwk8abhgclfjwnmc">
+      <ColNames>user_id</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>user</RefTableName>
+    </foreign-key>
     <foreign-key id="311" parent="294" name="FKb0yh0c1qaxfwlcnwo9dms2txf">
       <ColNames>quiz_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>quiz</RefTableName>
     </foreign-key>
-    <foreign-key id="312" parent="294" name="FK4ekrlbqiybwk8abhgclfjwnmc">
-      <ColNames>user_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>user</RefTableName>
-    </foreign-key>
-    <index id="313" parent="294" name="PRIMARY">
+    <index id="312" parent="294" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
+    </index>
+    <index id="313" parent="294" name="FK4ekrlbqiybwk8abhgclfjwnmc">
+      <ColNames>user_id</ColNames>
+      <Type>btree</Type>
     </index>
     <index id="314" parent="294" name="FKb0yh0c1qaxfwlcnwo9dms2txf">
       <ColNames>quiz_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="315" parent="294" name="FK4ekrlbqiybwk8abhgclfjwnmc">
-      <ColNames>user_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="316" parent="294" name="PRIMARY">
+    <key id="315" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="317" parent="295" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="316" parent="295" name="id">
+      <AutoIncrement>5</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="318" parent="295" name="category">
+    <column id="317" parent="295" name="category">
       <DasType>varchar(255)|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="319" parent="295" name="title">
-      <DasType>varchar(255)|0s</DasType>
+    <column id="318" parent="295" name="score">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="320" parent="295" name="user_id">
-      <DasType>bigint|0s</DasType>
+    <column id="319" parent="295" name="submitted">
+      <DasType>bit(1)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="321" parent="295" name="FK1tofsm1qynhakggx7ttqh8ihu">
+    <column id="320" parent="295" name="title">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="321" parent="295" name="user_id">
+      <DasType>bigint|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <foreign-key id="322" parent="295" name="FK1tofsm1qynhakggx7ttqh8ihu">
       <ColNames>user_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>user</RefTableName>
     </foreign-key>
-    <index id="322" parent="295" name="PRIMARY">
+    <index id="323" parent="295" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="323" parent="295" name="FK1tofsm1qynhakggx7ttqh8ihu">
+    <index id="324" parent="295" name="FK1tofsm1qynhakggx7ttqh8ihu">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="324" parent="295" name="PRIMARY">
+    <key id="325" parent="295" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="325" parent="296" name="id">
+    <column id="326" parent="296" name="id">
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="326" parent="296" name="username">
+    <column id="327" parent="296" name="username">
       <DasType>varchar(255)|0s</DasType>
       <Position>2</Position>
     </column>
-    <index id="327" parent="296" name="PRIMARY">
+    <index id="328" parent="296" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="328" parent="296" name="PRIMARY">
+    <key id="329" parent="296" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="329" parent="297" name="next_val">
+    <column id="330" parent="297" name="next_val">
       <DasType>bigint|0s</DasType>
       <Position>1</Position>
     </column>

@@ -41,6 +41,6 @@
   "proxy": "http://localhost:8080",
   "devDependencies": {
     "react-bootstrap": "^2.9.2",
-    "react-router-dom": "^6.21.0"
+    "react-router-dom": "^6.21.1"
   }
 }

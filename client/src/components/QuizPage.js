@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Table, Button, Modal} from 'react-bootstrap';
+import {Table, Button, Modal, FormControl, InputGroup} from 'react-bootstrap';
 import axios from 'axios';
 import { Link, useParams, useNavigate} from 'react-router-dom';
 import CreateQuizForm from './CreateQuizForm';
@@ -33,23 +33,21 @@ const QuizPage = () => {
 
         // Fetch questions for the current quiz
         try {
-            const response = await axios.get(`http://localhost:8080/question/quiz/${selectedQuiz.id}`);
+            const response = await axios.get(`http://localhost:8080/quiz/questions/${selectedQuiz.id}`);
             setQuestions(response.data);
         } catch (error) {
             console.error('Error fetching questions:', error);
         }
     };
 
-    // Function to handle deletion of a question
-    const handleDeleteQuestion = async (questionId) => {
+    const handleRemoveQuestion = async (questionId) => {
         try {
-            // Make a DELETE request to your backend API to delete the question
-            await axios.delete(`http://localhost:8080/question/${questionId}`);
-
-            // Update the questions state after successful deletion
-            setQuestions((prevQuestions) => prevQuestions.filter((question) => question.id !== questionId));
+            await axios.delete(`http://localhost:8080/quiz/removeQuestion/${quiz.id}/${questionId}`);
+            // Fetch updated questions after removal
+            const response = await axios.get(`http://localhost:8080/quiz/questions/${quiz.id}`);
+            setQuestions(response.data);
         } catch (error) {
-            console.error('Error deleting question:', error);
+            console.error('Error removing question:', error);
         }
     };
 
@@ -124,16 +122,18 @@ const QuizPage = () => {
 
 
     return (
-        <div>
-            <Button variant="success" onClick={handleCreateQuizButtonClick}>
+        <div className="container">
+            <Button variant="success shadow" onClick={handleCreateQuizButtonClick}>
                 CREATE QUIZ
             </Button>
+            <Table className="mt-3">
+            </Table>
 
-            <Table>
-                <thead className="table-header">
+            <Table className="mt-3">
+            <thead className="table-header">
                 <tr>
-                    <th>Title</th>
-                    <th>Category</th>
+                    <th className="row-cols-md-auto">Title</th>
+                    <th className="row-cols-md-auto">Category</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -143,7 +143,7 @@ const QuizPage = () => {
                         <td>{quiz.category}</td>
                         <td>
                             <Link to={`/quizzes/${quiz.id}`}>
-                                <Button variant="success" onClick={() => handleEditQuiz(quiz)}>
+                                <Button variant="warning" onClick={() => handleEditQuiz(quiz)}>
                                     Update
                                 </Button>
                             </Link>
@@ -151,7 +151,7 @@ const QuizPage = () => {
                         {/*need to finish the logic*/}
                         <td>
                             <Link to={`/question-form/${quiz.id}`}>
-                                <Button variant="success" onClick={() => handleAddQuestions(quiz)}>
+                                <Button variant="secondary" onClick={() => handleAddQuestions(quiz)}>
                                     Add questions
                                 </Button>
                             </Link>
@@ -159,13 +159,14 @@ const QuizPage = () => {
                         <td>
                             <Link to={`/takeQuiz/${quiz.id}`}>
                                 <Button variant="success" >
-                                    {/*//onClick={() => (quiz)}*/}
                                     Take Quiz
                                 </Button>
                             </Link>
                         </td>
                         <td>
-                            <Button onClick={() => handleDeleteQuiz(quiz.id)}>Delete</Button>
+                            <Button variant="danger" onClick={() => handleDeleteQuiz(quiz.id)}>
+                                Delete
+                            </Button>
                         </td>
                     </tr>
                 ))}
@@ -173,7 +174,7 @@ const QuizPage = () => {
             </Table>
 
             {/* Create Quiz Form Modal */}
-            <Modal show={showCreateForm} onHide={handleCloseCreateForm}>
+            <Modal show={showCreateForm} onHide={handleCloseCreateForm} >
                 <Modal.Header closeButton>
                     <Modal.Title>Create a New Quiz</Modal.Title>
                 </Modal.Header>
@@ -184,99 +185,79 @@ const QuizPage = () => {
                         newQuiz={newQuiz}
                         setNewQuiz={setNewQuiz}
                         fetchQuizzes={fetchQuizzes} // Pass the fetchQuizzes function to update quiz list after creation
+                        onClose={handleCloseCreateForm}
                     />
                 </Modal.Body>
             </Modal>
 
             {/* Edit Quiz Form Modal */}
-            {/* Edit Quiz Form Modal */}
-            <Modal show={showEditForm} onHide={handleCloseEditForm}>
-                <form onSubmit={handleSubmit}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Update Quiz</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <label>
-                            Title:
-                            <input
-                                type="text"
-                                name="title"
-                                value={quiz.title || ''}
-                                onChange={handleInputChange}
-                            />
-                        </label>
-                        <br />
-                        <label>
-                            Category:
-                            <input
-                                type="text"
-                                name="category"
-                                value={quiz.category || ''}
-                                onChange={handleInputChange}
-                            />
-                        </label>
-                        {/* Display list of questions */}
-                        <div>
-                            <h3>Questions:</h3>
-                            <ul>
-                                {questions.map((question) => (
-                                    <li key={question.id}>
-                                        {question.text}
-                                        <Button
-                                            variant="danger"
-                                            onClick={() => handleDeleteQuestion(question.id)}
-                                        >
-                                            Delete
-                                        </Button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        {/* Add other form fields */}
-                        <br />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button type="submit">Update Quiz</Button>
-                    </Modal.Footer>
-                </form>
-            </Modal>
+            <Modal.Dialog>
+                <Modal show={showEditForm} onHide={handleCloseEditForm}>
+                    <form onSubmit={handleSubmit}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Update Quiz</Modal.Title>
+                        </Modal.Header>
 
+                        <Modal.Body>
+                            <InputGroup className="mb-3 shadow">
+                                <InputGroup.Text>Title</InputGroup.Text>
+                                <FormControl
+                                    type="text"
+                                    name="title"
+                                    value={quiz.title || ''}
+                                    onChange={handleInputChange}
+                                    aria-label="Title"
+                                />
+                            </InputGroup>
 
+                            <InputGroup className="mb-3 shadow">
+                                <InputGroup.Text>Category</InputGroup.Text>
+                                <FormControl
+                                    type="text"
+                                    name="category"
+                                    value={quiz.category || ''}
+                                    onChange={handleInputChange}
+                                    aria-label="Category"
+                                />
+                            </InputGroup>
 
+                            {/* Display list of questions */}
+                            <div className="mb-3 shadow">
+                                <h3>Quiz questions:</h3>
+                                <ul className="list-group">
+                                    {questions.map((question) => (
+                                        <li className="list-group-item"
+                                            key={question.id}>
+                                            <div className="row">
+                                            <div className="flex-wrap justify-content-between
+                                            align-items-center col-lg-9">
+                                            {question.text}
+                                            </div>
+                                                <div className="col-lg-3">
+                                            <Button
+                                                variant="outline-danger" className="btn btn-text-center mb-2"
+                                                onClick={() => handleRemoveQuestion(question.id)}
+                                            >
+                                                Remove
+                                            </Button>
+                                            </div>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            {/* Add other form fields */}
+                            <br />
+                        </Modal.Body>
 
-            {/*<Modal show={showEditForm} onHide={handleCloseEditForm}>*/}
-            {/*    <form onSubmit={handleSubmit}>*/}
-            {/*        <Modal.Header closeButton>*/}
-            {/*            <Modal.Title>Edit Quiz</Modal.Title>*/}
-            {/*        </Modal.Header>*/}
-            {/*        <Modal.Body>*/}
-            {/*            <label>*/}
-            {/*                Title:*/}
-            {/*                <input*/}
-            {/*                    type="text"*/}
-            {/*                    name="title"*/}
-            {/*                    value={quiz.title || ''}*/}
-            {/*                    onChange={handleInputChange}*/}
-            {/*                />*/}
-            {/*            </label>*/}
-            {/*            <br />*/}
-            {/*            <label>*/}
-            {/*                Category:*/}
-            {/*                <input*/}
-            {/*                    type="text"*/}
-            {/*                    name="category"*/}
-            {/*                    value={quiz.category || ''}*/}
-            {/*                    onChange={handleInputChange}*/}
-            {/*                />*/}
-            {/*            </label>*/}
-            {/*            /!* Add other form fields *!/*/}
-            {/*            <br />*/}
-            {/*        </Modal.Body>*/}
-            {/*        <Modal.Footer>*/}
-            {/*            <Button type="submit">Update Quiz</Button>*/}
-            {/*        </Modal.Footer>*/}
-            {/*    </form>*/}
-            {/*</Modal>*/}
+                        <Modal.Footer>
+                            <Button variant="success" type="submit">
+                                Update Quiz
+                            </Button>
+                        </Modal.Footer>
+                    </form>
+                </Modal>
+            </Modal.Dialog>
 
             {/* Delete Modal */}
             <Modal show={quizToDelete !== null} onHide={handleCancelDelete}>
@@ -301,3 +282,5 @@ const QuizPage = () => {
 };
 
 export default QuizPage;
+
+

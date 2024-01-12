@@ -18,6 +18,7 @@ public class Quiz extends BaseEntity {
     @JoinColumn(name = "quiz_id")
     private List<Question> questions;
 
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

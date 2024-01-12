@@ -81,15 +81,15 @@ const TakeQuizPage = () => {
     }
 
     return (
-        <div className="container">
-            <h2>{quiz.title}</h2>
-            <p className="lead">Category: {quiz.category}</p>
+        <div className="container mt-4 border border-grey shadow p-3 mb-5 bg-white rounded">
+            <h2 className="mb-4 shadow p-2 mb-0 bg-primary-white rounded">{quiz.title}</h2>
+            <p className=" mb-4 shadow p-2">Category: {quiz.category}</p>
 
             {quiz.questions.map(question => (
-                <div key={question.id} className="mb-4">
+                <div key={question.id} className="container mt-4 border border-grey shadow p-3 mb-4 bg-white rounded">
                     <h4>{question.text}</h4>
                     {question.answers.length > 0 ? (
-                        <ul className="list-unstyled">
+                        <ul className="list-unstyled mb-3">
                             {question.answers.map(answer => (
                                 <li key={answer.id}>
                                     <label className="form-check-label">
@@ -114,7 +114,7 @@ const TakeQuizPage = () => {
 
 
             {!isQuizSubmitted && (
-                <Button className="btn btn-primary" onClick={handleSubmitQuiz}>
+                <Button className="btn btn-primary mb-4 shadow" onClick={handleSubmitQuiz}>
                     Submit Quiz
                 </Button>
             )}

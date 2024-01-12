@@ -4,8 +4,9 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import {Button} from "react-bootstrap";
-const CreateQuiz=()=> {
+const CreateQuiz=({ onClose })=> {
     const [showModal, setShowModal] = useState(true);
+    const [titleError, setTitleError] = useState('');
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -13,6 +14,18 @@ const CreateQuiz=()=> {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
+            // Validate if all fields are filled
+            const requiredFields = ['title', 'category', 'username']; // Add other required fields if needed
+            const emptyFields = requiredFields.filter(field => !values[field]);
+
+            if (emptyFields.length > 0) {
+                // Display notification to the user
+                alert(`Please fill in the following fields: ${emptyFields.join(', ')}`);
+                return;
+            }
+
+            // Rest of your submission logic...
+
             const user = {
                 id: 1, // Replace with the user ID
                 username: values.username, // username is entered in the form
@@ -22,45 +35,51 @@ const CreateQuiz=()=> {
                 ...values,
                 user,
             };
-                const response = await axios.post('http://localhost:8080/quiz/quizzes', values);
-                console.log('Quiz data submitted:', values);
-                alert('Quiz saved successfully!');
-                // TODO finish the logic
-               // TODO post it
-                // TODO fetch quizes again
-                //await fetchQuizzes();
-                // TODO close the model
-                handleCloseModal();
-    } catch (error) {
-                console.error('Error creating quiz:', error);
-            } finally {
-                setSubmitting(false);
-            }
-        };
+
+            const response = await axios.post('http://localhost:8080/quiz/quizzes', values);
+            console.log('Quiz data submitted:', values);
+            alert('Quiz saved successfully!');
+            // TODO finish the logic
+            // TODO post it
+            // TODO fetch quizes again
+            //await fetchQuizzes();
+            // TODO close the model
+            onClose();
+        } catch (error) {
+            console.error('Error creating quiz:', error);
+        } finally {
+            setSubmitting(false);
+        }
+    };
     return (
         <div>
             <header className="App-header">
                 <h1>Create Quiz</h1>
-                {/* Formik handles form state and submission logic */}
                 <Formik
                     initialValues={{ title: '', category: '', username: '' }}
                     validate={(values) => {
                         const errors = {};
-                        // TODO Add validation logic is needed
+                        if (!values.title) {
+                            errors.title = 'Title is required';
+                        }
+                        if (!values.category) {
+                            errors.category = 'Category is required';
+                        }
+                        if (!values.username) {
+                            errors.username = 'User is required';
+                        }
                         return errors;
                     }}
                     //Submission logic
-                    onSubmit={(values, { setSubmitting }) => {
-                        handleSubmit(values, { setSubmitting });
-                    }}
+                    onSubmit={(values, { setSubmitting }) => handleSubmit(values, { setSubmitting })}
                 >
-                    {({ values, handleChange, handleSubmit }) => (
+                    {({ values, handleChange, handleSubmit, errors  }) => (
                         <Form>
                             <label>
                                 Title:
                                 <Field type="text" name="title" value={values.title} onChange={handleChange}/>
                                 {/* ErrorMessage  */}
-                                <ErrorMessage name="title" component="div"/>
+                                {errors.title && <div className="error-message">{errors.title}</div>}
                             </label>
                             <br/>
                             <label>

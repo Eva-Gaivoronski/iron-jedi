@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 
 @Service
@@ -59,28 +59,40 @@ public class QuizService {
 
     public Quiz getQuizById(Long id, Long userId) {
         return quizRepository.findByIdAndUserId(id, userId);}
-
-    //Edit Quiz
-//    public List<Question> findQuestionsByQuizId(Long quizId) {
-//        return quizRepository.findByQuizId(quizId);
-//    }
-
+//update quiz
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
-//         TODO quiz update
         Quiz existingQuiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
+
         existingQuiz.setTitle(updatedQuiz.getTitle());
         existingQuiz.setCategory(updatedQuiz.getCategory());
-        return quizRepository.save(existingQuiz);}
 
-    public List<Quiz> getAllQuizzes() {
+        return quizRepository.save(existingQuiz);
+    }
+    public List<Question> getQuestionsForQuiz(Long quizId) {
+        return quizRepository.findById(quizId)
+                .map(Quiz::getQuestions)
+                .orElse(Collections.emptyList());
+    }
 
+    @Transactional
+    public Quiz removeQuestionFromQuiz(Long quizId, Long questionId) {
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
+
+        List<Question> updatedQuestions = quiz.getQuestions()
+                .stream()
+                .filter(question -> !question.getId().equals(questionId))
+                .collect(Collectors.toList());
+
+        quiz.setQuestions(updatedQuestions);
+        return quizRepository.save(quiz);
+    }
+
+//update quiz end
+        public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
-//    public Quiz getQuizById(Long quizId) {
-//        return quizRepository.findById(quizId)
-//                .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
-//    }
 
     public List<Quiz> getUserQuiz(Long userId) {
 
@@ -89,7 +101,7 @@ public class QuizService {
     // taking quizzes
     public Quiz getQuizForTaking(Long quizId) {
         Quiz quiz = quizRepository.findById(quizId)
-                //return quizRepository.findById(quizId)
+        //return quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
         for (Question question : quiz.getQuestions()) {
             Collections.shuffle(question.getAnswers());
@@ -114,26 +126,26 @@ public class QuizService {
         return new QuizResult(correctAnswers, percentage);
     }
 
-    private int calculateScore(List<Question> questions, List<UserAnswer> userAnswers) {
-        int correctAnswers = 0;
+private int calculateScore(List<Question> questions, List<UserAnswer> userAnswers) {
+    int correctAnswers = 0;
 
-        for (UserAnswer userAnswer : userAnswers) {
-            for (Question question : questions) {
-                if (question.getId().equals(userAnswer.getQuestionId())) {
-                    Answer correctAnswer = question.getAnswers().stream()
-                            .filter(Answer::getIsCorrect)
-                            .findFirst()
-                            .orElse(null);
+    for (UserAnswer userAnswer : userAnswers) {
+        for (Question question : questions) {
+            if (question.getId().equals(userAnswer.getQuestionId())) {
+                Answer correctAnswer = question.getAnswers().stream()
+                        .filter(Answer::getIsCorrect)
+                        .findFirst()
+                        .orElse(null);
 
-                    // Check if userAnswer.getSelectedAnswer() is a Long
-                    Long selectedAnswerId = Long.valueOf(userAnswer.getSelectedAnswer());
+                // Check if userAnswer.getSelectedAnswer() is a Long
+                Long selectedAnswerId = Long.valueOf(userAnswer.getSelectedAnswer());
 
-                    if (correctAnswer != null && correctAnswer.getId().equals(selectedAnswerId)) {
-                        correctAnswers++;
-                    }
+                if (correctAnswer != null && correctAnswer.getId().equals(selectedAnswerId)) {
+                    correctAnswers++;
                 }
             }
         }
-        return correctAnswers;
     }
+    return correctAnswers;
+}
 }
