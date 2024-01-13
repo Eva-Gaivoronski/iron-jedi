@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import {Button, Container} from 'react-bootstrap';
+import {Button, Container, Navbar} from 'react-bootstrap';
 
 function HomePage() {
     const [quiz, setQuiz] = useState('');
@@ -93,12 +93,16 @@ function HomePage() {
     };
 
     return (
-        <div className="App">
-            <header className="Header">
-                <nav>
-                    {/* Your navigation links */}
-                </nav>
-            </header>
+        <div >
+            <Navbar expand="lg" className="bg-body-tertiary">
+            <div className="card border-success mb-3 max-width: 18rem;">
+                <div className="card-body text-success">
+                    <p className="card-text">Welcome to Trivia Explosion!</p>
+                    <p> Unleash the thrill of trivia with a variety of quizzes.
+                        Whether you're an unregistered user looking for a random quiz or a quiz creator, we've got something for you.</p>
+                </div>
+            </div>
+            </Navbar>
 
             <div className="content-container"> {/* Add a container for centering */}
                 {loading ? (
@@ -106,16 +110,17 @@ function HomePage() {
                 ) : (
                     <>
                         {quiz && (
-                            <div dangerouslySetInnerHTML={{ __html: quiz }} className="Question"></div>
+                            <div dangerouslySetInnerHTML={{__html: quiz}} className="Question"></div>
                         )}
+
                         <form>
                             {options.map((option, index) => (
                                 <div key={index} className="Option">
                                     <label
-                                        dangerouslySetInnerHTML={{ __html: option }}
+                                        dangerouslySetInnerHTML={{__html: option}}
                                         htmlFor={`option${index}`}
                                     ></label>
-                                    <br /> {/* Add a line break to move to the next line for the next option */}
+                                    <br/> {/* Add a line break to move to the next line for the next option */}
                                     <input
                                         type="radio"
                                         id={`option${index}`}
@@ -128,11 +133,11 @@ function HomePage() {
                             ))}
                         </form>
                         {result && (
-                            <div style={{ marginTop: '20px' }} className="Result">
+                            <div style={{marginTop: '20px'}} className="Result">
                                 <p>{result}</p>
                             </div>
                         )}
-                        <div style={{ marginTop: '20px' }}>
+                        <div style={{marginTop: '20px'}}>
                             <Button variant="success" onClick={handleGenerateQuiz}>Trivia Explosion!</Button>
                         </div>
                     </>

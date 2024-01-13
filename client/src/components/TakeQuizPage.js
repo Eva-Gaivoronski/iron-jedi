@@ -82,7 +82,8 @@ const TakeQuizPage = () => {
 
     return (
         <div className="container mt-4 border border-grey shadow p-3 mb-5 bg-white rounded">
-            <h2 className="mb-4 shadow p-2 mb-0 bg-primary-white rounded">{quiz.title}</h2>
+            <h2 className="mb-4 shadow p-2 mb-0 bg-primary-white rounded">Quiz: {quiz.title}</h2>
+            <p>You will get 1 point for each correct answer.</p>
             <p className=" mb-4 shadow p-2">Category: {quiz.category}</p>
 
             {quiz.questions.map(question => (
@@ -130,7 +131,8 @@ const TakeQuizPage = () => {
             )}
 
             {/* No Questions Alert */}
-            <Alert variant="danger" show={showNoQuestionsAlert} onClose={() => setShowNoQuestionsAlert(false)} dismissible>
+            <Alert variant="danger" show={showNoQuestionsAlert} onClose={() => setShowNoQuestionsAlert(false)}
+                   dismissible>
                 No questions available in the quiz. Quiz cannot be submitted.
             </Alert>
 

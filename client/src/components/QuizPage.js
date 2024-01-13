@@ -126,21 +126,22 @@ const QuizPage = () => {
             <Button variant="success shadow" onClick={handleCreateQuizButtonClick}>
                 CREATE QUIZ
             </Button>
-            <Table className="mt-3">
-            </Table>
 
             <Table className="mt-3">
+
             <thead className="table-header">
-                <tr>
-                    <th className="row-cols-md-auto">Title</th>
-                    <th className="row-cols-md-auto">Category</th>
-                </tr>
-                </thead>
+            <tr>
+                <th className="row-cols-md-auto">Title</th>
+                <th className="row-cols-md-auto">Category</th>
+                <th className="row-cols-md-auto"># Questions</th>
+            </tr>
+            </thead>
                 <tbody>
                 {quizzes.map((quiz) => (
                     <tr key={quiz.id}>
                         <td>{quiz.title}</td>
                         <td>{quiz.category}</td>
+                        <td> {quiz.questions.length}</td>
                         <td>
                             <Link to={`/quizzes/${quiz.id}`}>
                                 <Button variant="warning" onClick={() => handleEditQuiz(quiz)}>
@@ -152,7 +153,7 @@ const QuizPage = () => {
                         <td>
                             <Link to={`/question-form/${quiz.id}`}>
                                 <Button variant="secondary" onClick={() => handleAddQuestions(quiz)}>
-                                    Add questions
+                                    Add Questions
                                 </Button>
                             </Link>
                         </td>

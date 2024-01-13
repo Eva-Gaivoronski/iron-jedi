@@ -23,6 +23,11 @@ header {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 h1 {
   color: #333;
 }
@@ -37,7 +42,7 @@ select,
 button {
   width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   box-sizing: border-box;
 }
 

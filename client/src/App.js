@@ -11,10 +11,8 @@ import {Container, Nav, Navbar} from "react-bootstrap";
 function App() {
     return (
         <div className="App">
-            <header>
-                <Navbar expand="sm" className="bg-success bg-gradient">
-                    <Container>
-                        <Navbar.Brand href="#home">Trivia Explosion!</Navbar.Brand>
+                <Navbar bg="success" data-bs-theme="dark">
+                        <Navbar.Brand >Trivia Explosion!</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
@@ -35,9 +33,8 @@ function App() {
                         </li>
                         </Nav>
                         </Navbar.Collapse>
-                    </Container>
                 </Navbar>
-            </header>
+
 
             <Routes>
                 <Route path="/quizzes" element={<QuizPage/>}/>
