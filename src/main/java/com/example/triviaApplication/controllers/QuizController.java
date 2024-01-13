@@ -65,7 +65,7 @@ public class QuizController {
 
     //takeQuiz page
     @GetMapping("/takeQuiz/{quizId}")
-    public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId) {
+    public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
         try {
             // Use quizService or quizRepository to retrieve the quiz by ID
             Quiz quiz = quizService.getQuizForTaking(quizId);

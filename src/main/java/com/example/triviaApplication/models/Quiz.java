@@ -27,7 +27,7 @@ public class Quiz extends BaseEntity {
         this.title = title;
         this.category = category;}
 
-    private boolean submitted;
+//    private boolean submitted;
     private int score;
 
     public Long getid() {return this.id;}
@@ -38,13 +38,16 @@ public class Quiz extends BaseEntity {
     public List<Question> getQuestions() {return questions;}
     public void setQuestions(List<Question> questions) {this.questions = questions;}
     public void setUser(User user) {this.user = user;}
-    public boolean isSubmitted() {
-        return submitted;
-    }
-
-    public void setSubmitted(boolean submitted) {
-        this.submitted = submitted;
-    }
+//    public boolean isSubmitted() {
+//        return submitted;
+//    }
+//
+//    public void setSubmitted(boolean submitted) {
+//        this.submitted = submitted;
+//    }
+public User getUser() {
+    return user;
+}
 
     public int getScore() {
         return score;

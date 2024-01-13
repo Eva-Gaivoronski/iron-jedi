@@ -3,12 +3,15 @@ package com.example.triviaApplication.helpers;
 import com.example.triviaApplication.Validator.QuizValidator;
 import com.example.triviaApplication.models.*;
 import com.example.triviaApplication.repositories.QuestionRepository;
+import com.example.triviaApplication.repositories.QuizAttemptRepository;
 import com.example.triviaApplication.repositories.QuizRepository;
 import com.example.triviaApplication.repositories.UserRepository;
 import io.netty.handler.codec.http.HttpContentEncoder;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 //import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -41,6 +44,8 @@ public class QuizService {
     private QuestionRepository questionRepository;
     @Autowired
     private QuizValidator quizValidator;
+    @Autowired
+    private QuizAttemptRepository quizAttemptRepository;
 
 
 
@@ -66,6 +71,7 @@ public class QuizService {
 
     public Quiz getQuizById(Long id, Long userId) {
         return quizRepository.findByIdAndUserId(id, userId);}
+
 //update quiz
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
         Quiz existingQuiz = quizRepository.findById(quizId)
@@ -96,16 +102,15 @@ public class QuizService {
         return quizRepository.save(quiz);
     }
 
-//update quiz end
+    //update quiz end
         public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
 
     public List<Quiz> getUserQuiz(Long userId) {
-
         return quizRepository.findByUserId(userId);
     }
-    // taking quizzes
+//     taking quizzes
     public Quiz getQuizForTaking(Long quizId) {
         Quiz quiz = quizRepository.findById(quizId)
         //return quizRepository.findById(quizId)
@@ -120,9 +125,9 @@ public class QuizService {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
 
-        if (quiz.isSubmitted()) {
-            throw new IllegalStateException("Quiz has already been submitted.");
-        }
+//        if (quiz.isSubmitted()) {
+//            throw new IllegalStateException("Quiz has already been submitted.");
+//        }
 
         if (quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
             throw new IllegalStateException("Cannot submit a quiz with no questions.");
@@ -130,9 +135,19 @@ public class QuizService {
 
         int correctAnswers = calculateScore(quiz.getQuestions(), userAnswers);
         double percentage = (double) correctAnswers / quiz.getQuestions().size() * 100;
-        quiz.setSubmitted(true);
-        quiz.setScore(correctAnswers);
-        quizRepository.save(quiz);
+//        quiz.setSubmitted(true);
+//        quiz.setScore(correctAnswers);
+//        quizRepository.save(quiz);
+
+        // Save the attempt details
+        QuizAttempt quizAttempt = new QuizAttempt();
+        quizAttempt.setUser(quiz.getUser());
+        quizAttempt.setQuiz(quiz);
+        quizAttempt.setScore(correctAnswers);
+
+        // Save the attempt details to the database
+        // You need a repository for QuizAttempt similar to QuizRepository
+        quizAttemptRepository.save(quizAttempt);
 
         return new QuizResult(correctAnswers, percentage);
     }
