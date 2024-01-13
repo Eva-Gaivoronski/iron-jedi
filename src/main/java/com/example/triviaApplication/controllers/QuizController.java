@@ -1,5 +1,6 @@
 package com.example.triviaApplication.controllers;
 
+import com.example.triviaApplication.Validator.QuizValidator;
 import com.example.triviaApplication.helpers.QuizService;
 import com.example.triviaApplication.helpers.UserService;
 import com.example.triviaApplication.models.*;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -34,6 +36,9 @@ public class QuizController {
     private UserService userService;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private QuizValidator quizValidator;
+
 
     @GetMapping("/getQuizzes")
     public ResponseEntity<List<Quiz>> getUserQuizzes() {
@@ -75,9 +80,7 @@ public class QuizController {
     @PostMapping("/addQuestion/{quizId}")
     public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody String questionId){
         questionRepository.addQuestionToQuiz(quizId, Long.parseLong(questionId));
-
         // TODO: Do a look-up to esnure it actually updated
-
         return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
     }
 
@@ -105,7 +108,11 @@ public class QuizController {
     public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz, Principal principal) {
         long userId = 1;
 
-        try { Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
+        try {
+            // Validator
+            quizValidator.validateQuiz(newQuiz, new BeanPropertyBindingResult(newQuiz, "newQuiz"));
+
+            Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
             return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
         } catch (Error e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);}

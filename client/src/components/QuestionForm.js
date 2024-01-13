@@ -39,6 +39,12 @@ function QuestionForm() {
             return;
         }
 
+        //Iryna added validation for correct answer checked
+        if (correctAnswerIndex === -1) {
+            alert('Please select at least one correct answer.');
+            return;
+        }
+
         const questionData = {
             user: { username },
             text: questionText,
@@ -50,9 +56,7 @@ function QuestionForm() {
             const response =  axios.post('http://localhost:8080/question', questionData)
                 // Iryna added
             .then(responseData => {
-                // response is Question object
                 if (responseData.data != null && responseData.data.id !=null){
-                    // Make sure quizID has value
                     if (quizId !=null) {
                         axios.post(`/quiz/addQuestion/${quizId}`, responseData.data.id.toString());
                     }
@@ -86,6 +90,12 @@ function QuestionForm() {
     };
 
     const handleDelete = async (questionId) => {
+        //Iryna added confirmation
+        const userConfirmed = window.confirm('Are you sure you want to delete this question from the quiz?')
+        if (!userConfirmed) {
+            return;
+        }
+        //Iryna end change
         try {
             const response = await fetch(`http://localhost:8080/question/${questionId}`, {
                 method: 'DELETE',

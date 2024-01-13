@@ -42,9 +42,12 @@ const QuizPage = () => {
     };
 
     const handleRemoveQuestion = async (questionId) => {
+        const userConfirmed = window.confirm('Are you sure you want to remove this question from the quiz?')
+        if (!userConfirmed) {
+            return;
+        }
         try {
             await axios.delete(`http://localhost:8080/quiz/removeQuestion/${quiz.id}/${questionId}`);
-            // Fetch updated questions after removal
             const response = await axios.get(`http://localhost:8080/quiz/questions/${quiz.id}`);
             setQuestions(response.data);
         } catch (error) {
@@ -75,7 +78,6 @@ const QuizPage = () => {
 
     const handleAddQuestions = (quizId) => {
         navigate(`/question-form/${quizId}`);
-        // TODO: Need logic for editing questions from Kevin
         console.log(`Add questions for quiz with ID ${quizId}`);
     };
 

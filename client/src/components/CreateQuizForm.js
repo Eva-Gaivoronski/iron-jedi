@@ -88,9 +88,6 @@ const CreateQuiz=({ onClose })=> {
                                     <Field type="text" className="form-control" id="formGroupExampleInput"
                                            placeholder="add category" name="category" value={values.category}
                                            onChange={handleChange}>
-                                        {/*<option value=""></option>*/}
-                                        {/*we can do dropdown*/}
-                                        {/* TODO Add other options here */}
                                     </Field>
                                     <ErrorMessage name="category" component="div"/>
                                 </label>

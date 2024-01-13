@@ -1,5 +1,6 @@
 package com.example.triviaApplication.helpers;
 
+import com.example.triviaApplication.Validator.QuizValidator;
 import com.example.triviaApplication.models.*;
 import com.example.triviaApplication.repositories.QuestionRepository;
 import com.example.triviaApplication.repositories.QuizRepository;
@@ -14,6 +15,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.BeanPropertyBindingResult;
 
 import java.security.Principal;
 import java.util.Collections;
@@ -37,13 +39,18 @@ public class QuizService {
     EntityManager em;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private QuizValidator quizValidator;
+
 
 
 
     //This is working
     @Transactional
     public Quiz createQuiz(Quiz quiz, Long userId) {
-        // TODO Input validation
+        // Input validation
+        quizValidator.validateQuiz(quiz, new BeanPropertyBindingResult(quiz, "quiz"));
+
         if (quiz.getTitle() == null || quiz.getTitle().isEmpty()) {
             throw new IllegalArgumentException("Quiz title cannot be null or empty.");
         }
@@ -117,6 +124,10 @@ public class QuizService {
             throw new IllegalStateException("Quiz has already been submitted.");
         }
 
+        if (quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
+            throw new IllegalStateException("Cannot submit a quiz with no questions.");
+        }
+
         int correctAnswers = calculateScore(quiz.getQuestions(), userAnswers);
         double percentage = (double) correctAnswers / quiz.getQuestions().size() * 100;
         quiz.setSubmitted(true);
@@ -137,7 +148,6 @@ private int calculateScore(List<Question> questions, List<UserAnswer> userAnswer
                         .findFirst()
                         .orElse(null);
 
-                // Check if userAnswer.getSelectedAnswer() is a Long
                 Long selectedAnswerId = Long.valueOf(userAnswer.getSelectedAnswer());
 
                 if (correctAnswer != null && correctAnswer.getId().equals(selectedAnswerId)) {
