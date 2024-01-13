@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @RestController
@@ -64,11 +65,35 @@ public class QuizController {
 
 
     //takeQuiz page
+//    @GetMapping("/takeQuiz/{quizId}")
+//    public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
+//        try {
+//            // Use quizService or quizRepository to retrieve the quiz by ID
+//            Quiz quiz = quizService.getQuizForTaking(quizId);
+//            System.out.println("Fetched Quiz for Taking: " + quiz);
+//            return new ResponseEntity<>(quiz, HttpStatus.OK);
+//        } catch (NoSuchElementException e) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+
     @GetMapping("/takeQuiz/{quizId}")
     public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
         try {
             // Use quizService or quizRepository to retrieve the quiz by ID
             Quiz quiz = quizService.getQuizForTaking(quizId);
+
+            // Check if the user has a previous attempt
+            Long userId = getUserIdFromPrincipal(principal);
+            List<QuizAttempt> quizAttempt = quizService.getUserAttemptForQuiz(quizId, userId);
+
+            if (!quizAttempt.isEmpty()) {
+                // Previous attempt exists, you can send it to the front end
+                QuizAttempt previousAttempt = quizAttempt.get(0);
+                // You may want to include additional information like attempt date
+                // in the response for the user to see.
+            }
+
             System.out.println("Fetched Quiz for Taking: " + quiz);
             return new ResponseEntity<>(quiz, HttpStatus.OK);
         } catch (NoSuchElementException e) {
@@ -76,14 +101,23 @@ public class QuizController {
         }
     }
 
-    //Take quiz Submission
+    // helper method to get user ID from Principal
+    private Long getUserIdFromPrincipal(Principal principal) {
+        // implement logic to extract user ID from Principal
+        // Example: assuming principal.getName() returns the username
+        // and you have a userService method to find the user by username
+        // return userService.getUserByUsername(principal.getName()).getId();
+        return 1L; // replace with actual logic
+    }
+
+
     @PostMapping("/addQuestion/{quizId}")
     public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody String questionId){
         questionRepository.addQuestionToQuiz(quizId, Long.parseLong(questionId));
         // TODO: Do a look-up to esnure it actually updated
         return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
     }
-
+    //Take quiz Submission
     @PostMapping("/submitQuiz/{quizId}")
     @ResponseBody
     public ResponseEntity<Object> submitQuiz(@PathVariable Long quizId, @RequestBody List<UserAnswer> userAnswers) {

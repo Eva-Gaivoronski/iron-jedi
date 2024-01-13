@@ -47,13 +47,9 @@ public class QuizService {
     @Autowired
     private QuizAttemptRepository quizAttemptRepository;
 
-
-
-
-    //This is working
     @Transactional
     public Quiz createQuiz(Quiz quiz, Long userId) {
-        // Input validation
+        // validation
         quizValidator.validateQuiz(quiz, new BeanPropertyBindingResult(quiz, "quiz"));
 
         if (quiz.getTitle() == null || quiz.getTitle().isEmpty()) {
@@ -102,7 +98,8 @@ public class QuizService {
         return quizRepository.save(quiz);
     }
 
-    //update quiz end
+
+
         public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
@@ -110,7 +107,12 @@ public class QuizService {
     public List<Quiz> getUserQuiz(Long userId) {
         return quizRepository.findByUserId(userId);
     }
+
 //     taking quizzes
+     public List<QuizAttempt> getUserAttemptForQuiz(Long quizId, Long userId) {
+    return quizAttemptRepository.findByQuizIdAndUserId(quizId, userId);
+}
+
     public Quiz getQuizForTaking(Long quizId) {
         Quiz quiz = quizRepository.findById(quizId)
         //return quizRepository.findById(quizId)

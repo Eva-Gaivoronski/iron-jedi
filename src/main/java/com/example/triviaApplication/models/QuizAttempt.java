@@ -2,6 +2,8 @@ package com.example.triviaApplication.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "quiz_attempts")
 public class QuizAttempt extends BaseEntity {
@@ -18,8 +20,19 @@ public class QuizAttempt extends BaseEntity {
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
-    @Column(name = "previous_attempt_id")
-    private Long previousAttemptId;
+//    @Column(name = "previous_attempt_id")
+//    private Long previousAttemptId;
+
+    public LocalDateTime getAttemptDate() {
+        return attemptDate;
+    }
+
+    public void setAttemptDate(LocalDateTime attemptDate) {
+        this.attemptDate = attemptDate;
+    }
+
+    @Column(name = "attempt_date")
+    private LocalDateTime attemptDate;
 
     private int score;
 
@@ -57,11 +70,11 @@ public class QuizAttempt extends BaseEntity {
         this.id = id;
     }
 
-    public Long getPreviousAttemptId() {
-        return previousAttemptId;
-    }
-
-    public void setPreviousAttemptId(Long previousAttemptId) {
-        this.previousAttemptId = previousAttemptId;
-    }
+//    public Long getPreviousAttemptId() {
+//        return previousAttemptId;
+//    }
+//
+//    public void setPreviousAttemptId(Long previousAttemptId) {
+//        this.previousAttemptId = previousAttemptId;
+//    }
 }
