@@ -14,6 +14,9 @@ const TakeQuizPage = () => {
     const { userId } = useParams();
     const [showNoQuestionsAlert, setShowNoQuestionsAlert] = useState(false);
     const [showUnansweredQuestionsAlert, setShowUnansweredQuestionsAlert] = useState(false);
+    const [previousAttemptScore, setPreviousAttemptScore] = useState(null);
+    const [previousAttemptPercentage, setPreviousAttemptPercentage] = useState(null);
+
 
 
     useEffect(() => {
@@ -23,6 +26,16 @@ const TakeQuizPage = () => {
                 console.log('Quiz ID:', quizId);
                 console.log('Fetched Quiz Data:', response.data);
                 setQuiz(response.data);
+
+                // Fetch  previous attempt
+                const attemptResponse = await axios.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
+                if (attemptResponse.data) {
+                    // Display score
+                    const previousAttemptScore = attemptResponse.data.score;
+                    const previousAttemptPercentage = attemptResponse.data.percentage;
+                    setPreviousAttemptScore(previousAttemptScore);
+                    setPreviousAttemptPercentage(previousAttemptPercentage);
+                }
             } catch (error) {
                 console.error('Error fetching quiz data:', error);
             }
@@ -86,6 +99,20 @@ const TakeQuizPage = () => {
             <p>You will get 1 point for each correct answer.</p>
             <p className=" mb-4 shadow p-2">Category: {quiz.category}</p>
 
+            {previousAttemptScore !== null && (
+                <div className="mb-4">
+                    <div className="card w-75">
+                        <div className="card-body">
+                            <h5 className="card-title">Previous Attempt</h5>
+                            <p className="card-text">Score: {previousAttemptScore}</p>
+                            {previousAttemptPercentage !== undefined && (
+                                <p className="card-text">Percentage: {previousAttemptPercentage}%</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {quiz.questions.map(question => (
                 <div key={question.id} className="container mt-4 border border-grey shadow p-3 mb-4 bg-white rounded">
                     <h4>{question.text}</h4>
@@ -130,6 +157,7 @@ const TakeQuizPage = () => {
                 </div>
             )}
 
+
             {/* No Questions Alert */}
             <Alert variant="danger" show={showNoQuestionsAlert} onClose={() => setShowNoQuestionsAlert(false)}
                    dismissible>
@@ -137,11 +165,8 @@ const TakeQuizPage = () => {
             </Alert>
 
             {/* Unanswered Questions Alert */}
-            <Alert
-                variant="danger"
-                show={showUnansweredQuestionsAlert}
-                onClose={() => setShowUnansweredQuestionsAlert(false)}
-                dismissible
+            <Alert variant="danger" show={showUnansweredQuestionsAlert}
+                   onClose={() => setShowUnansweredQuestionsAlert(false)} dismissible
             >
                 Please answer all questions before submitting the quiz.
             </Alert>

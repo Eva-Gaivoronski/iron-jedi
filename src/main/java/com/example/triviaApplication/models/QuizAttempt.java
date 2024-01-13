@@ -22,6 +22,8 @@ public class QuizAttempt extends BaseEntity {
 
 //    @Column(name = "previous_attempt_id")
 //    private Long previousAttemptId;
+    @Column(name = "attempt_date")
+    private LocalDateTime attemptDate;
 
     public LocalDateTime getAttemptDate() {
         return attemptDate;
@@ -31,10 +33,9 @@ public class QuizAttempt extends BaseEntity {
         this.attemptDate = attemptDate;
     }
 
-    @Column(name = "attempt_date")
-    private LocalDateTime attemptDate;
-
     private int score;
+
+    private double percentage;
 
     public int getScore() {
         return score;
@@ -42,6 +43,13 @@ public class QuizAttempt extends BaseEntity {
 
     public void setScore(int score) {
         this.score = score;
+    }
+    public double getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(double percentage) {
+        this.percentage = percentage;
     }
 
     public Quiz getQuiz() {

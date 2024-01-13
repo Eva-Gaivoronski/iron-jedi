@@ -98,8 +98,6 @@ public class QuizService {
         return quizRepository.save(quiz);
     }
 
-
-
         public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
@@ -146,9 +144,8 @@ public class QuizService {
         quizAttempt.setUser(quiz.getUser());
         quizAttempt.setQuiz(quiz);
         quizAttempt.setScore(correctAnswers);
+        quizAttempt.setPercentage(percentage);
 
-        // Save the attempt details to the database
-        // You need a repository for QuizAttempt similar to QuizRepository
         quizAttemptRepository.save(quizAttempt);
 
         return new QuizResult(correctAnswers, percentage);

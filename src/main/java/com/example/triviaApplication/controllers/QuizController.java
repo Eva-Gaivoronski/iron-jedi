@@ -80,18 +80,14 @@ public class QuizController {
     @GetMapping("/takeQuiz/{quizId}")
     public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
         try {
-            // Use quizService or quizRepository to retrieve the quiz by ID
             Quiz quiz = quizService.getQuizForTaking(quizId);
 
-            // Check if the user has a previous attempt
+            // previous attempt
             Long userId = getUserIdFromPrincipal(principal);
             List<QuizAttempt> quizAttempt = quizService.getUserAttemptForQuiz(quizId, userId);
 
             if (!quizAttempt.isEmpty()) {
-                // Previous attempt exists, you can send it to the front end
                 QuizAttempt previousAttempt = quizAttempt.get(0);
-                // You may want to include additional information like attempt date
-                // in the response for the user to see.
             }
 
             System.out.println("Fetched Quiz for Taking: " + quiz);
@@ -101,7 +97,6 @@ public class QuizController {
         }
     }
 
-    // helper method to get user ID from Principal
     private Long getUserIdFromPrincipal(Principal principal) {
         // implement logic to extract user ID from Principal
         // Example: assuming principal.getName() returns the username
