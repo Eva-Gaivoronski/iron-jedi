@@ -11,11 +11,11 @@ import {Container, Nav, Navbar} from "react-bootstrap";
 function App() {
     return (
         <div className="App">
-                <Navbar bg="success" data-bs-theme="dark">
-                        <Navbar.Brand >Trivia Explosion!</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
+            <div >
+                <Navbar  bg="success" data-bs-theme="dark">
+                        <Navbar.Brand className="p-2">Trivia Explosion!</Navbar.Brand>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                        <Nav  className="me-auto" >
                         <li className="nav-item">
                             <Link to="/" className="nav-link">
                                 Home
@@ -32,9 +32,8 @@ function App() {
                             </Link>
                         </li>
                         </Nav>
-                        </Navbar.Collapse>
-                </Navbar>
-
+                        </Navbar>
+            </div>
 
             <Routes>
                 <Route path="/quizzes" element={<QuizPage/>}/>

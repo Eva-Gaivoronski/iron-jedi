@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import {Button} from "react-bootstrap";
+import {Button, FormControl} from "react-bootstrap";
 const CreateQuiz=({ onClose })=> {
     const [showModal, setShowModal] = useState(true);
     const [titleError, setTitleError] = useState('');
@@ -23,8 +23,6 @@ const CreateQuiz=({ onClose })=> {
                 alert(`Please fill in the following fields: ${emptyFields.join(', ')}`);
                 return;
             }
-
-            // Rest of your submission logic...
 
             const user = {
                 id: 1, // Replace with the user ID
@@ -52,11 +50,11 @@ const CreateQuiz=({ onClose })=> {
         }
     };
     return (
-        <div>
+        <div className="container mt-4 border border-grey shadow p-3 mb-5 bg-white rounded">
             <header className="App-header">
-                <h1>Create Quiz</h1>
+            {/*    <h1 className="mb-4 shadow p-2 mb-0 bg-primary-white rounded"> Create</h1>*/}
                 <Formik
-                    initialValues={{ title: '', category: '', username: '' }}
+                    initialValues={{title: '', category: '', username: ''}}
                     validate={(values) => {
                         const errors = {};
                         if (!values.title) {
@@ -71,36 +69,46 @@ const CreateQuiz=({ onClose })=> {
                         return errors;
                     }}
                     //Submission logic
-                    onSubmit={(values, { setSubmitting }) => handleSubmit(values, { setSubmitting })}
+                    onSubmit={(values, {setSubmitting}) => handleSubmit(values, {setSubmitting})}
                 >
-                    {({ values, handleChange, handleSubmit, errors  }) => (
+                    {({values, handleChange, handleSubmit, errors}) => (
                         <Form>
-                            <label>
-                                Title:
-                                <Field type="text" name="title" value={values.title} onChange={handleChange}/>
-                                {/* ErrorMessage  */}
-                                {errors.title && <div className="error-message">{errors.title}</div>}
-                            </label>
-                            <br/>
-                            <label>
-                                Category:
-                                <Field type="text" name="category" value={values.category} onChange={handleChange}>
-                                    {/*<option value=""></option>*/}
-                                    {/*we can do dropdown*/}
-                                    {/* TODO Add other options here */}
-                                </Field>
-                                <ErrorMessage name="category" component="div"/>
-                            </label>
-                            <br/>
-                            <label>
-                                User
-                                <Field type="text" name="username" value={values.username} onChange={handleChange} />
-                                {/* ErrorMessage  */}
-                                <ErrorMessage name="username" component="div"/>
-                            </label>
-                            <Button type="submit">
-                                Create Quiz
-                            </Button>
+                            <div className="form-group">
+                                <label htmlFor="formGroupExampleInput">
+                                    Title:
+                                    <Field type="text" className="form-control" id="formGroupExampleInput"
+                                           placeholder="add title" name="title" value={values.title}
+                                           onChange={handleChange}/>
+
+                                    {errors.title && <div className="error-message">{errors.title}</div>}
+                                </label>
+                                <br/>
+                                <label htmlFor="formGroupExampleInput">
+                                    Category:
+                                    <Field type="text" className="form-control" id="formGroupExampleInput"
+                                           placeholder="add category" name="category" value={values.category}
+                                           onChange={handleChange}>
+                                        {/*<option value=""></option>*/}
+                                        {/*we can do dropdown*/}
+                                        {/* TODO Add other options here */}
+                                    </Field>
+                                    <ErrorMessage name="category" component="div"/>
+                                </label>
+                                <br/>
+                                <label htmlFor="formGroupExampleInput">
+                                    User:
+                                    <Field type="text" className="form-control" id="formGroupExampleInput"
+                                           placeholder="add user" name="username" value={values.username}
+                                           onChange={handleChange}/>
+                                    {/* ErrorMessage  */}
+                                    <ErrorMessage name="username" component="div"/>
+                                </label>
+                                <br/>
+
+                                <Button type="submit" className="btn btn-primary btn-lg btn-block">
+                                    Create Quiz
+                                </Button>
+                            </div>
                         </Form>
                     )}
                 </Formik>
