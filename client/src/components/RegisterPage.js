@@ -76,30 +76,31 @@ function RegisterPage() {
     }, [successMessage]);
 
     return (
-        <div>
-            <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Username:
-                    <input type="text" value={username} onChange={handleUsernameChange} />
-                    <span style={{ color: 'red' }}>{usernameError}</span>
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <input type="password" value={password} onChange={handlePasswordChange} />
-                    <span style={{ color: 'red' }}>{passwordError}</span>
-                </label>
-                <br />
-                <label>
-                    Email:
-                    <input type="email" value={email} onChange={handleEmailChange} />
-                    <span style={{ color: 'red' }}>{emailError}</span>
-                </label>
-                <br />
-                <button type="submit">Register</button>
-            </form>
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+        <div className="custom-button-container">
+          <form onSubmit={handleSubmit}>
+            <label>
+              Username:
+              <input type="text" value={username} onChange={handleUsernameChange} />
+              <span style={{ color: 'red' }}>{usernameError}</span>
+            </label>
+            <br />
+            <label>
+              Password:
+              <input type="password" value={password} onChange={handlePasswordChange} />
+              <span style={{ color: 'red' }}>{passwordError}</span>
+            </label>
+            <br />
+            <label>
+              Email:
+              <input type="email" value={email} onChange={handleEmailChange} />
+              <span style={{ color: 'red' }}>{emailError}</span>
+            </label>
+            <br />
+            <button type="submit" className="custom-button">
+              Register
+            </button>
+          </form>
+          {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         </div>
     );
 }

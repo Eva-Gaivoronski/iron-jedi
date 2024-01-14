@@ -107,60 +107,64 @@ function QuestionForm() {
     };
 
     return (
-        <div>
-            <h2>Create a New Question</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Username:</label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </div>
-                <div>
-                    <label>Question:</label>
-                    <input type="text" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
-                </div>
-                {answers.map((answer, index) => (
-                    <div key={index}>
-                        <label>
-                            Answer {index + 1}:
-                            <input type="text" value={answer.text} onChange={(e) => handleAnswerChange(index, e)} />
-                        </label>
-                        <label>
-                            Correct
-                            <input
-                                type="checkbox"
-                                checked={index === correctAnswerIndex}
-                                onChange={() => handleCorrectAnswerChange(index)}
-                            />
-                        </label>
-                    </div>
-                ))}
-                <button type="submit">Save Question</button>
-            </form>
-
-            <div>
-                <h2>Search Questions by Username</h2>
-                <input
-                    type="text"
-                    value={searchUsername}
-                    onChange={(e) => setSearchUsername(e.target.value)}
-                    placeholder="Username"
-                />
-                <button type="button" onClick={handleSearch}>Search</button>
-
-                <div>
-                    <h3>Search Results</h3>
-                    {userQuestions.map((question, index) => (
-                        <div key={index} className="question-item">
-                            <span className="question-text">{question.text}</span>
-                            <div className="question-actions">
-                                <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
-                                <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
+    <div className="custom-button-container">
+            <form onSubmit={handleSubmit} className="custom-form">
+        <div className="custom-input">
+          <label>Username:</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
+        <div className="custom-input">
+          <label>Question:</label>
+          <input type="text" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
+        </div>
+        {answers.map((answer, index) => (
+          <div key={index} className="custom-input">
+            <label>
+              Answer {index + 1}:
+              <input type="text" value={answer.text} onChange={(e) => handleAnswerChange(index, e)} />
+            </label>
+            <label>
+              Correct
+              <input
+                type="checkbox"
+                checked={index === correctAnswerIndex}
+                onChange={() => handleCorrectAnswerChange(index)}
+              />
+            </label>
+          </div>
+        ))}
+        <button type="submit" className="custom-button">
+          Save Question
+        </button>
+      </form>
+
+      <div className="custom-input">
+        <h2>Search Questions by Username</h2>
+        <input
+          type="text"
+          value={searchUsername}
+          onChange={(e) => setSearchUsername(e.target.value)}
+          placeholder="Username"
+        />
+        <button type="button" onClick={handleSearch} className="custom-button">
+          Search
+        </button>
+
+        <div style={{ marginTop: '20px' }}>
+          <h3>Search Results</h3>
+          {userQuestions.map((question, index) => (
+            <div key={index} className="question-item">
+              <span className="question-text">{question.text}</span>
+              <div className="question-actions">
+                <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
+                <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
     );
 }
 

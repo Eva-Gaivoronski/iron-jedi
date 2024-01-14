@@ -20,21 +20,22 @@ function LoginPage() {
 
     return (
         <div>
-            <h2>Login</h2>
-            <form>
-                <label>
-                    Username:
-                    <input type="text" value={username} onChange={handleUsernameChange} />
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <input type="password" value={password} onChange={handlePasswordChange} />
-                </label>
-                <br />
-                <button type="button" onClick={handleLogin}>Login</button>
+            <form className="custom-button-container">
+              <label>
+                Username:
+                <input type="text" value={username} onChange={handleUsernameChange} />
+              </label>
+              <br />
+              <label>
+                Password:
+                <input type="password" value={password} onChange={handlePasswordChange} />
+              </label>
+              <br />
+              <button type="button" className="custom-button" onClick={handleLogin}>
+                Login
+              </button>
             </form>
-        </div>
+          </div>
     );
 }
 

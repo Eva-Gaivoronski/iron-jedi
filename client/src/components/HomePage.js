@@ -66,7 +66,7 @@ function HomePage() {
 
     const handleQuizSubmit = () => {
         if (selectedAnswer === '') {
-            setResult('~ Choose Wisely ~');
+            setResult('');
             return;
         }
 

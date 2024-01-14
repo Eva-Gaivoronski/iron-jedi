@@ -1,5 +1,4 @@
 /* app.css */
-
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
@@ -111,4 +110,116 @@ button:hover {
   margin-top: 20vh; /* Adjust the margin as needed */
   text-align: center;
 }
+.custom-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center; /* Add text-align to center inline elements */
+}
 
+.custom-button {
+  width: 120px;
+  margin-top: 10px;
+  align-self: center; /* Ensure the button is centered */
+}
+
+label,
+input {
+  width: 250px;
+  margin-bottom: 10px;
+}
+
+button {
+  align-self: center; /* Ensure the button is centered */
+}
+.email-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.email-container input {
+  width: 250px;
+  margin-bottom: 10px;
+}
+
+.email-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.email-button {
+  width: 120px;
+  margin-top: 10px;
+  align-self: center;
+}
+/* Adjust these styles */
+label,
+input {
+  width: auto; /* Try changing the width property */
+  margin-bottom: 10px;
+}
+
+/* Add these rules for centering */
+.question-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.question-text {
+  flex-grow: 1;
+  margin-right: 10px; /* Optional: for spacing between text and buttons */
+}
+
+.question-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Centering and button styles */
+.Content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  width: 120px;
+  margin-top: 10px;
+  align-self: center;
+}
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.custom-input {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.custom-button {
+  width: 120px;
+  margin-top: 10px;
+  align-self: center;
+}
