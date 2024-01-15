@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {Table, Button, Modal, FormControl, InputGroup} from 'react-bootstrap';
+import {Table, Button, Modal, FormControl, InputGroup, Card} from 'react-bootstrap';
 import axios from 'axios';
 import { Link, useParams, useNavigate} from 'react-router-dom';
 import CreateQuizForm from './CreateQuizForm';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle';
 
 const QuizPage = () => {
     const [quizzes, setQuizzes] = useState([]);
@@ -41,9 +39,12 @@ const QuizPage = () => {
     };
 
     const handleRemoveQuestion = async (questionId) => {
+        const userConfirmed = window.confirm('Are you sure you want to remove this question from the quiz?')
+        if (!userConfirmed) {
+            return;
+        }
         try {
             await axios.delete(`http://localhost:8080/quiz/removeQuestion/${quiz.id}/${questionId}`);
-            // Fetch updated questions after removal
             const response = await axios.get(`http://localhost:8080/quiz/questions/${quiz.id}`);
             setQuestions(response.data);
         } catch (error) {
@@ -74,7 +75,6 @@ const QuizPage = () => {
 
     const handleAddQuestions = (quizId) => {
         navigate(`/question-form/${quizId}`);
-        // TODO: Need logic for editing questions from Kevin
         console.log(`Add questions for quiz with ID ${quizId}`);
     };
 
@@ -123,24 +123,33 @@ const QuizPage = () => {
 
     return (
         <div className="container">
-            <Button variant="success shadow" onClick={handleCreateQuizButtonClick}>
-                CREATE QUIZ
-            </Button>
-            <Table className="mt-3">
-            </Table>
+
 
             <Table className="mt-3">
             <thead className="table-header">
-                <tr>
-                    <th className="row-cols-md-auto">Title</th>
-                    <th className="row-cols-md-auto">Category</th>
-                </tr>
-                </thead>
+            <tr>
+                <th className="row-cols-md-auto">Title</th>
+                <th className="row-cols-md-auto">Category</th>
+                <th className="row-cols-md-auto">Questions</th>
+                <th></th>
+                <th></th>
+                <th></th>
+
+            </tr>
+            </thead>
                 <tbody>
                 {quizzes.map((quiz) => (
                     <tr key={quiz.id}>
-                        <td>{quiz.title}</td>
-                        <td>{quiz.category}</td>
+                        <td width="28%">{quiz.title}</td>
+                        <td width="28%">{quiz.category}</td>
+                        <td> <span> {quiz.questions.length} </span>
+
+                            <Link to={`/question-form/${quiz.id}`}>
+                                <Button  onClick={() => handleAddQuestions(quiz)}>
+
+                                </Button>
+                            </Link>
+                        </td>
                         <td>
                             <Link to={`/quizzes/${quiz.id}`}>
                                 <Button variant="warning" onClick={() => handleEditQuiz(quiz)}>
@@ -148,14 +157,7 @@ const QuizPage = () => {
                                 </Button>
                             </Link>
                         </td>
-                        {/*need to finish the logic*/}
-                        <td>
-                            <Link to={`/question-form/${quiz.id}`}>
-                                <Button variant="secondary" onClick={() => handleAddQuestions(quiz)}>
-                                    Add questions
-                                </Button>
-                            </Link>
-                        </td>
+
                         <td>
                             <Link to={`/takeQuiz/${quiz.id}`}>
                                 <Button variant="success" >
@@ -175,16 +177,15 @@ const QuizPage = () => {
 
             {/* Create Quiz Form Modal */}
             <Modal show={showCreateForm} onHide={handleCloseCreateForm} >
-                <Modal.Header closeButton>
-                    <Modal.Title>Create a New Quiz</Modal.Title>
+                <Modal.Header bg="light" closeButton>
+                    <Modal.Title>CREATE NEW QUIZ</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {/* Render CreateQuizForm component and pass form-related props */}
                     <CreateQuizForm
                         onCancel={handleCloseCreateForm}
                         newQuiz={newQuiz}
                         setNewQuiz={setNewQuiz}
-                        fetchQuizzes={fetchQuizzes} // Pass the fetchQuizzes function to update quiz list after creation
+                        fetchQuizzes={fetchQuizzes}
                         onClose={handleCloseCreateForm}
                     />
                 </Modal.Body>
@@ -277,10 +278,23 @@ const QuizPage = () => {
                 </Modal.Footer>
             </Modal>
 
+            <Card className="text-center">
+                <Card.Header>Explore Trivia Explosion!</Card.Header>
+                <Card.Body>
+                    <Card.Title>Create Your Own Quiz</Card.Title>
+                    <Card.Text>
+                        Dive into the world of knowledge and fun! Craft your personalized quiz and challenge others.
+                        With supporting questions, create a compelling quiz that others would love to take.
+                    </Card.Text>
+
+                    <Button size="lg" variant="success shadow" onClick={handleCreateQuizButtonClick}>
+                        CREATE QUIZ
+                    </Button>
+                </Card.Body>
+            </Card>
+
         </div>
     );
 };
 
 export default QuizPage;
-
-

@@ -1,5 +1,6 @@
 package com.example.triviaApplication.controllers;
 
+import com.example.triviaApplication.Validator.QuizValidator;
 import com.example.triviaApplication.helpers.QuizService;
 import com.example.triviaApplication.helpers.UserService;
 import com.example.triviaApplication.models.*;
@@ -11,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.annotation.*;
+import com.example.triviaApplication.models.QuestionAssignmentDTO;
 
 import java.security.Principal;
 import java.util.List;
@@ -34,11 +37,13 @@ public class QuizController {
     private UserService userService;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private QuizValidator quizValidator;
+
 
     @GetMapping("/getQuizzes")
     public ResponseEntity<List<Quiz>> getUserQuizzes() {
-        // Get userID from Cookie
-        //P changes
+
         return new ResponseEntity<>(quizRepository.findAll(), HttpStatus.ACCEPTED);
     }
 
@@ -72,22 +77,18 @@ public class QuizController {
     }
 
     //Take quiz Submission
-    @PostMapping("/addQuestion/{quizId}/{questionId}")
-    public ResponseEntity<?> assignQuestionToQuiz(@PathVariable Long quizId, @PathVariable Long questionId) {
+    @PostMapping("/addQuestion/{quizId}")
+    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody QuestionAssignmentDTO request){
         try {
-            Quiz updatedQuiz = quizService.addQuestionToQuiz(quizId, questionId);
-            return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            log.error("Quiz or question not found: ", e);
-            return new ResponseEntity<>("Quiz or question not found", HttpStatus.NOT_FOUND);
-        } catch (IllegalStateException e) {
-            log.error("Question already exists in the quiz: ", e);
-            return new ResponseEntity<>("Question already exists in the quiz", HttpStatus.BAD_REQUEST);
+            questionRepository.addQuestionToQuiz(quizId, request.getQuestionId());
+            // TODO: Do a look-up to ensure it actually updated
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            log.error("Error adding question to quiz: ", e);
-            return new ResponseEntity<>("Error adding question to quiz", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error adding question to quiz: " + e.getMessage());
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @PostMapping("/submitQuiz/{quizId}")
     @ResponseBody
@@ -113,21 +114,25 @@ public class QuizController {
     public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz, Principal principal) {
         long userId = 1;
 
-        try { Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
+        try {
+            // Validator
+            quizValidator.validateQuiz(newQuiz, new BeanPropertyBindingResult(newQuiz, "newQuiz"));
+
+            Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
             return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
         } catch (Error e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
 
     @PutMapping("/{quizId}")
-public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
-    try {
-        Quiz result = quizService.updateQuiz(quizId, updatedQuiz);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    } catch (NoSuchElementException e) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
+        try {
+            Quiz result = quizService.updateQuiz(quizId, updatedQuiz);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-}
 
     @DeleteMapping("/{quizId}")
     public void deleteUserQuiz(@PathVariable Long quizId) {
@@ -146,4 +151,3 @@ public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Q
     }
 
 }
-

@@ -2,6 +2,7 @@ package com.example.triviaApplication.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 
 @Entity
@@ -14,8 +15,9 @@ public class Quiz extends BaseEntity {
     private String category;
 
     @NotNull
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_id")
+    @JsonManagedReference
     private List<Question> questions;
 
 
@@ -30,7 +32,7 @@ public class Quiz extends BaseEntity {
     private boolean submitted;
     private int score;
 
-    public Long getid() {return this.id;}
+    public Long getId() {return this.id;}
     public String getCategory() {return category;}
     public void setCategory(String category) {this.category = category;}
     public String getTitle() {return title;}

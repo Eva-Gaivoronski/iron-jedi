@@ -21,7 +21,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     // Method to add a question to a quiz
     @Modifying
-    @Query(value = "UPDATE Question q SET q.quiz_id = :quizId WHERE q.id = :questionId", nativeQuery = true)
+    @Query(value = "UPDATE question q SET q.quiz_id = :quizId WHERE q.id = :questionId", nativeQuery = true)
     @Transactional
     void addQuestionToQuiz(@Param("quizId") Long quizId, @Param("questionId") Long questionId);
 }

@@ -34,4 +34,3 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     void updateQuizQuestions(@Param("quizId") Long quizId, @Param("questions") List<Question> questions);
 
 }
-

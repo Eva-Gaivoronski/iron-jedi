@@ -157,12 +157,18 @@ function QuestionForm() {
 
     const handleAddToQuiz = async (questionId) => {
         try {
-            const response = await fetch(`http://localhost:8080/quiz/addQuestion/${quizId}/${questionId}`, {
-                method: 'POST'
+             console.log(`quizId: ${quizId}`);
+             console.log(`questionId: ${questionId}`);
+             const requestBody = JSON.stringify({ questionId: questionId }); // Construct the request body as a JSON object
+             console.log(`quizId: ${quizId}`);
+             const response = await fetch(`http://localhost:8080/quiz/addQuestion/${quizId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: requestBody, // Provide the request body here
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             alert('Question added to quiz successfully!');
-           } catch (error) {
+        } catch (error) {
             alert('Error adding question to quiz.');
             console.error('Error:', error);
         }
