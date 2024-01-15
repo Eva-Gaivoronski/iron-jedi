@@ -75,6 +75,8 @@ public class QuizService {
 
         existingQuiz.setTitle(updatedQuiz.getTitle());
         existingQuiz.setCategory(updatedQuiz.getCategory());
+        existingQuiz.setDescription(updatedQuiz.getDescription());
+        existingQuiz.setRequiredQuestionCount(updatedQuiz.getRequiredQuestionCount());
 
         return quizRepository.save(existingQuiz);
     }
@@ -135,9 +137,9 @@ public class QuizService {
 
         int correctAnswers = calculateScore(quiz.getQuestions(), userAnswers);
         double percentage = (double) correctAnswers / quiz.getQuestions().size() * 100;
-//        quiz.setSubmitted(true);
-//        quiz.setScore(correctAnswers);
-//        quizRepository.save(quiz);
+        quiz.setSubmitted(true);
+        quiz.setScore(correctAnswers);
+        quizRepository.save(quiz);
 
         // Save the attempt details
         QuizAttempt quizAttempt = new QuizAttempt();

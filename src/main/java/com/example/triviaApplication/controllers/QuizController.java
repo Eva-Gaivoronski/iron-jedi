@@ -87,7 +87,7 @@ public class QuizController {
             List<QuizAttempt> quizAttempt = quizService.getUserAttemptForQuiz(quizId, userId);
 
             if (!quizAttempt.isEmpty()) {
-                QuizAttempt previousAttempt = quizAttempt.get(0);
+                QuizAttempt previousAttempt = quizAttempt.get(quizAttempt.size() - 1);
             }
 
             System.out.println("Fetched Quiz for Taking: " + quiz);
@@ -117,9 +117,8 @@ public class QuizController {
     @ResponseBody
     public ResponseEntity<Object> submitQuiz(@PathVariable Long quizId, @RequestBody List<UserAnswer> userAnswers) {
         try {
-            // Call a service method to handle quiz submission and retrieve the result
+
             QuizResult quizResult = quizService.submitQuiz(quizId, userAnswers);
-            // Return the result in the response
             return new ResponseEntity<>(quizResult, HttpStatus.OK);
         } catch (IllegalStateException e) {
             // Handle IllegalStateException (e.g., quiz already submitted)
@@ -148,7 +147,7 @@ public class QuizController {
     }
 
     @PutMapping("/{quizId}")
-public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
+    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
     try {
         Quiz result = quizService.updateQuiz(quizId, updatedQuiz);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -159,7 +158,6 @@ public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Q
 
     @DeleteMapping("/{quizId}")
     public void deleteUserQuiz(@PathVariable Long quizId) {
-        // Delete a specific quiz associated with a user
         quizRepository.deleteById(quizId);
     }
 

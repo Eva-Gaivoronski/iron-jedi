@@ -54,6 +54,18 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+.back-button {
+  background: #ddd;
+  border-radius: 80%;
+  padding: 8px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.back-button svg {
+  margin-right: 4px;
+}
 .app-container {
   font-family: 'Arial', sans-serif;
 }

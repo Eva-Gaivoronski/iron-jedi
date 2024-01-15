@@ -89,7 +89,7 @@ const QuizPage = () => {
         try {
             await axios.delete(`http://localhost:8080/quiz/${quizToDelete}`);
             fetchQuizzes();
-            setQuizToDelete(null); // Clear the state after successful deletion
+            setQuizToDelete(null);
         } catch (error) {
             console.error('Error deleting quiz:', error);
         }

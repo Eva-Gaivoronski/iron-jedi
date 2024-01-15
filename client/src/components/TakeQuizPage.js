@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import {Alert, Button} from "react-bootstrap";
-
+import { useHistory } from 'react-router-dom';
 const TakeQuizPage = () => {
     const [quiz, setQuiz] = useState(null);
     const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -29,10 +29,12 @@ const TakeQuizPage = () => {
 
                 // Fetch  previous attempt
                 const attemptResponse = await axios.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
+                console.log('Previous Attempt Data:', attemptResponse.data);
                 if (attemptResponse.data) {
                     // Display score
                     const previousAttemptScore = attemptResponse.data.score;
                     const previousAttemptPercentage = attemptResponse.data.percentage;
+
                     setPreviousAttemptScore(previousAttemptScore);
                     setPreviousAttemptPercentage(previousAttemptPercentage);
                 }
@@ -96,7 +98,6 @@ const TakeQuizPage = () => {
     return (
         <div className="container mt-4 border border-grey shadow p-3 mb-5 bg-white rounded">
             <h2 className="mb-4 shadow p-2 mb-0 bg-primary-white rounded">Quiz: {quiz.title}</h2>
-            <p>You will get 1 point for each correct answer.</p>
             <p className=" mb-4 shadow p-2">Category: {quiz.category}</p>
 
             {previousAttemptScore !== null && (
@@ -112,6 +113,7 @@ const TakeQuizPage = () => {
                     </div>
                 </div>
             )}
+            <p>You will get 1 point for each correct answer</p>
 
             {quiz.questions.map(question => (
                 <div key={question.id} className="container mt-4 border border-grey shadow p-3 mb-4 bg-white rounded">
@@ -171,6 +173,7 @@ const TakeQuizPage = () => {
                 Please answer all questions before submitting the quiz.
             </Alert>
         </div>
+
     );
 };
 
