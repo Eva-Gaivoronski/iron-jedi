@@ -25,7 +25,7 @@ const QuizPage = () => {
 
     const handleCloseCreateForm = () => {
         setShowCreateForm(false);
-        fetchQuizzes(); // Fetch quizzes again after closing the form
+        fetchQuizzes(); // Fetch quizzes again
     };
 
     const handleEditQuiz = async (selectedQuiz) => {
@@ -58,7 +58,7 @@ const QuizPage = () => {
     const handleCloseEditForm = () => {
         setShowEditForm(false);
         setEditedQuiz({});
-        fetchQuizzes(); // Fetch quizzes again after closing the form
+        fetchQuizzes(); // Fetch quizzes again
     };
 
     const fetchQuizzes = async () => {

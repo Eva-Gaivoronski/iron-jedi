@@ -63,25 +63,10 @@ public class QuizController {
         }
     }
 
-
-    //takeQuiz page
-//    @GetMapping("/takeQuiz/{quizId}")
-//    public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
-//        try {
-//            // Use quizService or quizRepository to retrieve the quiz by ID
-//            Quiz quiz = quizService.getQuizForTaking(quizId);
-//            System.out.println("Fetched Quiz for Taking: " + quiz);
-//            return new ResponseEntity<>(quiz, HttpStatus.OK);
-//        } catch (NoSuchElementException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-
     @GetMapping("/takeQuiz/{quizId}")
     public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
         try {
             Quiz quiz = quizService.getQuizForTaking(quizId);
-
             // previous attempt
             Long userId = getUserIdFromPrincipal(principal);
             List<QuizAttempt> quizAttempt = quizService.getUserAttemptForQuiz(quizId, userId);
@@ -121,13 +106,12 @@ public class QuizController {
             QuizResult quizResult = quizService.submitQuiz(quizId, userAnswers);
             return new ResponseEntity<>(quizResult, HttpStatus.OK);
         } catch (IllegalStateException e) {
-            // Handle IllegalStateException (e.g., quiz already submitted)
+            System.out.println("quiz already submitted");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (NoSuchElementException e) {
-            // Handle NoSuchElementException (e.g., quiz not found)
+            System.out.println("quiz not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            // Handle other exceptions
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
