@@ -72,13 +72,21 @@ public class QuizController {
     }
 
     //Take quiz Submission
-    @PostMapping("/addQuestion/{quizId}")
-    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody String questionId){
-        questionRepository.addQuestionToQuiz(quizId, Long.parseLong(questionId));
-
-        // TODO: Do a look-up to esnure it actually updated
-
-        return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
+    @PostMapping("/addQuestion/{quizId}/{questionId}")
+    public ResponseEntity<?> assignQuestionToQuiz(@PathVariable Long quizId, @PathVariable Long questionId) {
+        try {
+            Quiz updatedQuiz = quizService.addQuestionToQuiz(quizId, questionId);
+            return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            log.error("Quiz or question not found: ", e);
+            return new ResponseEntity<>("Quiz or question not found", HttpStatus.NOT_FOUND);
+        } catch (IllegalStateException e) {
+            log.error("Question already exists in the quiz: ", e);
+            return new ResponseEntity<>("Question already exists in the quiz", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            log.error("Error adding question to quiz: ", e);
+            return new ResponseEntity<>("Error adding question to quiz", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/submitQuiz/{quizId}")

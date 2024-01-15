@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import './QuestionForm.css';
 
 function QuestionForm() {
@@ -12,6 +13,42 @@ function QuestionForm() {
     const [editMode, setEditMode] = useState(false);
     const [editQuestionId, setEditQuestionId] = useState(null);
     const [keywordSearchUsername, setKeywordSearchUsername] = useState('');
+
+    const { quizId } = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (quizId) {
+            fetchQuizDetails();
+        }
+    }, [quizId]);
+
+    const fetchQuizDetails = async () => {
+        try {
+            const quizResponse = await fetch(`http://localhost:8080/quiz/${quizId}`);
+            if (!quizResponse.ok) throw new Error(`HTTP error! Status: ${quizResponse.status}`);
+            const quizData = await quizResponse.json();
+
+            if (quizData && quizData.user && quizData.user.id) {
+                fetchUserQuestionsForQuiz(quizData.user.id);
+            } else {
+                console.error('User data not found in quiz details');
+            }
+        } catch (error) {
+            console.error('Error fetching quiz details:', error);
+        }
+    };
+
+    const fetchUserQuestionsForQuiz = async (userId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/users/${userId}/created-questions`);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const questions = await response.json();
+            setUserQuestions(questions);
+        } catch (error) {
+            console.error('Error fetching user questions:', error);
+        }
+    };
 
     const handleAnswerChange = (index, event) => {
         const newAnswers = answers.map((answer, i) => {
@@ -57,9 +94,8 @@ function QuestionForm() {
             setEditMode(false);
             setEditQuestionId(null);
 
-            // Only refetch questions when editing from handleSearch
-            if (editMode && !searchUsername) {
-                handleSearch();
+            if (editMode || quizId) {
+                fetchUserQuestionsForQuiz();
             }
         } catch (error) {
             alert('Error saving question.');
@@ -118,6 +154,20 @@ function QuestionForm() {
         setEditMode(true);
         setEditQuestionId(question.id);
     };
+
+    const handleAddToQuiz = async (questionId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/quiz/addQuestion/${quizId}/${questionId}`, {
+                method: 'POST'
+            });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            alert('Question added to quiz successfully!');
+           } catch (error) {
+            alert('Error adding question to quiz.');
+            console.error('Error:', error);
+        }
+    };
+
 
     return (
         <div>
@@ -199,6 +249,9 @@ function QuestionForm() {
                         <div className="question-actions">
                             <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
                             <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
+                            {quizId && (
+                                <button onClick={() => handleAddToQuiz(question.id)} className="question-button add-button">Add to Quiz</button>
+                            )}
                         </div>
                     </div>
                 ))}
@@ -206,4 +259,5 @@ function QuestionForm() {
         </div>
     );
 }
+
 export default QuestionForm;

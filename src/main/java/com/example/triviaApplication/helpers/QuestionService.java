@@ -115,4 +115,9 @@ public class QuestionService {
     public List<Question> findQuestionsByUserUsername(String username) {
         return questionRepository.findQuestionsByUserUsername(username);
     }
+
+    // New method to retrieve questions created by a specific user
+    public List<Question> findQuestionsByUserId(Long userId) {
+        return questionRepository.findQuestionsByUserId(userId);
+    }
 }
