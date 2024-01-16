@@ -93,6 +93,15 @@ const CreateQuiz=({ onClose })=> {
                                 </label>
                                 <br/>
                                 <label htmlFor="formGroupExampleInput">
+                                    Description:
+                                    <Field type="text" className="form-control" id="formGroupExampleInput"
+                                           placeholder="describe your quiz" name="category" value={values.description}
+                                           onChange={handleChange}>
+                                    </Field>
+                                    <ErrorMessage name="category" component="div"/>
+                                </label>
+                                <br/>
+                                <label htmlFor="formGroupExampleInput">
                                     User:
                                     <Field type="text" className="form-control" id="formGroupExampleInput"
                                            placeholder="add user" name="username" value={values.username}

@@ -3,21 +3,29 @@ package com.example.triviaApplication.helpers;
 import com.example.triviaApplication.Validator.QuizValidator;
 import com.example.triviaApplication.models.*;
 import com.example.triviaApplication.repositories.QuestionRepository;
+import com.example.triviaApplication.repositories.QuizAttemptRepository;
 import com.example.triviaApplication.repositories.QuizRepository;
 import com.example.triviaApplication.repositories.UserRepository;
+import io.netty.handler.codec.http.HttpContentEncoder;
+import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 //import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BeanPropertyBindingResult;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -36,14 +44,12 @@ public class QuizService {
     private QuestionRepository questionRepository;
     @Autowired
     private QuizValidator quizValidator;
+    @Autowired
+    private QuizAttemptRepository quizAttemptRepository;
 
-
-
-
-    //This is working
     @Transactional
     public Quiz createQuiz(Quiz quiz, Long userId) {
-        // Input validation
+        // validation
         quizValidator.validateQuiz(quiz, new BeanPropertyBindingResult(quiz, "quiz"));
 
         if (quiz.getTitle() == null || quiz.getTitle().isEmpty()) {
@@ -61,13 +67,16 @@ public class QuizService {
 
     public Quiz getQuizById(Long id, Long userId) {
         return quizRepository.findByIdAndUserId(id, userId);}
-    //update quiz
+
+//update quiz
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
         Quiz existingQuiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
 
         existingQuiz.setTitle(updatedQuiz.getTitle());
         existingQuiz.setCategory(updatedQuiz.getCategory());
+        existingQuiz.setDescription(updatedQuiz.getDescription());
+        existingQuiz.setRequiredQuestionCount(updatedQuiz.getRequiredQuestionCount());
 
         return quizRepository.save(existingQuiz);
     }
@@ -91,19 +100,22 @@ public class QuizService {
         return quizRepository.save(quiz);
     }
 
-    //update quiz end
-    public List<Quiz> getAllQuizzes() {
+        public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
 
     public List<Quiz> getUserQuiz(Long userId) {
-
         return quizRepository.findByUserId(userId);
     }
-    // taking quizzes
+
+//     taking quizzes
+     public List<QuizAttempt> getUserAttemptForQuiz(Long quizId, Long userId) {
+    return quizAttemptRepository.findByQuizIdAndUserId(quizId, userId);
+}
+
     public Quiz getQuizForTaking(Long quizId) {
         Quiz quiz = quizRepository.findById(quizId)
-                //return quizRepository.findById(quizId)
+        //return quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
         for (Question question : quiz.getQuestions()) {
             Collections.shuffle(question.getAnswers());
@@ -115,9 +127,9 @@ public class QuizService {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
 
-        if (quiz.isSubmitted()) {
-            throw new IllegalStateException("Quiz has already been submitted.");
-        }
+//        if (quiz.isSubmitted()) {
+//            throw new IllegalStateException("Quiz has already been submitted.");
+//        }
 
         if (quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
             throw new IllegalStateException("Cannot submit a quiz with no questions.");
@@ -129,28 +141,37 @@ public class QuizService {
         quiz.setScore(correctAnswers);
         quizRepository.save(quiz);
 
+        // Save the attempt details
+        QuizAttempt quizAttempt = new QuizAttempt();
+        quizAttempt.setUser(quiz.getUser());
+        quizAttempt.setQuiz(quiz);
+        quizAttempt.setScore(correctAnswers);
+        quizAttempt.setPercentage(percentage);
+
+        quizAttemptRepository.save(quizAttempt);
+
         return new QuizResult(correctAnswers, percentage);
     }
 
-    private int calculateScore(List<Question> questions, List<UserAnswer> userAnswers) {
-        int correctAnswers = 0;
+private int calculateScore(List<Question> questions, List<UserAnswer> userAnswers) {
+    int correctAnswers = 0;
 
-        for (UserAnswer userAnswer : userAnswers) {
-            for (Question question : questions) {
-                if (question.getId().equals(userAnswer.getQuestionId())) {
-                    Answer correctAnswer = question.getAnswers().stream()
-                            .filter(Answer::getIsCorrect)
-                            .findFirst()
-                            .orElse(null);
+    for (UserAnswer userAnswer : userAnswers) {
+        for (Question question : questions) {
+            if (question.getId().equals(userAnswer.getQuestionId())) {
+                Answer correctAnswer = question.getAnswers().stream()
+                        .filter(Answer::getIsCorrect)
+                        .findFirst()
+                        .orElse(null);
 
-                    Long selectedAnswerId = Long.valueOf(userAnswer.getSelectedAnswer());
+                Long selectedAnswerId = Long.valueOf(userAnswer.getSelectedAnswer());
 
-                    if (correctAnswer != null && correctAnswer.getId().equals(selectedAnswerId)) {
-                        correctAnswers++;
-                    }
+                if (correctAnswer != null && correctAnswer.getId().equals(selectedAnswerId)) {
+                    correctAnswers++;
                 }
             }
         }
-        return correctAnswers;
     }
+    return correctAnswers;
+}
 }
