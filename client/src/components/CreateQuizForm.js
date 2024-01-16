@@ -25,7 +25,7 @@ const CreateQuiz=({ onClose })=> {
             }
 
             const user = {
-                id: 1, // Replace with the user ID
+                id: values.id,
                 username: values.username, // username is entered in the form
             };
 
@@ -101,15 +101,15 @@ const CreateQuiz=({ onClose })=> {
                                     <ErrorMessage name="category" component="div"/>
                                 </label>
                                 <br/>
-                                <label htmlFor="formGroupExampleInput">
-                                    User:
-                                    <Field type="text" className="form-control" id="formGroupExampleInput"
-                                           placeholder="add user" name="username" value={values.username}
-                                           onChange={handleChange}/>
-                                    {/* ErrorMessage  */}
-                                    <ErrorMessage name="username" component="div"/>
-                                </label>
-                                <br/>
+                                {/*<label htmlFor="formGroupExampleInput">*/}
+                                {/*    User:*/}
+                                {/*    <Field type="text" className="form-control" id="formGroupExampleInput"*/}
+                                {/*           placeholder="add user" name="username" value={values.username}*/}
+                                {/*           onChange={handleChange}/>*/}
+                                {/*    /!* ErrorMessage  *!/*/}
+                                {/*    <ErrorMessage name="username" component="div"/>*/}
+                                {/*</label>*/}
+                                {/*<br/>*/}
 
                                 <Button type="submit" className="btn btn-primary btn-lg btn-block">
                                     Create Quiz

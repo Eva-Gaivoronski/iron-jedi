@@ -43,8 +43,6 @@ public class QuizController {
 
     @GetMapping("/getQuizzes")
     public ResponseEntity<List<Quiz>> getUserQuizzes() {
-        // Get userID from Cookie
-        //P changes
         return new ResponseEntity<>(quizRepository.findAll(), HttpStatus.ACCEPTED);
     }
 
@@ -81,11 +79,11 @@ public class QuizController {
     }
 
     private Long getUserIdFromPrincipal(Principal principal) {
-        // implement logic to extract user ID from Principal
-        // Example: assuming principal.getName() returns the username
-        // and you have a userService method to find the user by username
-        // return userService.getUserByUsername(principal.getName()).getId();
-        return 1L; // replace with actual logic
+        String username = principal.getName();
+        // Use the UserService to find the user by username
+        Optional<User> userOptional = userService.getUserByUsername(username);
+        // If the user is present, return the user ID, otherwise return null or handle as needed
+        return userOptional.map(User::getId).orElse(null);
     }
 
     @PostMapping("/addQuestion/{quizId}")
