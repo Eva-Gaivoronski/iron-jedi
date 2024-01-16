@@ -67,14 +67,12 @@ public class QuizController {
     public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
         try {
             Quiz quiz = quizService.getQuizForTaking(quizId);
-            // previous attempt
             Long userId = getUserIdFromPrincipal(principal);
             List<QuizAttempt> quizAttempt = quizService.getUserAttemptForQuiz(quizId, userId);
 
             if (!quizAttempt.isEmpty()) {
                 QuizAttempt previousAttempt = quizAttempt.get(quizAttempt.size() - 1);
             }
-
             System.out.println("Fetched Quiz for Taking: " + quiz);
             return new ResponseEntity<>(quiz, HttpStatus.OK);
         } catch (NoSuchElementException e) {
@@ -90,13 +88,18 @@ public class QuizController {
         return 1L; // replace with actual logic
     }
 
-
     @PostMapping("/addQuestion/{quizId}")
-    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody String questionId){
-        questionRepository.addQuestionToQuiz(quizId, Long.parseLong(questionId));
-        // TODO: Do a look-up to esnure it actually updated
-        return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
+    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody QuestionAssignmentDTO request){
+        try {
+            questionRepository.addQuestionToQuiz(quizId, request.getQuestionId());
+            // TODO: Do a look-up to ensure it actually updated
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            log.error("Error adding question to quiz: " + e.getMessage());
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
     //Take quiz Submission
     @PostMapping("/submitQuiz/{quizId}")
     @ResponseBody

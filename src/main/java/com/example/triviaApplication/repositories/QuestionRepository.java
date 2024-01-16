@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-    // Method to find questions by username
     List<Question> findQuestionsByUserUsername(String username);
 
     // New method to find questions by user ID
