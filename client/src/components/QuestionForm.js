@@ -69,39 +69,59 @@ function QuestionForm() {
         setCorrectAnswerIndex(index);
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const questionData = {
-            user: { username },
-            text: questionText,
-            answers: answers.map((answer, index) => ({ ...answer, isCorrect: index === correctAnswerIndex })),
-        };
 
-        const method = editMode ? 'PUT' : 'POST';
-        const url = editMode ? `http://localhost:8080/question/${editQuestionId}` : 'http://localhost:8080/question';
-
-        try {
-            const response = await fetch(url, {
-                method: method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(questionData),
-            });
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-            alert('Question saved successfully!');
-            setQuestionText('');
-            setAnswers(new Array(4).fill({ text: '', isCorrect: false }));
-            setCorrectAnswerIndex(-1);
-            setEditMode(false);
-            setEditQuestionId(null);
-
-            if (editMode || quizId) {
-                fetchUserQuestionsForQuiz();
-            }
-        } catch (error) {
-            alert('Error saving question.');
-            console.error('There was an error saving the question:', error);
-        }
+const handleSubmit = async (event) => {
+    event.preventDefault();
+    const questionData = {
+        user: { username },
+        text: questionText,
+        answers: answers.map((answer, index) => ({ ...answer, isCorrect: index === correctAnswerIndex })),
     };
+
+    const method = editMode ? 'PUT' : 'POST';
+    const questionUrl = editMode ? `http://localhost:8080/question/${editQuestionId}` : 'http://localhost:8080/question';
+
+    try {
+        const response = await fetch(questionUrl, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(questionData),
+        });
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+        const savedQuestion = await response.json();
+
+        // Check if quizId is defined and not in edit mode
+        if (!editMode && quizId && quizId !== 'undefined') {
+            const addQuestionToQuizResponse = await fetch(`http://localhost:8080/quiz/addQuestion/${quizId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ questionId: savedQuestion.id }),
+            });
+            if (!addQuestionToQuizResponse.ok) throw new Error(`HTTP error! Status: ${addQuestionToQuizResponse.status}`);
+        }
+
+        alert('Question saved successfully!');
+
+        // Reset form
+        setQuestionText('');
+        setAnswers(new Array(4).fill({ text: '', isCorrect: false }));
+        setCorrectAnswerIndex(-1);
+        setEditMode(false);
+        setEditQuestionId(null);
+
+        // Only navigate if quizId is valid
+        if (quizId && quizId !== 'undefined') {
+            navigate(`/question-form/${quizId}`);
+        } else {
+            navigate(`/question-form`);
+        }
+
+    } catch (error) {
+        alert('Error saving question.');
+        console.error('There was an error:', error);
+    }
+};
 
     const handleSearch = async () => {
         try {
