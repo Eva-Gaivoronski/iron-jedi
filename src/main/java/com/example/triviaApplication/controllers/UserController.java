@@ -12,12 +12,12 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserRepository userRepository;
-    private final QuestionRepository questionRepository; // Add QuestionRepository
+    private final QuestionRepository questionRepository;
 
     @Autowired
     public UserController(UserRepository userRepository, QuestionRepository questionRepository) {
         this.userRepository = userRepository;
-        this.questionRepository = questionRepository; // Initialize QuestionRepository
+        this.questionRepository = questionRepository;
     }
 
     @PostMapping
@@ -32,10 +32,15 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    // New endpoint to get questions by username
     @GetMapping("/{username}/questions")
     public ResponseEntity<List<Question>> getQuestionsByUsername(@PathVariable String username) {
         List<Question> questions = questionRepository.findQuestionsByUserUsername(username);
+        return ResponseEntity.ok(questions);
+    }
+
+    @GetMapping("/{username}/search")
+    public ResponseEntity<List<Question>> searchUserQuestionsByKeyword(@PathVariable String username, @RequestParam String keyword) {
+        List<Question> questions = questionRepository.searchByUserAndKeyword(username, keyword);
         return ResponseEntity.ok(questions);
     }
 }

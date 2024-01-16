@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -24,17 +26,17 @@ public class QuestionController {
     }
 
     @PostMapping
-    public ResponseEntity<Question> createOrUpdateQuestion(@RequestBody Question question) {
+    public ResponseEntity<?> createOrUpdateQuestion(@RequestBody Question question) {
         try {
             log.info("Received question: {}", question.getText());
             question.getAnswers().forEach(answer ->
                     log.info("Answer: {}, isCorrect: {}", answer.getText(), answer.getIsCorrect())
             );
             Question savedQuestion = questionService.createOrUpdateQuestion(question);
-            return new ResponseEntity<Question>(savedQuestion, HttpStatus.ACCEPTED);
+            return ResponseEntity.ok(savedQuestion);
         } catch (Exception e) {
             log.error("Error saving question: ", e);
-            return new ResponseEntity<Question>(HttpStatus.NOT_ACCEPTABLE);
+            return ResponseEntity.badRequest().body("Error saving question: " + e.getMessage());
         }
     }
 
@@ -75,6 +77,16 @@ public class QuestionController {
         } catch (Exception e) {
             log.error("Error deleting question: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting question: " + e.getMessage());
+        }
+    }
+    @GetMapping("/users/{userId}/created-questions")
+    public ResponseEntity<List<Question>> getQuestionsByUserId(@PathVariable Long userId) {
+        try {
+            List<Question> questions = questionService.findQuestionsByUserId(userId);
+            return ResponseEntity.ok(questions);
+        } catch (Exception e) {
+            log.error("Error retrieving questions for user id " + userId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }
