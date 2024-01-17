@@ -7,6 +7,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AuthContext} from "../context/AuthContext";
+import '../components/ApiClient';
+import apiClient from "./ApiClient";
+
 
 const QuizPage = () => {
     const [quizzes, setQuizzes] = useState([]);
@@ -38,7 +41,7 @@ const QuizPage = () => {
 
         // Fetch questions for the current quiz
         try {
-            const response = await axios.get(`http://localhost:8080/quiz/questions/${selectedQuiz.id}`);
+            const response = await apiClient.get(`http://localhost:8080/quiz/questions/${selectedQuiz.id}`);
             setQuestions(response.data);
         } catch (error) {
             console.error('Error fetching questions:', error);
@@ -49,7 +52,7 @@ const QuizPage = () => {
         try {
             await axios.delete(`http://localhost:8080/quiz/removeQuestion/${quiz.id}/${questionId}`);
             // Fetch updated questions after removal
-            const response = await axios.get(`http://localhost:8080/quiz/questions/${quiz.id}`);
+            const response = await apiClient.get(`http://localhost:8080/quiz/questions/${quiz.id}`);
             setQuestions(response.data);
         } catch (error) {
             console.error('Error removing question:', error);
@@ -63,7 +66,7 @@ const QuizPage = () => {
     };
 
     const fetchQuizzes = async () => {
-        const response = await fetch(`http://localhost:8080/quiz/getQuizzes/${user_id}`, {
+        const response = await apiClient.get(`http://localhost:8080/quiz/getQuizzes/${user_id}`, {
             method: "GET",
             mode: "no-cors",
             credentials: "omit",
@@ -123,10 +126,10 @@ const QuizPage = () => {
 
     const handleUpdateQuiz = async (updatedQuiz) => {
         try {
-            await axios.put(`http://localhost:8080/quiz/${updatedQuiz.id}`, updatedQuiz);
+            await apiClient.put(`http://localhost:8080/quiz/${updatedQuiz.id}`, updatedQuiz);
             setShowEditForm(false);
             setQuiz(updatedQuiz);
-            fetchQuizzes(); // Fetch quizzes again after updating
+            fetchQuizzes();
         } catch (error) {
             console.error('Error updating quiz:', error);
         }

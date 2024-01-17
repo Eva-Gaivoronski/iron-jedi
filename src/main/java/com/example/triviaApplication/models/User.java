@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import java.util.Set;
 
 @Entity(name = "AppUser") // Renaming the table to avoid using the reserved keyword "user"
+@Table(name = "app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,11 +33,11 @@ public class User {
     @Column(name = "profile_picture", length = 10485760)
     private byte[] profilePicture;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Question> questions;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Set<Question> questions;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Quiz> quizzes;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Set<Quiz> quizzes;
 
     // Standard getters and setters
 
@@ -72,21 +73,21 @@ public class User {
         this.email = email;
     }
 
-    public Set<Question> getQuestions() {
-        return questions;
-    }
+//    public Set<Question> getQuestions() {
+//        return questions;
+//    }
+//
+//    public void setQuestions(Set<Question> questions) {
+//        this.questions = questions;
+//    }
 
-    public void setQuestions(Set<Question> questions) {
-        this.questions = questions;
-    }
-
-    public Set<Quiz> getQuizzes() {
-        return quizzes;
-    }
-
-    public void setQuizzes(Set<Quiz> quizzes) {
-        this.quizzes = quizzes;
-    }
+//    public Set<Quiz> getQuizzes() {
+//        return quizzes;
+//    }
+//
+//    public void setQuizzes(Set<Quiz> quizzes) {
+//        this.quizzes = quizzes;
+//    }
     public byte[] getProfilePicture() {
         return profilePicture;
     }

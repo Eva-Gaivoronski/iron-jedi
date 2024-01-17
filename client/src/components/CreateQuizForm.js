@@ -4,9 +4,12 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import {Button, FormControl} from "react-bootstrap";
+import apiClient from "./ApiClient";
 const CreateQuiz=({ onClose })=> {
     const [showModal, setShowModal] = useState(true);
     const [titleError, setTitleError] = useState('');
+    const username = localStorage.getItem('triviaappusername');
+    const user_id = localStorage.getItem('triviaappid');
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -15,34 +18,33 @@ const CreateQuiz=({ onClose })=> {
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
             // Validate if all fields are filled
-            const requiredFields = ['title', 'category', 'username']; // Add other required fields if needed
+            const requiredFields = ['title', 'category', 'description'];
             const emptyFields = requiredFields.filter(field => !values[field]);
 
             if (emptyFields.length > 0) {
-                // Display notification to the user
                 alert(`Please fill in the following fields: ${emptyFields.join(', ')}`);
                 return;
             }
-
             const user = {
-                id: values.id,
-                username: values.username, // username is entered in the form
+                id: user_id,
+                username: username,
             };
 
             const quizData = {
                 ...values,
-                user,
+                user
             };
 
-            const response = await axios.post('http://localhost:8080/quiz/quizzes', values);
-            console.log('Quiz data submitted:', values);
-            alert('Quiz saved successfully!');
-            // TODO finish the logic
-            // TODO post it
-            // TODO fetch quizes again
-            //await fetchQuizzes();
-            // TODO close the model
-            onClose();
+            const response = await apiClient.post("http://localhost:8080/quiz/quizzes", quizData)
+                .then(response => {
+                    console.log('Quiz data submitted:', response.data);
+                    alert('Quiz saved successfully!');
+                    onClose();
+                })
+                .catch(error => {
+                    alert('Error creating new quiz');
+                    console.log(error);
+                })
         } catch (error) {
             console.error('Error creating quiz:', error);
         } finally {
@@ -54,7 +56,7 @@ const CreateQuiz=({ onClose })=> {
             <header className="App-header">
             {/*    <h1 className="mb-4 shadow p-2 mb-0 bg-primary-white rounded"> Create</h1>*/}
                 <Formik
-                    initialValues={{title: '', category: '', username: ''}}
+                    initialValues={{title: '', category: '', description: ''}}
                     validate={(values) => {
                         const errors = {};
                         if (!values.title) {
@@ -63,8 +65,8 @@ const CreateQuiz=({ onClose })=> {
                         if (!values.category) {
                             errors.category = 'Category is required';
                         }
-                        if (!values.username) {
-                            errors.username = 'User is required';
+                        if (!values.description) {
+                            errors.description = 'Description is required';
                         }
                         return errors;
                     }}
@@ -95,10 +97,10 @@ const CreateQuiz=({ onClose })=> {
                                 <label htmlFor="formGroupExampleInput">
                                     Description:
                                     <Field type="text" className="form-control" id="formGroupExampleInput"
-                                           placeholder="describe your quiz" name="category" value={values.description}
+                                           placeholder="describe your quiz" name="description" value={values.description}
                                            onChange={handleChange}>
                                     </Field>
-                                    <ErrorMessage name="category" component="div"/>
+                                    <ErrorMessage name="description" component="div"/>
                                 </label>
                                 <br/>
                                 {/*<label htmlFor="formGroupExampleInput">*/}

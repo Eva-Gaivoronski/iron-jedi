@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import apiClient from '../components/ApiClient';
+
 
 const LoginPage = () => {
     const { login } = useAuth();
@@ -25,7 +27,9 @@ const LoginPage = () => {
 
             if (response.status === 200) {
                 localStorage.setItem('triviaapptoken', response.data);
-                const user = await axios.get(`http://localhost:8080/users/getUser/${credentials.username}`);
+               // Use apiClient for getting user information
+                const user = await apiClient.get(`http://localhost:8080/users/getUser/${credentials.username}`);
+                // const user = await axios.get(`http://localhost:8080/users/getUser/${credentials.username}`);
                 console.log(user.data.id)
                 localStorage.setItem('triviaappusername', credentials.username);
                 localStorage.setItem('triviaappid', user.data.id);

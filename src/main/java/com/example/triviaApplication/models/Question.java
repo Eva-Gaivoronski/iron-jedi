@@ -27,10 +27,10 @@ public class Question {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quiz_id")
-    @JsonBackReference
-    private Quiz quiz;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "quiz_id")
+//    @JsonBackReference
+//    private Quiz quiz;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -66,13 +66,13 @@ public class Question {
         this.user = user;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
-    }
-
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
+//    public Quiz getQuiz() {
+//        return quiz;
+//    }
+//
+//    public void setQuiz(Quiz quiz) {
+//        this.quiz = quiz;
+//    }
 
     public List<Answer> getAnswers() {
         return answers;

@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +42,11 @@ public class QuizController {
     private QuestionRepository questionRepository;
     @Autowired
     private QuizValidator quizValidator;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
 
+    @PreAuthorize("")
     @GetMapping("/getQuizzes/{id}")
     public ResponseEntity<List<Quiz>> getUserQuizzes(@PathVariable Long id) {
         try {
@@ -125,14 +131,11 @@ public class QuizController {
     }
 
     @PostMapping("/quizzes")
-    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz, Principal principal) {
-        long userId = 1;
-
+    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz) {
         try {
             // Validator
             quizValidator.validateQuiz(newQuiz, new BeanPropertyBindingResult(newQuiz, "newQuiz"));
-
-            Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
+            Quiz createdQuiz = quizService.createQuiz(newQuiz, newQuiz.getUser().getId());
             return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
         } catch (Error e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
