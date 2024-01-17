@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import java.util.Set;
 
 @Entity(name = "AppUser") // Renaming the table to avoid using the reserved keyword "user"
+@Table(name = "app_user")
 public class User {
 
     @Id

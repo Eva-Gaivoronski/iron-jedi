@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import apiClient from '../components/ApiClient';
+
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -21,11 +23,13 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/users/login', credentials);
+      // Use apiClient for the login request
+      const response = await apiClient.post('http://localhost:8080/users/login', credentials);
 
       if (response.status === 200) {
         localStorage.setItem('triviaapptoken', response.data);
-        const user = await axios.get(`http://localhost:8080/users/getUser/${credentials.username}`);
+        // Use apiClient for getting user information
+        const user = await apiClient.get(`http://localhost:8080/users/getUser/${credentials.username}`);
         console.log(user.data.id)
         localStorage.setItem('triviaappusername', credentials.username);
         localStorage.setItem('triviaappid', user.data.id);
@@ -49,7 +53,7 @@ const LoginPage = () => {
       try {
         const parsedError = JSON.parse(error.response.data);
         if (parsedError.message) {
-          console.log(parsedError)
+          console.log(parsedError);
           errorMessage = parsedError.message;
         }
       } catch (parseError) {
@@ -66,34 +70,14 @@ const LoginPage = () => {
       {errorMessage && <p className="text-danger">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="username" className="form-label">
-            Username:
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            name="username"
-            value={credentials.username}
-            onChange={handleChange}
-          />
+          <label htmlFor="username" className="form-label">Username:</label>
+          <input type="text" className="form-control" id="username" name="username" value={credentials.username} onChange={handleChange} />
         </div>
         <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            Password:
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-          />
+          <label htmlFor="password" className="form-label">Password:</label>
+          <input type="password" className="form-control" id="password" name="password" value={credentials.password} onChange={handleChange} />
         </div>
-        <button type="submit" className="btn btn-primary">
-          Login
-        </button>
+        <button type="submit" className="btn btn-primary">Login</button>
       </form>
     </div>
   );

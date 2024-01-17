@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './QuestionForm.css';
-import axios from "axios";
+import apiClient from '../components/ApiClient'; // Make sure to import apiClient
 import { useParams } from "react-router-dom";
 
 function QuestionForm() {
@@ -14,13 +14,12 @@ function QuestionForm() {
     const [editQuestionId, setEditQuestionId] = useState(null);
 
     useEffect(() => {
-        // Fetch user questions when the component mounts
         fetchUserQuestions();
     }, []);
 
     const fetchUserQuestions = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/question/my-questions');
+            const response = await apiClient.get('http://localhost:8080/question/my-questions');
             setUserQuestions(response.data);
         } catch (error) {
             console.error('Error fetching questions:', error);
@@ -66,10 +65,10 @@ function QuestionForm() {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/question', questionData);
+            const response = await apiClient.post('http://localhost:8080/question', questionData);
             if (response.data && response.data.id) {
                 if (quizId) {
-                    await axios.post(`/quiz/addQuestion/${quizId}`, response.data.id.toString());
+                    await apiClient.post(`/quiz/addQuestion/${quizId}`, response.data.id.toString());
                 }
             }
 
@@ -90,7 +89,7 @@ function QuestionForm() {
             return;
         }
         try {
-            const response = await axios.get(`http://localhost:8080/question/search?keyword=${keyword}`);
+            const response = await apiClient.get(`http://localhost:8080/question/search?keyword=${keyword}`);
             setUserQuestions(response.data);
         } catch (error) {
             alert('Error fetching questions by keyword.');
@@ -105,7 +104,7 @@ function QuestionForm() {
         }
 
         try {
-            await axios.delete(`http://localhost:8080/question/${questionId}`);
+            await apiClient.delete(`http://localhost:8080/question/${questionId}`);
             setUserQuestions(prevQuestions => prevQuestions.filter(question => question.id !== questionId));
             alert('Question deleted successfully!');
         } catch (error) {
