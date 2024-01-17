@@ -24,17 +24,17 @@ public class QuestionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createOrUpdateQuestion(@RequestBody Question question) {
+    public ResponseEntity<Question> createOrUpdateQuestion(@RequestBody Question question) {
         try {
             log.info("Received question: {}", question.getText());
             question.getAnswers().forEach(answer ->
                     log.info("Answer: {}, isCorrect: {}", answer.getText(), answer.getIsCorrect())
             );
             Question savedQuestion = questionService.createOrUpdateQuestion(question);
-            return ResponseEntity.ok(savedQuestion);
+            return new ResponseEntity<Question>(savedQuestion, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             log.error("Error saving question: ", e);
-            return ResponseEntity.badRequest().body("Error saving question: " + e.getMessage());
+            return new ResponseEntity<Question>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 

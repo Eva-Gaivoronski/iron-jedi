@@ -1,4 +1,5 @@
 package com.example.triviaApplication.controllers;
+
 import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.models.User;
 import com.example.triviaApplication.repositories.QuestionRepository;
@@ -6,18 +7,21 @@ import com.example.triviaApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     private final UserRepository userRepository;
-    private final QuestionRepository questionRepository; // Add QuestionRepository
+    private final QuestionRepository questionRepository;
 
     @Autowired
     public UserController(UserRepository userRepository, QuestionRepository questionRepository) {
         this.userRepository = userRepository;
-        this.questionRepository = questionRepository; // Initialize QuestionRepository
+        this.questionRepository = questionRepository;
     }
 
     @PostMapping
@@ -26,16 +30,16 @@ public class UserController {
         return ResponseEntity.ok(savedUser);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        return ResponseEntity.ok(user);
-    }
+    @GetMapping("/leaderboard")
+    public ResponseEntity<List<User>> getUserLeaderboard() {
+        List<User> users = userRepository.findAll();
 
-    // New endpoint to get questions by username
-    @GetMapping("/{username}/questions")
-    public ResponseEntity<List<Question>> getQuestionsByUsername(@PathVariable String username) {
-        List<Question> questions = questionRepository.findQuestionsByUserUsername(username);
-        return ResponseEntity.ok(questions);
+        // Sort users based on the count of questions created by each user
+        List<User> sortedUsers = users.stream()
+                .sorted(Comparator.comparingInt(user -> ((User) user).getQuestions().size()).reversed())
+                .collect(Collectors.toList());
+
+
+        return ResponseEntity.ok(sortedUsers);
     }
 }
