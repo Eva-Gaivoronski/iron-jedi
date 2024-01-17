@@ -54,13 +54,13 @@ const Navbar = () => {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        {isLoggedIn ?(<Link to="/profile" className="nav-link">
+                        {isLoggedIn ? (<Link to="/profile" className="nav-link">
                             Profile
                         </Link>) : ('')
                         }
                     </li>
                     <li className="nav-item">
-                        {isLoggedIn ?('') : (
+                        {isLoggedIn ? ('') : (
                             <Link to="/register" className="nav-link">
                                 Register
                             </Link>
@@ -78,9 +78,16 @@ const Navbar = () => {
                             <img
                                 src={profilePicture}
                                 alt="Profile"
-                                style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                                style={{width: '40px', height: '40px', borderRadius: '50%'}}
                             />
                         )}
+                    </li>
+                    <li className="nav-item">
+                        {isLoggedIn ? (
+                        <Link to="/quiz-challenge" className="nav-link">
+                            Send Quiz
+                        </Link>
+                        ) : ('')}
                     </li>
                     <li className="nav-item">
                         {isLoggedIn ? (

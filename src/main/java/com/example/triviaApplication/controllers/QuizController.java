@@ -42,8 +42,16 @@ public class QuizController {
 
 
     @GetMapping("/getQuizzes")
-    public ResponseEntity<List<Quiz>> getUserQuizzes() {
-        return new ResponseEntity<>(quizRepository.findAll(), HttpStatus.ACCEPTED);
+    public ResponseEntity<List<Quiz>> getUserQuizzes(Principal principal) {
+        try {
+            Long userId = getUserIdFromPrincipal(principal);
+            if (userId == null) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            return new ResponseEntity<>(quizRepository.findByUserId(userId), HttpStatus.ACCEPTED);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{quizId}")

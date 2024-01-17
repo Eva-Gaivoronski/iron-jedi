@@ -11,7 +11,7 @@ const QuizPage = () => {
     const [quizzes, setQuizzes] = useState([]);
     const [newQuiz, setNewQuiz] = useState({title: ''});
     const [showCreateForm, setShowCreateForm] = useState(false);
-    const [showEditForm, setShowEditForm] = useState(false); // Corrected true?
+    const [showEditForm, setShowEditForm] = useState(false);
     const [editedQuiz, setEditedQuiz] = useState({});
     const {quizId} = useParams();
     const [quiz, setQuiz] = useState({});
@@ -61,16 +61,34 @@ const QuizPage = () => {
         fetchQuizzes(); // Fetch quizzes again
     };
 
-    const fetchQuizzes = async () => {
+    async function fetchQuizzes() {
         try {
-            const response = await axios.get('http://localhost:8080/quiz/getQuizzes', {timeout: 5000});
-            console.log('Quiz ID:', quizId);
-            console.log('Fetched Quiz Data:', response.data);
+            const response = await axios.get("/quiz/getQuizzes", {
+                withCredentials: true,
+            });
             setQuizzes(response.data);
         } catch (error) {
-            console.error('Error fetching quizzes:', error);
+            if (error.response && error.response.status === 401) {
+                // Redirect to login or handle unauthorized access
+                console.error("Unauthorized access. Redirecting to login...");
+                // You can use a library like React Router to handle navigation
+            } else {
+                console.error("Error fetching quizzes:", error.message);
+            }
         }
-    };
+    }
+
+
+    // const fetchQuizzes = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:8080/quiz/getQuizzes', {timeout: 5000});
+    //         console.log('Quiz ID:', quizId);
+    //         console.log('Fetched Quiz Data:', response.data);
+    //         setQuizzes(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching quizzes:', error);
+    //     }
+    // };
 
     useEffect(() => {
         fetchQuizzes();
