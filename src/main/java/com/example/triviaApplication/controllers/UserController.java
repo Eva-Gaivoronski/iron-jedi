@@ -50,7 +50,7 @@ public class UserController {
     @Autowired
     public UserController(UserRepository userRepository, QuestionRepository questionRepository,ImageDataService imageDataService, JavaMailSender javaMailSender) {
         this.userRepository = userRepository;
-        this.questionRepository = questionRepository; // Initialize QuestionRepository
+        this.questionRepository = questionRepository;
         this.imageDataService = imageDataService;
         this.javaMailSender = javaMailSender;
     }

@@ -41,14 +41,13 @@ public class QuizController {
     private QuizValidator quizValidator;
 
 
-    @GetMapping("/getQuizzes")
-    public ResponseEntity<List<Quiz>> getUserQuizzes(Principal principal) {
+    @GetMapping("/getQuizzes/{id}")
+    public ResponseEntity<List<Quiz>> getUserQuizzes(@PathVariable Long id) {
         try {
-            Long userId = getUserIdFromPrincipal(principal);
-            if (userId == null) {
+            if (id == null || id <= 0) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-            return new ResponseEntity<>(quizRepository.findByUserId(userId), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(quizRepository.findByUserId(id), HttpStatus.ACCEPTED);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

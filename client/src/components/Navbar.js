@@ -6,7 +6,6 @@ import axios from 'axios';
 const Navbar = () => {
     const { isLoggedIn, login, logout } = useContext(AuthContext);
     const [profilePicture, setProfilePicture] = useState(null);
-
     const username = localStorage.getItem('triviaappusername');
     const user_id = localStorage.getItem('triviaappid');
     useEffect(() => {
@@ -27,11 +26,20 @@ const Navbar = () => {
                 console.error('Error fetching profile picture:', error);
             }
         };
+        if (user_id !=null && user_id.length > 0){
+            login(isLoggedIn);
+        }
 
         if (isLoggedIn) {
             fetchProfilePicture();
         }
     }, [isLoggedIn]);
+
+    function setLoggedOut() {
+        localStorage.setItem('triviaappusername','');
+        localStorage.setItem('triviaappid','');
+        logout(isLoggedIn)
+    }
 
 
     return (
@@ -44,14 +52,18 @@ const Navbar = () => {
                         </Link>
                     </li>
                     <li className="nav-item">
+                        {isLoggedIn ? (
                         <Link to="/quizzes" className="nav-link">
                             Quiz Page
                         </Link>
+                        ) : ('')}
                     </li>
                     <li className="nav-item">
+                        {isLoggedIn ? (
                         <Link to="/question-form" className="nav-link">
                             Question Form
                         </Link>
+                        ) : ('')}
                     </li>
                     <li className="nav-item">
                         {isLoggedIn ? (<Link to="/profile" className="nav-link">
@@ -91,7 +103,7 @@ const Navbar = () => {
                     </li>
                     <li className="nav-item">
                         {isLoggedIn ? (
-                            <button onClick={logout}>Logout</button>
+                            <button onClick={setLoggedOut}>Logout</button>
                         ) : (
                             <Link to="/login" className="nav-link">
                                 Login
