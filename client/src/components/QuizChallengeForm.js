@@ -54,27 +54,27 @@ function QuizChallengeForm() {
 
     return (
         <div className="email-button-container">
-          <form>
-            <div className="email-container">
-              <label>
-                Email:
-                <input type="email" value={email} onChange={handleEmailChange} />
-                {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
-              </label>
-            </div>
-            <div className="email-container">
-              <label>
-                Confirm Email:
-                <input type="email" value={confirmEmail} onChange={handleConfirmEmailChange} />
-                {emailMismatch && <p style={{ color: 'red' }}>Emails do not match</p>}
-              </label>
-            </div>
-            <br />
-            <button type="button" onClick={handleSendQuiz} className="email-button">
-              Send Quiz
-            </button>
-          </form>
-          {quizSent && <p style={{ color: 'green' }}>Quiz sent!</p>}
+            <form>
+                <div className="email-container">
+                    <label>
+                        Email:
+                        <input type="email" value={email} onChange={handleEmailChange} />
+                        {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+                    </label>
+                </div>
+                <div className="email-container">
+                    <label>
+                        Confirm Email:
+                        <input type="email" value={confirmEmail} onChange={handleConfirmEmailChange} />
+                        {emailMismatch && <p style={{ color: 'red' }}>Emails do not match</p>}
+                    </label>
+                </div>
+                <br />
+                <button type="button" onClick={handleSendQuiz} className="email-button">
+                    Send Quiz
+                </button>
+            </form>
+            {quizSent && <p style={{ color: 'green' }}>Quiz sent!</p>}
         </div>
 
     );

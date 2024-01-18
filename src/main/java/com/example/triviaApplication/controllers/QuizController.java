@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,13 +42,21 @@ public class QuizController {
     private QuestionRepository questionRepository;
     @Autowired
     private QuizValidator quizValidator;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
 
-    @GetMapping("/getQuizzes")
-    public ResponseEntity<List<Quiz>> getUserQuizzes() {
-        // Get userID from Cookie
-        //P changes
-        return new ResponseEntity<>(quizRepository.findAll(), HttpStatus.ACCEPTED);
+    @PreAuthorize("")
+    @GetMapping("/getQuizzes/{id}")
+    public ResponseEntity<List<Quiz>> getUserQuizzes(@PathVariable Long id) {
+        try {
+            if (id == null || id <= 0) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            return new ResponseEntity<>(quizRepository.findByUserId(id), HttpStatus.ACCEPTED);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{quizId}")
@@ -67,14 +78,12 @@ public class QuizController {
     public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
         try {
             Quiz quiz = quizService.getQuizForTaking(quizId);
-            // previous attempt
             Long userId = getUserIdFromPrincipal(principal);
             List<QuizAttempt> quizAttempt = quizService.getUserAttemptForQuiz(quizId, userId);
 
             if (!quizAttempt.isEmpty()) {
                 QuizAttempt previousAttempt = quizAttempt.get(quizAttempt.size() - 1);
             }
-
             System.out.println("Fetched Quiz for Taking: " + quiz);
             return new ResponseEntity<>(quiz, HttpStatus.OK);
         } catch (NoSuchElementException e) {
@@ -83,20 +92,25 @@ public class QuizController {
     }
 
     private Long getUserIdFromPrincipal(Principal principal) {
-        // implement logic to extract user ID from Principal
-        // Example: assuming principal.getName() returns the username
-        // and you have a userService method to find the user by username
-        // return userService.getUserByUsername(principal.getName()).getId();
-        return 1L; // replace with actual logic
+        String username = principal.getName();
+        // Use the UserService to find the user by username
+        Optional<User> userOptional = userService.getUserByUsername(username);
+        // If the user is present, return the user ID, otherwise return null or handle as needed
+        return userOptional.map(User::getId).orElse(null);
     }
-
 
     @PostMapping("/addQuestion/{quizId}")
-    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody String questionId){
-        questionRepository.addQuestionToQuiz(quizId, Long.parseLong(questionId));
-        // TODO: Do a look-up to esnure it actually updated
-        return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
+    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody QuestionAssignmentDTO request){
+        try {
+            questionRepository.addQuestionToQuiz(quizId, request.getQuestionId());
+            // TODO: Do a look-up to ensure it actually updated
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            log.error("Error adding question to quiz: " + e.getMessage());
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
     //Take quiz Submission
     @PostMapping("/submitQuiz/{quizId}")
     @ResponseBody
@@ -117,14 +131,11 @@ public class QuizController {
     }
 
     @PostMapping("/quizzes")
-    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz, Principal principal) {
-        long userId = 1;
-
+    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz) {
         try {
             // Validator
             quizValidator.validateQuiz(newQuiz, new BeanPropertyBindingResult(newQuiz, "newQuiz"));
-
-            Quiz createdQuiz = quizService.createQuiz(newQuiz, userId);
+            Quiz createdQuiz = quizService.createQuiz(newQuiz, newQuiz.getUser().getId());
             return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
         } catch (Error e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);}

@@ -1,5 +1,4 @@
 package com.example.triviaApplication.controllers;
-
 import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.models.User;
 import com.example.triviaApplication.repositories.ImageRepository;
@@ -13,27 +12,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.authentication.AuthenticationManager;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.triviaApplication.services.ImageDataService;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:3000")
+
 public class UserController {
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
-    private final ImageDataService imageDataService;
-    private final JavaMailSender javaMailSender;
 
+    private final JavaMailSender javaMailSender;
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -47,7 +46,9 @@ public class UserController {
     ImageRepository imageRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository, QuestionRepository questionRepository, ImageDataService imageDataService, JavaMailSender javaMailSender) {
+    private ImageDataService imageDataService;
+    @Autowired
+    public UserController(UserRepository userRepository, QuestionRepository questionRepository,ImageDataService imageDataService, JavaMailSender javaMailSender) {
         this.userRepository = userRepository;
         this.questionRepository = questionRepository;
         this.imageDataService = imageDataService;
@@ -75,8 +76,15 @@ public class UserController {
                 .body(user.getProfilePicture());
     }
 
+    @GetMapping("/{username}/search")
+    public ResponseEntity<List<Question>> searchUserQuestionsByKeyword(@PathVariable String username, @RequestParam String keyword) {
+        List<Question> questions = questionRepository.searchByUserAndKeyword(username, keyword);
+        return ResponseEntity.ok(questions);
+    }
+
     @PostMapping("/register")
     public User createUser(@RequestBody User user) throws Exception {
+
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new Exception("Username already taken");
         }
@@ -92,15 +100,16 @@ public class UserController {
 
         return createdUser;
     }
-
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User user) throws Exception {
+        // Authenticate the user
         Optional<User> u = userRepository.findByUsername(user.getUsername());
 
         if (u.isEmpty()) {
             throw new RuntimeException("User not found");
         }
 
+        // Log or debug user properties
         System.out.println("Retrieved User: " + u.get().getIsEmailVerified());
         if(u.isEmpty() || !encoder.matches(user.getPassword(), u.get().getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -108,9 +117,11 @@ public class UserController {
         }
         System.out.println("Retrieved User VERIFY STATUS: " + u.get().getIsEmailVerified() + user.getUsername());
         if (u.get().getIsEmailVerified() == 1) {
+            //Generate JWT token
             String token = jwtTokenProvider.generateToken(user.getUsername());
+            // Return the token in the response
             return ResponseEntity.ok(token);
-        } else if(u.get().getIsEmailVerified() == 0) {
+        }else if(u.get().getIsEmailVerified() == 0){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Collections.singletonMap("message", "Email isn't verified").toString());
         }
@@ -135,6 +146,7 @@ public class UserController {
         User user = userRepository.findById(id).orElse(null);
 
         if (user != null) {
+            // Update is_email_verified value to 1
             user.setIsEmailVerified(1);
             userRepository.save(user);
             return ResponseEntity.ok("Email verification status updated successfully.");
@@ -142,16 +154,10 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    // New endpoint to get questions by username
     @GetMapping("/{username}/questions")
     public ResponseEntity<List<Question>> getQuestionsByUsername(@PathVariable String username) {
         List<Question> questions = questionRepository.findQuestionsByUserUsername(username);
-        return ResponseEntity.ok(questions);
-    }
-
-    @GetMapping("/{username}/search")
-    public ResponseEntity<List<Question>> searchUserQuestionsByKeyword(@PathVariable String username, @RequestParam String keyword) {
-        List<Question> questions = questionRepository.searchByUserAndKeyword(username, keyword);
         return ResponseEntity.ok(questions);
     }
 
@@ -164,19 +170,11 @@ public class UserController {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(newuser.getEmail());
         message.setSubject("Welcome to YourApp!");
-        message.setText("Thank you for registering with YourApp. We look forward to your participation. Please verify your email address using this link. http://localhost:3000/verify-email/" + newuser.getId());
+        message.setText("Thank you for registering with YourApp. We look forward to your participation. please verify your email address using this link. http://localhost:3000/verify-email/" + newuser.getId());
 
+        // Send the email
         javaMailSender.send(message);
     }
-    @GetMapping("/leaderboard")
-    public ResponseEntity<List<User>> getUserLeaderboard() {
-        List<User> users = userRepository.findAll();
-
-        // Sort users based on the count of questions created by each user
-        List<User> sortedUsers = users.stream()
-                .sorted(Comparator.comparingInt(user -> ((User) user).getQuestions().size()).reversed())
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(users);
-    }
 }
+
+

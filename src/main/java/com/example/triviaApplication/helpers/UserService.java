@@ -1,4 +1,5 @@
 package com.example.triviaApplication.helpers;
+
 import com.example.triviaApplication.models.User;
 import com.example.triviaApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -46,6 +49,5 @@ public class UserService {
 
         return user;
     }
-
 
 }

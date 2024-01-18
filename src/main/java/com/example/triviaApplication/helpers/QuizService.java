@@ -59,7 +59,6 @@ public class QuizService {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) {throw new Error("User not found with ID: " + userId);}
         quiz.setUser(user);
-        // TODO validation logic for the quiz
         quiz.setQuestions(new ArrayList<Question>());
 
         return quizRepository.save(quiz);}

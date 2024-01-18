@@ -44,14 +44,8 @@ const Navbar = () => {
 
     return (
         <header className="Header">
-
             <nav>
                 <ul className="nav-list">
-                    <li className="nav-item navbar-brand">
-                        <div>
-                            <h1 className="brand-text">Trivia Explosion!</h1>
-                        </div>
-                    </li>
                     <li className="nav-item">
                         <Link to="/" className="nav-link">
                             Home
@@ -59,19 +53,24 @@ const Navbar = () => {
                     </li>
                     <li className="nav-item">
                         {isLoggedIn ? (
-                            <Link to="/quizzes" className="nav-link">
-                                My Quizzes
-                            </Link>
+                        <Link to="/quizzes" className="nav-link">
+                            Quiz Page
+                        </Link>
                         ) : ('')}
                     </li>
                     <li className="nav-item">
                         {isLoggedIn ? (
-                            <Link to="/question-form" className="nav-link">
-                                My Questions
-                            </Link>
+                        <Link to="/question-form" className="nav-link">
+                            Question Form
+                        </Link>
                         ) : ('')}
                     </li>
-
+                    <li className="nav-item">
+                        {isLoggedIn ? (<Link to="/profile" className="nav-link">
+                            Profile
+                        </Link>) : ('')
+                        }
+                    </li>
                     <li className="nav-item">
                         {isLoggedIn ? ('') : (
                             <Link to="/register" className="nav-link">
@@ -79,14 +78,13 @@ const Navbar = () => {
                             </Link>
                         )}
                     </li>
-                    <li className="nav-item logout-btn">
+                    <li className="nav-item">
                         {isLoggedIn ? (
                             <div>
                                 <h6>Welcome, {username}!</h6>
                             </div>
                         ) : ('')}
                     </li>
-
                     <li className="nav-item">
                         {isLoggedIn && profilePicture && (
                             <img
@@ -97,19 +95,13 @@ const Navbar = () => {
                         )}
                     </li>
                     <li className="nav-item">
-                        {isLoggedIn ? (<Link to="/profile" className="nav-link">
-                            My Profile
-                        </Link>) : ('')
-                        }
-                    </li>
-                    <li className="nav-item">
                         {isLoggedIn ? (
-                            <Link to="/quiz-challenge" className="nav-link">
-                                Share Quiz
-                            </Link>
+                        <Link to="/quiz-challenge" className="nav-link">
+                            Send Quiz
+                        </Link>
                         ) : ('')}
                     </li>
-                    <li className="nav-item logout-btn">
+                    <li className="nav-item">
                         {isLoggedIn ? (
                             <button onClick={setLoggedOut}>Logout</button>
                         ) : (

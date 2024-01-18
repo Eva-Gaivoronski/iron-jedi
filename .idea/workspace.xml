@@ -4,25 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="843f8013-a532-4783-ad37-5c6a94f5ae86" name="Changes" comment="saving previous score, able to create, update, take and delete quiz. Add questions strictly from question form">
+    <list default="true" id="843f8013-a532-4783-ad37-5c6a94f5ae86" name="Changes" comment="enother part is working">
+      <change afterPath="$PROJECT_DIR$/client/src/components/ApiClient.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/JwtTokenFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_10_2024_12_36_PM_[Changes]/buildOutputCleanup.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_10_2024_12_36_PM_[Changes]/executionHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_10_2024_12_36_PM_[Changes]/file-system.probe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_10_2024_12_36_PM_[Changes]/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_10_2024_12_36_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_10_2024_12_36_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/controllers/QuizController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/controllers/QuizController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/Question.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/Question.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/models/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/LeaderBoardPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LeaderBoardPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/CreateQuizForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CreateQuizForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/QuestionForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/QuestionForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/QuizPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/QuizPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/TakeQuizPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/TakeQuizPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/controllers/QuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/controllers/QuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/WebSecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +53,29 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="TriviaApplication" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="TriviaApplication" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="TriviaApplication" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="TriviaApplication" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -53,15 +85,12 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="module-info" />
         <option value="JavaScript File" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
-  </component>
-  <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="merge-kj" />
   </component>
   <component name="Git.Settings">
     <option name="PUSH_TAGS">
@@ -78,11 +107,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
-  <component name="InvalidFacetManager">
-    <ignored-facets>
-      <facet id="TriviaApplication.main/invalid/JPA" />
-    </ignored-facets>
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -98,26 +122,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Gradle.TriviaApp [bootRun].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.TriviaApp [bootTestRun].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;merge-JK-2&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Kevin/Desktop/Launchcode Class files/Java Projects/assignment-one&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Gradle.TriviaApp [bootRun].executor": "Run",
+    "Gradle.TriviaApp [bootTestRun].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Iryna's__branch",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Kevin/Desktop/Launchcode Class files/Java Projects/assignment-one",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "inlay.hints",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -241,7 +265,10 @@
       <workItem from="1705164649934" duration="18338000" />
       <workItem from="1705195960872" duration="4064000" />
       <workItem from="1705248318453" duration="13695000" />
-      <workItem from="1705348967608" duration="945000" />
+      <workItem from="1705348967608" duration="4599000" />
+      <workItem from="1705422703790" duration="7895000" />
+      <workItem from="1705442138073" duration="13652000" />
+      <workItem from="1705504781628" duration="21813000" />
     </task>
     <task id="LOCAL-00001" summary="update and chages after fetching Kevins code">
       <option name="closed" value="true" />
@@ -403,7 +430,63 @@
       <option name="project" value="LOCAL" />
       <updated>1705341981925</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="saving previous score, able to create, update, take and delete quiz. Add questions strictly from question form. didn't merge other code yet">
+      <option name="closed" value="true" />
+      <created>1705357971618</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1705357971618</updated>
+    </task>
+    <task id="LOCAL-00022" summary="all worjking. saving this one before starting changes. didn't merge other code yet">
+      <option name="closed" value="true" />
+      <created>1705422926136</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1705422926136</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Merged Kevins code - all working on both, remote DTB and local.">
+      <option name="closed" value="true" />
+      <created>1705425395600</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1705425395600</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Merged Kevins code , merged Temesgen code. It's starting.">
+      <option name="closed" value="true" />
+      <created>1705430643510</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1705430643510</updated>
+    </task>
+    <task id="LOCAL-00025" summary="just a commit to save">
+      <option name="closed" value="true" />
+      <created>1705456280455</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1705456280455</updated>
+    </task>
+    <task id="LOCAL-00026" summary="something is working. I removed the error on fetching quizzes">
+      <option name="closed" value="true" />
+      <created>1705507742598</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1705507742598</updated>
+    </task>
+    <task id="LOCAL-00027" summary="enother part is working">
+      <option name="closed" value="true" />
+      <created>1705531460785</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1705531460785</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -421,8 +504,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="update and chages after fetching Kevins code" />
-    <MESSAGE value="now we can create, save and delete quiz. working on editing" />
     <MESSAGE value="edded adit quiz - we can now change the title and category and save it" />
     <MESSAGE value="more changes" />
     <MESSAGE value="cleaned code for better clarity and this is the last comit before start working on &quot;take quiz&quot; task" />
@@ -441,7 +522,14 @@
     <MESSAGE value="added ability to save multiple attempts results" />
     <MESSAGE value="added attempts score to takequiz page" />
     <MESSAGE value="saving previous score, able to create, update, take and delete quiz. Add questions strictly from question form" />
-    <option name="LAST_COMMIT_MESSAGE" value="saving previous score, able to create, update, take and delete quiz. Add questions strictly from question form" />
+    <MESSAGE value="saving previous score, able to create, update, take and delete quiz. Add questions strictly from question form. didn't merge other code yet" />
+    <MESSAGE value="all worjking. saving this one before starting changes. didn't merge other code yet" />
+    <MESSAGE value="Merged Kevins code - all working on both, remote DTB and local." />
+    <MESSAGE value="Merged Kevins code , merged Temesgen code. It's starting." />
+    <MESSAGE value="just a commit to save" />
+    <MESSAGE value="something is working. I removed the error on fetching quizzes" />
+    <MESSAGE value="enother part is working" />
+    <option name="LAST_COMMIT_MESSAGE" value="enother part is working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

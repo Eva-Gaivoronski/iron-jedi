@@ -94,11 +94,7 @@ function HomePage() {
 
     return (
         <div >
-            <Navbar expand="lg" className="bg-body-tertiary">
-            </Navbar>
-
-
-            <div className="text-center"> {/* Add a container for centering */}
+            <div className="text-center">
                 <Container>
                     <Card className="text-center">
                         <Card.Header>Welcome to Trivia Explosion!</Card.Header>
