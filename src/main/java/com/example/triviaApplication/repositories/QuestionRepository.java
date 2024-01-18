@@ -11,6 +11,10 @@ import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Question> findQuestionsByUserUsername(String username);
+    // Searches for questions (and their associated answers) created by a specific user,
+    // identified by their user ID, where the question text or answer text matches the provided keyword.
+    @Query("SELECT q FROM Question q JOIN q.answers a WHERE q.user.id = :userId AND (q.text LIKE %:keyword% OR a.text LIKE %:keyword%)")
+    List<Question> findByKeywordAndUserId(@Param("keyword") String keyword, @Param("userId") Long userId);
 
     // New method to find questions by user ID
     @Query("SELECT q FROM Question q WHERE q.user.id = :userId")

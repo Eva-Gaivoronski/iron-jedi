@@ -17,7 +17,6 @@ const CreateQuiz=({ onClose })=> {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-            // Validate if all fields are filled
             const requiredFields = ['title', 'category', 'description'];
             const emptyFields = requiredFields.filter(field => !values[field]);
 
@@ -103,16 +102,6 @@ const CreateQuiz=({ onClose })=> {
                                     <ErrorMessage name="description" component="div"/>
                                 </label>
                                 <br/>
-                                {/*<label htmlFor="formGroupExampleInput">*/}
-                                {/*    User:*/}
-                                {/*    <Field type="text" className="form-control" id="formGroupExampleInput"*/}
-                                {/*           placeholder="add user" name="username" value={values.username}*/}
-                                {/*           onChange={handleChange}/>*/}
-                                {/*    /!* ErrorMessage  *!/*/}
-                                {/*    <ErrorMessage name="username" component="div"/>*/}
-                                {/*</label>*/}
-                                {/*<br/>*/}
-
                                 <Button type="submit" className="btn btn-primary btn-lg btn-block">
                                     Create Quiz
                                 </Button>

@@ -15,7 +15,6 @@ public class Quiz extends BaseEntity {
     private String category;
     private boolean submitted;
     private int score;
-
     private int requiredQuestionCount;
 
     @Column(length = 4000)

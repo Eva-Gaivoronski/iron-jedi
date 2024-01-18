@@ -8,6 +8,7 @@ function QuestionForm() {
     const [answers, setAnswers] = useState(new Array(4).fill({ text: '', isCorrect: false }));
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
     const [userQuestions, setUserQuestions] = useState([]);
+    const [searchKeyword, setSearchKeyword] = useState('');
     const { quizId } = useParams();
     const username = localStorage.getItem('triviaappusername');
     const user_id = localStorage.getItem('triviaappid');
@@ -126,6 +127,16 @@ function QuestionForm() {
         }
     };
 
+    // Function to search for questions based on keyword
+    const searchQuestions = async () => {
+        try {
+            const response = await apiClient.get(`http://localhost:8080/question/search?keyword=${searchKeyword}&userId=${user_id}`);
+            setUserQuestions(response.data);
+        } catch (error) {
+            console.error('Error searching questions:', error);
+        }
+    };
+
     return (
         <div className="form-container">
             <h2>Create a New Question</h2>
@@ -152,6 +163,17 @@ function QuestionForm() {
                 ))}
                 <button type="submit">Save Question</button>
             </form>
+
+            {/* Search bar for filtering questions */}
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search questions"
+                    value={searchKeyword}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                />
+                <button onClick={searchQuestions}>Search</button>
+            </div>
 
             <div>
                 <h2>My Questions</h2>

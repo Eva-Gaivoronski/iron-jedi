@@ -206,7 +206,7 @@ const QuizPage = () => {
                 <div>
                     <span style={{color: "green", fontSize: "1.1em"}}>Quiz already taken.</span>
                     <br />
-                    {QuizScoreDisplay({score: quizData.quizAttempts[0].percentage})}
+                    {QuizScoreDisplay({score: quizData.quizAttempts[quizData.quizAttempts.length-1].percentage.toFixed(2)})}
                 </div>
             )
         }
@@ -283,11 +283,11 @@ const QuizPage = () => {
     }
 
     function QuizButtonDisplay({quizData}){
-        if (quizData.submitted){
+        if (quizData.requiredQuestionCount > 0 && quizData.questions.length >= quizData.requiredQuestionCount && quizData.submitted){
             return(
                 <div>
                     <Link to={`/takeQuiz/${quizData.id}`}>
-                    {/* Iryna update to handle event, where Score/Submitted are reset */}
+                    {/* update to handle event, where Score/Submitted are reset */}
                     <Button variant="danger">
                         Retake Quiz
                     </Button>

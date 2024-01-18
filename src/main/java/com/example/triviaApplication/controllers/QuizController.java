@@ -45,7 +45,7 @@ public class QuizController {
     @Autowired
     AuthenticationManager authenticationManager;
 
-
+    // Fetch quizzes for a specific user
     @PreAuthorize("")
     @GetMapping("/getQuizzes/{id}")
     public ResponseEntity<List<Quiz>> getUserQuizzes(@PathVariable Long id) {
@@ -59,9 +59,39 @@ public class QuizController {
         }
     }
 
+    // Fetch a quiz by its ID
     @GetMapping("/{quizId}")
     public Quiz getQuizById(@PathVariable Long quizId) {
         return quizRepository.findById(quizId).orElse(null);}
+
+    // Create a new quiz
+    @PostMapping("/quizzes")
+    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz) {
+        try {
+            // Validator
+            quizValidator.validateQuiz(newQuiz, new BeanPropertyBindingResult(newQuiz, "newQuiz"));
+            Quiz createdQuiz = quizService.createQuiz(newQuiz, newQuiz.getUser().getId());
+            return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
+        } catch (Error e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
+    }
+
+    // Update a quiz
+    @PutMapping("/{quizId}")
+    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
+        try {
+            Quiz result = quizService.updateQuiz(quizId, updatedQuiz);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Delete a quiz
+    @DeleteMapping("/{quizId}")
+    public void deleteUserQuiz(@PathVariable Long quizId) {
+        quizRepository.deleteById(quizId);
+    }
 
     //Update quiz with list of questions
     @GetMapping("/questions/{quizId}")
@@ -74,6 +104,7 @@ public class QuizController {
         }
     }
 
+    // Fetch a quiz for taking with additional details
     @GetMapping("/takeQuiz/{quizId}")
     public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
         try {
@@ -91,14 +122,15 @@ public class QuizController {
         }
     }
 
+    // Helper method to get the user ID from Principal
     private Long getUserIdFromPrincipal(Principal principal) {
         String username = principal.getName();
-        // Use the UserService to find the user by username
         Optional<User> userOptional = userService.getUserByUsername(username);
         // If the user is present, return the user ID, otherwise return null or handle as needed
         return userOptional.map(User::getId).orElse(null);
     }
 
+    // Add a question to a quiz
     @PostMapping("/{quizId}/addQuestion/{questionId}")
     public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @PathVariable Long questionId){
         try {
@@ -130,32 +162,7 @@ public class QuizController {
         }
     }
 
-    @PostMapping("/quizzes")
-    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz newQuiz) {
-        try {
-            // Validator
-            quizValidator.validateQuiz(newQuiz, new BeanPropertyBindingResult(newQuiz, "newQuiz"));
-            Quiz createdQuiz = quizService.createQuiz(newQuiz, newQuiz.getUser().getId());
-            return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
-        } catch (Error e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
-    }
-
-    @PutMapping("/{quizId}")
-    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
-    try {
-        Quiz result = quizService.updateQuiz(quizId, updatedQuiz);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    } catch (NoSuchElementException e) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-}
-
-    @DeleteMapping("/{quizId}")
-    public void deleteUserQuiz(@PathVariable Long quizId) {
-        quizRepository.deleteById(quizId);
-    }
-
+    // Remove a question from a quiz
     @DeleteMapping("/removeQuestion/{quizId}/{questionId}")
     public ResponseEntity<Quiz> removeQuestionFromQuiz(@PathVariable Long quizId, @PathVariable Long questionId) {
         try {

@@ -73,5 +73,12 @@ public class QuestionService {
         return questionRepository.findQuestionsByUserId(userId);
     }
 
-// Additional methods as per your requirements...
+    /**
+     * Searches questions based on a keyword and a user ID.
+     */
+    public List<Question> searchQuestions(String keyword, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userId));
+        return questionRepository.findByKeywordAndUserId(keyword, userId);
+    }
 }
