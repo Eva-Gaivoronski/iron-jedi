@@ -20,8 +20,10 @@ import com.example.triviaApplication.services.ImageDataService;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -165,5 +167,16 @@ public class UserController {
         message.setText("Thank you for registering with YourApp. We look forward to your participation. Please verify your email address using this link. http://localhost:3000/verify-email/" + newuser.getId());
 
         javaMailSender.send(message);
+    }
+    @GetMapping("/leaderboard")
+    public ResponseEntity<List<User>> getUserLeaderboard() {
+        List<User> users = userRepository.findAll();
+
+        // Sort users based on the count of questions created by each user
+        List<User> sortedUsers = users.stream()
+                .sorted(Comparator.comparingInt(user -> ((User) user).getQuestions().size()).reversed())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(users);
     }
 }

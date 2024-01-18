@@ -14,7 +14,7 @@ import EmailVerificationPage from './components/VerifyEmail';
 
 import { AuthContext, AuthProvider } from "./context/AuthContext";
 import ProfilePicture from "./components/ProfilePicture";
-
+import LeaderBoardPage from "./components/LeaderBoardPage"
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -48,6 +48,8 @@ function App() {
                     <Route path="/submitQuiz/:quizId" element={<TakeQuizPage/>}/>
                     <Route path="/verify-email/:id" element={<EmailVerificationPage />} />
                     <Route path="/profile" element={<ProfilePicture />} />
+                    <Route path="/leaderboard" element={<LeaderBoardPage />} />
+
                 </Routes>
             </div>
         </AuthProvider>
