@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import {Table, Button, Modal, FormControl, InputGroup, Card} from 'react-bootstrap';
+import React, {useState, useEffect, useContext} from 'react';
+import {Table, Button, Modal, FormControl, InputGroup, Card, Row, Col, Container} from 'react-bootstrap';
 import axios from 'axios';
 import { Link, useParams, useNavigate} from 'react-router-dom';
 import CreateQuizForm from './CreateQuizForm';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {AuthContext} from "../context/AuthContext";
+import apiClient from "./ApiClient";
+
+
 const QuizPage = () => {
     const [quizzes, setQuizzes] = useState([]);
     const [newQuiz, setNewQuiz] = useState({title: ''});
@@ -18,6 +21,9 @@ const QuizPage = () => {
     const navigate = useNavigate();
     const [quizToDelete, setQuizToDelete] = useState(null);
     const [questions, setQuestions] = useState([]);
+    const { isLoggedIn, login, logout } = useContext(AuthContext);
+    const username = localStorage.getItem('triviaappusername');
+    const user_id = localStorage.getItem('triviaappid');
 
     const handleCreateQuizButtonClick = () => {
         setShowCreateForm(true);
@@ -25,7 +31,7 @@ const QuizPage = () => {
 
     const handleCloseCreateForm = () => {
         setShowCreateForm(false);
-        fetchQuizzes(); // Fetch quizzes again
+        fetchQuizzes();
     };
 
     const handleEditQuiz = async (selectedQuiz) => {
@@ -34,7 +40,7 @@ const QuizPage = () => {
 
         // Fetch questions for the current quiz
         try {
-            const response = await axios.get(`http://localhost:8080/quiz/questions/${selectedQuiz.id}`);
+            const response = await apiClient.get(`http://localhost:8080/quiz/questions/${selectedQuiz.id}`);
             setQuestions(response.data);
         } catch (error) {
             console.error('Error fetching questions:', error);
@@ -42,13 +48,10 @@ const QuizPage = () => {
     };
 
     const handleRemoveQuestion = async (questionId) => {
-        const userConfirmed = window.confirm('Are you sure you want to remove this question from the quiz?')
-        if (!userConfirmed) {
-            return;
-        }
         try {
             await axios.delete(`http://localhost:8080/quiz/removeQuestion/${quiz.id}/${questionId}`);
-            const response = await axios.get(`http://localhost:8080/quiz/questions/${quiz.id}`);
+            // Fetch updated questions after removal
+            const response = await apiClient.get(`http://localhost:8080/quiz/questions/${quiz.id}`);
             setQuestions(response.data);
         } catch (error) {
             console.error('Error removing question:', error);
@@ -58,26 +61,39 @@ const QuizPage = () => {
     const handleCloseEditForm = () => {
         setShowEditForm(false);
         setEditedQuiz({});
-        fetchQuizzes(); // Fetch quizzes again
+        fetchQuizzes();
     };
 
     const fetchQuizzes = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/quiz/getQuizzes', {timeout: 5000});
-            console.log('Quiz ID:', quizId);
-            console.log('Fetched Quiz Data:', response.data);
-            setQuizzes(response.data);
-        } catch (error) {
-            console.error('Error fetching quizzes:', error);
-        }
+        const response = await apiClient.get(`http://localhost:8080/quiz/getQuizzes/${user_id}`, {
+            method: "GET",
+            mode: "no-cors",
+            credentials: "omit",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(responseData => {
+                console.log('Fetched Quiz Data:', responseData.data);
+                if (responseData !=null && responseData.data !=null ){
+                    setQuizzes(responseData.data);
+                }
+            })
+            .catch(error => {
+                console.error('New Error fetching quizzes:', error);
+                console.log('Request config:', error.config);
+                console.log('Server response:', error.response)
+            })
     };
 
     useEffect(() => {
+
         fetchQuizzes();
-    }, []); // Fetch quizzes on component mount
+    }, []);
 
     const handleAddQuestions = (quizId) => {
         navigate(`/question-form/${quizId}`);
+        // TODO: Need logic for editing questions from Kevin
         console.log(`Add questions for quiz with ID ${quizId}`);
     };
 
@@ -89,7 +105,7 @@ const QuizPage = () => {
         try {
             await axios.delete(`http://localhost:8080/quiz/${quizToDelete}`);
             fetchQuizzes();
-            setQuizToDelete(null);
+            setQuizToDelete(null); // Clear the state after successful deletion
         } catch (error) {
             console.error('Error deleting quiz:', error);
         }
@@ -109,10 +125,10 @@ const QuizPage = () => {
 
     const handleUpdateQuiz = async (updatedQuiz) => {
         try {
-            await axios.put(`http://localhost:8080/quiz/${quizId}`, updatedQuiz);
+            await apiClient.put(`http://localhost:8080/quiz/${updatedQuiz.id}`, updatedQuiz);
             setShowEditForm(false);
             setQuiz(updatedQuiz);
-            fetchQuizzes(); // Fetch quizzes again after updating
+            fetchQuizzes();
         } catch (error) {
             console.error('Error updating quiz:', error);
         }
@@ -123,72 +139,226 @@ const QuizPage = () => {
         handleUpdateQuiz(quiz);
     };
 
+    function QuizCard({ quizData }){
+        return (
+            <Card className="h-100 w-auto">
+                <Card.Header className="container-fluid">
+                    <Row>
+                        <Col xs={10} lg={11}>
+                            <h4><strong>{quizData.title}</strong></h4>
+                            <em><h6>{quizData.category}</h6></em>
+                        </Col>
+                        <Col xs={2} lg={1}>
+                            <a style={{cursor: "pointer", padding: "1px"}} title="Delete Quiz" onClick={() => handleDeleteQuiz(quizData.id)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 448 512">
+                                    <path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/>
+                                </svg>
+                            </a>
+                        </Col>
+                    </Row>
+                </Card.Header>
+                <Card.Body>
+                    <Row>
+                        <strong>Description</strong>
+                        <br />
+                        <p>
+                            {quizData.description}
+                        </p>
+                    </Row>
+                    <Row>
+                        <Col>
+                            {QuizStatusDisplay({quizData: quizData})}
+                        </Col>
+                        <Col>
+
+                        </Col>
+                    </Row>
+                </Card.Body>
+                <Card.Footer>
+                    <Row>
+                        <Col className="mb-sm-2" xs={12} md={4}>
+                            {QuizButtonDisplay({quizData: quizData})}
+                        </Col>
+                        <Col className="mb-sm-2" xs={6} md={4}>
+                            <Link to={`/question-form/${quizData.id}`}>
+                                <Button variant="outline-primary">
+                                    Questions
+                                </Button>
+                            </Link>
+                        </Col>
+                        <Col className="mb-sm-2" xs={6} md={4}>
+                            <Button variant="outline-dark" onClick={() => handleEditQuiz(quizData)}>
+                                Edit
+                            </Button>
+                        </Col>
+                    </Row>
+                </Card.Footer>
+            </Card>
+        )
+    }
+
+    function QuizStatusDisplay({ quizData }){
+        let currCount = quizData.questions.length;
+        let requiredAmount = quizData.requiredQuestionCount;
+
+        if (quizData.submitted){
+            return (
+                <div>
+                    <span style={{color: "green", fontSize: "1.1em"}}>Quiz already taken.</span>
+                    <br />
+                    {QuizScoreDisplay({score: quizData.score})}
+                </div>
+            )
+        }
+        else if (requiredAmount > 0 && currCount >= requiredAmount){
+            return(
+                <div>
+                    <span style={{color: "green", fontSize: "1.1em"}}>You are ready to take the quiz.</span>
+                    {QuizCountDisplay({currentCount: currCount, requiredCount: requiredAmount})}
+                </div>
+            )
+        }
+        else{
+            return(
+                <div>
+                    <span style={{color: "red", fontSize: "1.1em"}}>Quiz is not ready to be taken.</span>
+                    {QuizCountDisplay({currentCount: currCount, requiredCount: requiredAmount})}
+                </div>
+            )
+        }
+    }
+
+    function QuizScoreDisplay({ score }){
+        return(
+            <div>
+                <span style={{fontStyle: "italic"}}>
+                    Score:&nbsp;
+                </span>
+                <span style={score > 70 ? {color: "green"} : {color: "red"}}>
+                        {score} %
+                </span>
+            </div>
+        )
+    }
+
+    function QuizCountDisplay({ currentCount, requiredCount }){
+        if (requiredCount > 0 && currentCount >= requiredCount){
+            return(
+                <div>
+                    <span style={{fontStyle: "italic"}}>
+                        Current Count:&nbsp;
+                    </span>
+                    <span style={{color: "green"}}>
+                        {currentCount}
+                    </span>
+                    <br />
+                    <span style={{fontStyle: "italic"}}>
+                        Required Count:&nbsp;
+                    </span>
+                    <span style={{fontWeight: "bold"}}>
+                        {requiredCount}
+                    </span>
+                </div>
+            )
+        }
+        else {
+            return(
+                <div>
+                    <span style={{fontStyle: "italic"}}>
+                        Current Count:&nbsp;
+                    </span>
+                    <span style={{color: "red"}}>
+                        {currentCount}
+                    </span>
+                    <br />
+                    <span style={{fontStyle: "italic"}}>
+                        Required Count:&nbsp;
+                    </span>
+                    <span style={{fontWeight: "bold"}}>
+                        {requiredCount}
+                    </span>
+                </div>
+            )
+        }
+    }
+
+    function QuizButtonDisplay({quizData}){
+        if (quizData.submitted){
+            return(
+                <div>
+                    {/* Iryna update to handle event, where Score/Submitted are reset */}
+                    <Button variant="danger">
+                        Retake Quiz
+                    </Button>
+                </div>
+            )
+        }
+        else if (quizData.questions.length >= quizData.requiredQuestionCount){
+            return (
+                <div>
+                    <Link to={`/takeQuiz/${quizData.id}`}>
+                        <Button variant="success">
+                            Take Quiz
+                        </Button>
+                    </Link>
+                </div>
+            )
+        }
+        else{
+            return (
+                <div>
+                    <Button disabled="disabled" variant="outline-success">
+                        Take Quiz
+                    </Button>
+                </div>
+            )
+        }
+    }
 
     return (
-        <div className="container">
+        <section>
+            <Row className="sticky-top">
+                {/*<Col xs={4} className="offset-4">*/}
+                <Card className="text-center">
+                    <Card.Header>Explore Trivia Explosion!</Card.Header>
+                    <Card.Body>
+                        <Card.Title>Create Your Own Quiz</Card.Title>
+                        <Card.Text>
+                            Dive into the world of knowledge and fun! Craft your personalized quiz and challenge others.
+                            With supporting questions, create a compelling quiz that others would love to take.
+                        </Card.Text>
 
+                        <Button size="lg" variant="success shadow" onClick={handleCreateQuizButtonClick}>
+                            CREATE QUIZ
+                        </Button>
+                    </Card.Body>
+                </Card>
+                {/*</Col>*/}
+            </Row>
 
-            <Table className="mt-3">
-            <thead className="table-header">
-            <tr>
-                <th className="row-cols-md-auto">Title</th>
-                <th className="row-cols-md-auto">Category</th>
-                <th className="row-cols-md-auto">Questions</th>
-                <th></th>
-                <th></th>
-                <th></th>
-
-            </tr>
-            </thead>
-                <tbody>
-                {quizzes.map((quiz) => (
-                    <tr key={quiz.id}>
-                        <td width="28%">{quiz.title}</td>
-                        <td width="28%">{quiz.category}</td>
-                        <td> <span> {quiz.questions.length} </span>
-
-                            <Link to={`/question-form/${quiz.id}`}>
-                                <Button  onClick={() => handleAddQuestions(quiz)}>
-                                    <FontAwesomeIcon icon={faFileCirclePlus} />
-                                </Button>
-                            </Link>
-                        </td>
-                        <td>
-                            <Link to={`/quizzes/${quiz.id}`}>
-                                <Button variant="warning" onClick={() => handleEditQuiz(quiz)}>
-                                    Update
-                                </Button>
-                            </Link>
-                        </td>
-
-                        <td>
-                            <Link to={`/takeQuiz/${quiz.id}`}>
-                                <Button variant="success" >
-                                    Take Quiz
-                                </Button>
-                            </Link>
-                        </td>
-                        <td>
-                            <Button variant="danger" onClick={() => handleDeleteQuiz(quiz.id)}>
-                                Delete
-                            </Button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </Table>
+            <Container>
+                <Row xs={1} md={2} className="g-4">
+                    {/* For each quiz, create our QuizCard object */}
+                    {quizzes.map((quiz) => (
+                        <Col key={quiz.id}>
+                            {QuizCard({quizData: quiz})}
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
 
             {/* Create Quiz Form Modal */}
             <Modal show={showCreateForm} onHide={handleCloseCreateForm} >
-                <Modal.Header bg="light" closeButton>
-                    <Modal.Title>CREATE NEW QUIZ</Modal.Title>
+                <Modal.Header closeButton>
+                    <Modal.Title>Create a New Quiz</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {/* Render CreateQuizForm component and pass form-related props */}
                     <CreateQuizForm
                         onCancel={handleCloseCreateForm}
                         newQuiz={newQuiz}
                         setNewQuiz={setNewQuiz}
-                        fetchQuizzes={fetchQuizzes}
+                        fetchQuizzes={fetchQuizzes} // Pass the fetchQuizzes function to update quiz list after creation
                         onClose={handleCloseCreateForm}
                     />
                 </Modal.Body>
@@ -225,6 +395,26 @@ const QuizPage = () => {
                                 />
                             </InputGroup>
 
+                            <InputGroup className="mb-3 shadow">
+                                <InputGroup.Text>Description</InputGroup.Text>
+                                <FormControl
+                                    as="textarea"
+                                    name="description"
+                                    value={quiz.description}
+                                    onChange={handleInputChange}
+                                />
+                            </InputGroup>
+
+                            <InputGroup className="mb-3 shadow">
+                                <InputGroup.Text>Required # of Questions</InputGroup.Text>
+                                <FormControl
+                                    type="number"
+                                    name="requiredQuestionCount"
+                                    value={quiz.requiredQuestionCount}
+                                    onChange={handleInputChange}
+                                />
+                            </InputGroup>
+
                             {/* Display list of questions */}
                             <div className="mb-3 shadow">
                                 <h3>Quiz questions:</h3>
@@ -233,18 +423,18 @@ const QuizPage = () => {
                                         <li className="list-group-item"
                                             key={question.id}>
                                             <div className="row">
-                                            <div className="flex-wrap justify-content-between
+                                                <div className="flex-wrap justify-content-between
                                             align-items-center col-lg-9">
-                                            {question.text}
-                                            </div>
+                                                    {question.text}
+                                                </div>
                                                 <div className="col-lg-3">
-                                            <Button
-                                                variant="outline-danger" className="btn btn-text-center mb-2"
-                                                onClick={() => handleRemoveQuestion(question.id)}
-                                            >
-                                                Remove
-                                            </Button>
-                                            </div>
+                                                    <Button
+                                                        variant="outline-danger" className="btn btn-text-center mb-2"
+                                                        onClick={() => handleRemoveQuestion(question.id)}
+                                                    >
+                                                        Remove
+                                                    </Button>
+                                                </div>
                                             </div>
                                         </li>
                                     ))}
@@ -280,26 +470,9 @@ const QuizPage = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-            <Card className="text-center">
-                <Card.Header>Explore Trivia Explosion!</Card.Header>
-                <Card.Body>
-                    <Card.Title>Create Your Own Quiz</Card.Title>
-                    <Card.Text>
-                        Dive into the world of knowledge and fun! Craft your personalized quiz and challenge others.
-                        With supporting questions, create a compelling quiz that others would love to take.
-                    </Card.Text>
-
-                    <Button size="lg" variant="success shadow" onClick={handleCreateQuizButtonClick}>
-                        CREATE QUIZ
-                    </Button>
-                </Card.Body>
-            </Card>
-
-        </div>
+        </section>
     );
 };
 
 export default QuizPage;
-
 

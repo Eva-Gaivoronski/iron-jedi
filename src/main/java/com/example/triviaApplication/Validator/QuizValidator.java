@@ -57,10 +57,9 @@ public class QuizValidator {
                     errors.rejectValue("questions", "NotBlank", "Question text cannot be blank");
                 }
 
-                if (question.getAnswers() == null || question.getAnswers().size() < 2) {
-                    errors.rejectValue("questions", "MinSize", "Each question must have at least two answers");
+                if (question.getAnswers() == null || question.getAnswers().isEmpty()) {
+                    errors.rejectValue("questions", "MinSize", "Each question must have at least one answer");
                 }
-
                 validateQuestionAnswers(question, errors);
             }
         }

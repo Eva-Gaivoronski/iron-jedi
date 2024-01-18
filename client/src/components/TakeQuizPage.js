@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {useNavigate, useParams} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import {Alert, Button} from "react-bootstrap";
-import { useHistory } from 'react-router-dom';
+import apiClient from "./ApiClient";
+
 const TakeQuizPage = () => {
     const [quiz, setQuiz] = useState(null);
     const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -17,18 +17,16 @@ const TakeQuizPage = () => {
     const [previousAttemptScore, setPreviousAttemptScore] = useState(null);
     const [previousAttemptPercentage, setPreviousAttemptPercentage] = useState(null);
 
-
-
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
+                const response = await apiClient.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
                 console.log('Quiz ID:', quizId);
                 console.log('Fetched Quiz Data:', response.data);
                 setQuiz(response.data);
 
                 // Fetch  previous attempt
-                const attemptResponse = await axios.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
+                const attemptResponse = await apiClient.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
                 console.log('Previous Attempt Data:', attemptResponse.data);
                 if (attemptResponse.data) {
                     // Display score
@@ -59,7 +57,6 @@ const TakeQuizPage = () => {
         try {
             console.log('Quiz ID:', quizId);
             if (isQuizSubmitted) {
-                // TODO Display an alert to inform the user - need to think about better option than alert
                 alert('Quiz has already been submitted!');
                 return;
             }
@@ -83,7 +80,7 @@ const TakeQuizPage = () => {
 
             console.log('Formatted Answers Array:', answersArray);
 
-            const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, answersArray);
+            const response = await apiClient.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, answersArray);
             setSubmissionResult(response.data);
             setIsQuizSubmitted(true);
         } catch (error) {

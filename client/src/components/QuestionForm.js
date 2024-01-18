@@ -1,31 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './QuestionForm.css';
-import apiClient from '../components/ApiClient'; // Make sure to import apiClient
-import { useParams } from "react-router-dom";
+import axios from "axios";
+import {useNavigate, useParams} from "react-router-dom";
 
 function QuestionForm() {
+    const [username, setUsername] = useState('');
     const [questionText, setQuestionText] = useState('');
     const [answers, setAnswers] = useState(new Array(4).fill({ text: '', isCorrect: false }));
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
     const [userQuestions, setUserQuestions] = useState([]);
-    const { quizId } = useParams();
+    const [searchUsername, setSearchUsername] = useState('');
+    const {quizId} = useParams();
     const [keyword, setKeyword] = useState('');
     const [editMode, setEditMode] = useState(false);
     const [editQuestionId, setEditQuestionId] = useState(null);
-
-    useEffect(() => {
-        fetchUserQuestions();
-    }, []);
-
-    const fetchUserQuestions = async () => {
-        try {
-            const response = await apiClient.get('http://localhost:8080/question/my-questions');
-            setUserQuestions(response.data);
-        } catch (error) {
-            console.error('Error fetching questions:', error);
-            alert('Error fetching questions.');
-        }
-    };
+    const [keywordSearchUsername, setKeywordSearchUsername] = useState('');
 
     const handleAnswerChange = (index, event) => {
         const newAnswers = answers.map((answer, i) => {
@@ -49,48 +38,69 @@ function QuestionForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!questionText || answers.some(answer => !answer.text)) {
+        if (!username || !questionText || answers.some(answer => !answer.text)) {
             alert('Please fill out all fields.');
             return;
         }
 
+        //Iryna added validation for correct answer checked
         if (correctAnswerIndex === -1) {
             alert('Please select at least one correct answer.');
             return;
         }
 
         const questionData = {
+            user: { username },
             text: questionText,
             answers
         };
 
         try {
-            const response = await apiClient.post('http://localhost:8080/question', questionData);
-            if (response.data && response.data.id) {
-                if (quizId) {
-                    await apiClient.post(`/quiz/addQuestion/${quizId}`, response.data.id.toString());
-                }
-            }
+            //Iryna changed
+            const response =  axios.post('http://localhost:8080/question', questionData)
+                // Iryna added
+                .then(responseData => {
+                    if (responseData.data != null && responseData.data.id !=null){
+                        if (quizId !=null) {
+                            axios.post(`/quiz/addQuestion/${quizId}`, responseData.data.id.toString());
+                        }
+                    }
+                });
+            //Iryna end
 
             alert('Question saved successfully!');
+            setUsername('');
             setQuestionText('');
             setAnswers(new Array(4).fill({ text: '', isCorrect: false }));
             setCorrectAnswerIndex(-1);
-            fetchUserQuestions();
         } catch (error) {
             console.error('There was an error saving the question:', error);
             alert('Error saving question.');
         }
     };
+    const handleSearch = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/users/${searchUsername}/questions`);
+            if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); }
+            const data = await response.json();
+            setUserQuestions(data);
+        } catch (error) {
+            console.error('Error fetching questions:', error);
+            alert('Error fetching questions.');
+        }
+    };
 
     const handleKeywordSearch = async () => {
-        if (!keyword) {
-            alert('Please enter a keyword.');
+        console.log(`Searching for keyword '${keyword}' in user '${keywordSearchUsername}' questions.`);
+        if (!keywordSearchUsername || !keyword) {
+            alert('Please enter both a username and a keyword.');
             return;
         }
         try {
-            const response = await apiClient.get(`http://localhost:8080/question/search?keyword=${keyword}`);
-            setUserQuestions(response.data);
+            const response = await fetch(`http://localhost:8080/users/${keywordSearchUsername}/search?keyword=${keyword}`);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const questions = await response.json();
+            setUserQuestions(questions);
         } catch (error) {
             alert('Error fetching questions by keyword.');
             console.error('Error fetching questions:', error);
@@ -98,13 +108,19 @@ function QuestionForm() {
     };
 
     const handleDelete = async (questionId) => {
-        const userConfirmed = window.confirm('Are you sure you want to delete this question?')
+        //Iryna added confirmation
+        const userConfirmed = window.confirm('Are you sure you want to delete this question from the quiz?')
         if (!userConfirmed) {
             return;
         }
-
+        //Iryna end change
         try {
-            await apiClient.delete(`http://localhost:8080/question/${questionId}`);
+            const response = await fetch(`http://localhost:8080/question/${questionId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); }
+
             setUserQuestions(prevQuestions => prevQuestions.filter(question => question.id !== questionId));
             alert('Question deleted successfully!');
         } catch (error) {
@@ -114,6 +130,7 @@ function QuestionForm() {
     };
 
     const handleEdit = (question) => {
+        setUsername(question.user.username);
         setQuestionText(question.text);
         setAnswers(question.answers);
         const correctIndex = question.answers.findIndex(answer => answer.isCorrect);
@@ -123,14 +140,18 @@ function QuestionForm() {
     };
 
     return (
-        <div>
-            <h2>Create a New Question</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Question:</label>
-                    <input type="text" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
-                </div>
-                {answers.map((answer, index) => (
+    <div>
+        <h2>Create a New Question</h2>
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label>Username:</label>
+                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
+            </div>
+            <div>
+                <label>Question:</label>
+                <input type="text" value={questionText} onChange={(e) => setQuestionText(e.target.value)}/>
+            </div>
+            {answers.map((answer, index) => (
                     <div key={index}>
                         <label>
                             Answer {index + 1}:
@@ -150,39 +171,59 @@ function QuestionForm() {
             </form>
 
             <div>
-                <h2>My Questions</h2>
-                {userQuestions.map((question, index) => (
-                    <div key={index} className="question-item">
-                        <div className="question-content">
-                            <h3>Question {index + 1}</h3>
-                            <p>Question Text: {question.text}</p>
-                            <h4>Answers:</h4>
-                            <ul>
-                                {question.answers.map((answer, ansIndex) => (
-                                    <li key={ansIndex}>
-                                        Answer {ansIndex + 1}: {answer.text}
-                                        {answer.isCorrect ? ' (Correct)' : ''}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div className="question-actions">
-                            <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
-                            <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            <div>
-                <h2>Search by Keyword</h2>
+                <h2>Search Questions by Username</h2>
                 <input
                     type="text"
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    placeholder="Keyword"
+                    value={searchUsername}
+                    onChange={(e) => setSearchUsername(e.target.value)}
+                    placeholder="Username"
                 />
-                <button type="button" onClick={handleKeywordSearch}>Search Keyword</button>
+                <button type="button" onClick={handleSearch}>Search</button>
+
+                <div>
+                    <h2>Search by Keyword</h2>
+                    <input
+                        type="text"
+                        value={keywordSearchUsername}
+                        onChange={(e) => setKeywordSearchUsername(e.target.value)}
+                        placeholder="Username for Keyword Search"
+                    />
+                    <input
+                        type="text"
+                        value={keyword}
+                        onChange={(e) => setKeyword(e.target.value)}
+                        placeholder="Keyword"
+                    />
+                    <button type="button" onClick={handleKeywordSearch}>Search Keyword</button>
+                </div>
+
+                <div>
+                    <h3>Search Results</h3>
+                    {userQuestions.map((question, index) => (
+                        <div key={index} className="question-item">
+                            <div className="question-content">
+                                <h3>Question {index + 1}</h3>
+                                <p>Question Text: {question.text}</p>
+                                <p>Question User: {question.user.username}</p>
+                                <h4>Answers:</h4>
+                                <ul>
+                                    {question.answers.map((answer, ansIndex) => (
+                                        <li key={ansIndex}>
+                                            Answer {ansIndex + 1}: {answer.text}
+                                            {answer.isCorrect ? ' (Correct)' : ''}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="question-actions">
+
+                                <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
+
+                                <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
