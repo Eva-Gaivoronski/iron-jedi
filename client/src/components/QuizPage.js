@@ -188,7 +188,7 @@ const QuizPage = () => {
                         </Col>
                         <Col className="mb-sm-2" xs={6} md={4}>
                             <Button variant="outline-dark" onClick={() => handleEditQuiz(quizData)}>
-                                Edit
+                                Update
                             </Button>
                         </Col>
                     </Row>
@@ -286,10 +286,12 @@ const QuizPage = () => {
         if (quizData.submitted){
             return(
                 <div>
+                    <Link to={`/takeQuiz/${quizData.id}`}>
                     {/* Iryna update to handle event, where Score/Submitted are reset */}
                     <Button variant="danger">
                         Retake Quiz
                     </Button>
+                </Link>
                 </div>
             )
         }

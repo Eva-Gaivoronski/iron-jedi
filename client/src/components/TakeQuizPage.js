@@ -26,16 +26,16 @@ const TakeQuizPage = () => {
                 setQuiz(response.data);
 
                 // Fetch  previous attempt
-                // const attemptResponse = await apiClient.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
-                // console.log('Previous Attempt Data:', attemptResponse.data);
-                // if (attemptResponse.data) {
-                //     // Display score
-                //     const previousAttemptScore = attemptResponse.data.score;
-                //     const previousAttemptPercentage = attemptResponse.data.percentage;
-                //
-                //     setPreviousAttemptScore(previousAttemptScore);
-                //     setPreviousAttemptPercentage(previousAttemptPercentage);
-                // }
+                const attemptResponse = await apiClient.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
+                console.log('Previous Attempt Data:', attemptResponse.data);
+                if (attemptResponse.data) {
+                    // Display score
+                    const previousAttemptScore = attemptResponse.data.score;
+                    const previousAttemptPercentage = attemptResponse.data.percentage;
+
+                    setPreviousAttemptScore(previousAttemptScore);
+                    setPreviousAttemptPercentage(previousAttemptPercentage);
+                }
             } catch (error) {
                 console.error('Error fetching quiz data:', error);
             }
