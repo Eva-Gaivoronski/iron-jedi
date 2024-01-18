@@ -25,7 +25,7 @@ function QuestionForm() {
 
     const fetchQuizDetails = async () => {
         try {
-            const quizResponse = await fetch(`http://localhost:8080/quiz/${quizId}`);
+            const quizResponse = await fetch(`http://localhost:3306/quiz/${quizId}`);
             if (!quizResponse.ok) throw new Error(`HTTP error! Status: ${quizResponse.status}`);
             const quizData = await quizResponse.json();
 
@@ -41,7 +41,7 @@ function QuestionForm() {
 
     const fetchUserQuestionsForQuiz = async (userId) => {
         try {
-            const response = await fetch(`http://localhost:8080/users/${userId}/created-questions`);
+            const response = await fetch(`http://localhost:3306/users/${userId}/created-questions`);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const questions = await response.json();
             setUserQuestions(questions);
@@ -79,7 +79,7 @@ const handleSubmit = async (event) => {
     };
 
     const method = editMode ? 'PUT' : 'POST';
-    const questionUrl = editMode ? `http://localhost:8080/question/${editQuestionId}` : 'http://localhost:8080/question';
+    const questionUrl = editMode ? `http://localhost:3306/question/${editQuestionId}` : 'http://localhost:3306/question';
 
     try {
         const response = await fetch(questionUrl, {
@@ -93,7 +93,7 @@ const handleSubmit = async (event) => {
 
         // Check if quizId is defined and not in edit mode
         if (!editMode && quizId && quizId !== 'undefined') {
-            const addQuestionToQuizResponse = await fetch(`http://localhost:8080/quiz/addQuestion/${quizId}`, {
+            const addQuestionToQuizResponse = await fetch(`http://localhost:3306/quiz/addQuestion/${quizId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ questionId: savedQuestion.id }),
@@ -125,7 +125,7 @@ const handleSubmit = async (event) => {
 
     const handleSearch = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/users/${searchUsername}/questions`);
+            const response = await fetch(`http://localhost:3306/users/${searchUsername}/questions`);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const questions = await response.json();
             setUserQuestions(questions);
@@ -142,7 +142,7 @@ const handleSubmit = async (event) => {
             return;
         }
         try {
-            const response = await fetch(`http://localhost:8080/users/${keywordSearchUsername}/search?keyword=${keyword}`);
+            const response = await fetch(`http://localhost:3306/users/${keywordSearchUsername}/search?keyword=${keyword}`);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const questions = await response.json();
             setUserQuestions(questions);
@@ -154,7 +154,7 @@ const handleSubmit = async (event) => {
 
     const handleDelete = async (questionId) => {
         try {
-            const response = await fetch(`http://localhost:8080/question/${questionId}`, {
+            const response = await fetch(`http://localhost:3306/question/${questionId}`, {
                 method: 'DELETE',
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -181,7 +181,7 @@ const handleSubmit = async (event) => {
              console.log(`questionId: ${questionId}`);
              const requestBody = JSON.stringify({ questionId: questionId }); // Construct the request body as a JSON object
              console.log(`quizId: ${quizId}`);
-             const response = await fetch(`http://localhost:8080/quiz/addQuestion/${quizId}`, {
+             const response = await fetch(`http://localhost:3306/quiz/addQuestion/${quizId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: requestBody, // Provide the request body here

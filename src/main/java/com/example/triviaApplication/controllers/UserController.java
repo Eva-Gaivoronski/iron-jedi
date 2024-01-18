@@ -1,6 +1,5 @@
 package com.example.triviaApplication.controllers;
 
-import com.example.triviaApplication.models.Question;
 import com.example.triviaApplication.models.User;
 import com.example.triviaApplication.repositories.QuestionRepository;
 import com.example.triviaApplication.repositories.UserRepository;
@@ -38,7 +37,6 @@ public class UserController {
         List<User> sortedUsers = users.stream()
                 .sorted(Comparator.comparingInt(user -> ((User) user).getQuestions().size()).reversed())
                 .collect(Collectors.toList());
-
 
         return ResponseEntity.ok(sortedUsers);
     }
