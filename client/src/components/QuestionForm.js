@@ -80,6 +80,10 @@ function QuestionForm() {
             answers
         };
 
+        if (editQuestionId !=null) {
+            questionData.id=editQuestionId
+        }
+
         try {
             const response = await apiClient.post('http://localhost:8080/question', questionData);
             if (response.data && response.data.id) {
@@ -92,6 +96,8 @@ function QuestionForm() {
             setQuestionText('');
             setAnswers(new Array(4).fill({ text: '', isCorrect: false }));
             setCorrectAnswerIndex(-1);
+            setEditMode(false);
+            setEditQuestionId(!null);
             fetchUserQuestions();
         } catch (error) {
             console.error('There was an error saving the question:', error);

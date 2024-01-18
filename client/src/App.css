@@ -28,10 +28,10 @@ header {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.app-container {
-  max-width: 800px;
-  margin: 100px;
-}
+/*.app-container {*/
+/*  max-width: 800px;*/
+/*  margin: 100px;*/
+/*}*/
 
 h1 {
   color: #333;

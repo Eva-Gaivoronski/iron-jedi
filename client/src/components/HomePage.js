@@ -149,15 +149,13 @@ function HomePage() {
                                 </>
 
                             )}
-                        <Container>
-                        <Card className="text-center style={{width: '12rem'}">
+                        <Container className="text-center maxWidth-70px">
+                        <Card className="text-center">
                             <Card.Header> WANT TO CREATE YOUR OWN QUIZZES? </Card.Header>
                             <Card.Body>
-                                <Card.Title>REGISTER or LOGIN and become a QUIZ CREATOR! </Card.Title>
-                                {/*<Card.Text>*/}
-                                {/*    Whether you're an unregistered user looking for a random quiz or a quiz creator, we've*/}
-                                {/*    got something for you.*/}
-                                {/*</Card.Text>*/}
+                                <Card.Title>REGISTER or LOGIN
+                                   <p> and become</p>
+                                    <span >a QUIZ CREATOR!</span> </Card.Title>
                             </Card.Body>
                         </Card>
                         </Container>
