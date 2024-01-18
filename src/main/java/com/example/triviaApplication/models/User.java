@@ -5,8 +5,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.util.Set;
-
+/**
+ * Represents a user entity in the application.
+ * Mapped to 'app_user' table in the database.
+ */
 @Entity(name = "AppUser") // Renaming the table to avoid using the reserved keyword "user"
 @Table(name = "app_user")
 public class User {
@@ -26,18 +28,13 @@ public class User {
     @NotNull
     private String email;
 
-
+    // Indicates whether the user's email is verified
     private int is_email_verified;
 
+    // Profile picture stored as a byte array in the database
     @Lob
     @Column(name = "profile_picture", length = 10485760)
     private byte[] profilePicture;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private Set<Question> questions;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private Set<Quiz> quizzes;
 
     // Standard getters and setters
 
@@ -73,21 +70,6 @@ public class User {
         this.email = email;
     }
 
-//    public Set<Question> getQuestions() {
-//        return questions;
-//    }
-//
-//    public void setQuestions(Set<Question> questions) {
-//        this.questions = questions;
-//    }
-
-    //    public Set<Quiz> getQuizzes() {
-//        return quizzes;
-//    }
-//
-//    public void setQuizzes(Set<Quiz> quizzes) {
-//        this.quizzes = quizzes;
-//    }
     public byte[] getProfilePicture() {
         return profilePicture;
     }
@@ -95,6 +77,7 @@ public class User {
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }
+
     public int getIsEmailVerified() {
         return is_email_verified;
     }
@@ -103,4 +86,10 @@ public class User {
         this.is_email_verified = is_email_verified;
     }
 
+    // Uncomment and use the following if you need to link questions and quizzes directly to the user
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // private Set<Question> questions;
+
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // private Set<Quiz> quizzes;
 }

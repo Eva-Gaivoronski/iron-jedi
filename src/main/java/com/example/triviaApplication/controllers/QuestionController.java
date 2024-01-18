@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Controller for handling HTTP requests related to questions.
+ */
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/question")
@@ -20,11 +23,17 @@ public class QuestionController {
     private final QuestionService questionService;
     private static final Logger log = LoggerFactory.getLogger(QuestionController.class);
 
+    /**
+     * Constructor to autowire QuestionService.
+     */
     @Autowired
     public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
     }
 
+    /**
+     * Endpoint to create or update a question.
+     */
     @PostMapping
     public ResponseEntity<?> createOrUpdateQuestion(@RequestBody Question question) {
         try {
@@ -40,6 +49,9 @@ public class QuestionController {
         }
     }
 
+    /**
+     * Endpoint to update a specific question.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<?> updateQuestion(@PathVariable Long id, @RequestBody Question question) {
         try {
@@ -55,6 +67,9 @@ public class QuestionController {
         }
     }
 
+    /**
+     * Endpoint to retrieve a specific question by ID.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getQuestion(@PathVariable Long id) {
         try {
@@ -69,6 +84,9 @@ public class QuestionController {
         }
     }
 
+    /**
+     * Endpoint to delete a specific question by ID.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
         try {
@@ -80,6 +98,9 @@ public class QuestionController {
         }
     }
 
+    /**
+     * Endpoint to get all questions created by a specific user.
+     */
     @GetMapping("/users/{userId}/created-questions")
     public ResponseEntity<List<Question>> getQuestionsByUserId(@PathVariable Long userId) {
         try {
@@ -91,6 +112,9 @@ public class QuestionController {
         }
     }
 
+    /**
+     * Endpoint to search questions based on a keyword and user ID.
+     */
     @GetMapping("/search")
     public ResponseEntity<List<Question>> searchQuestions(@RequestParam String keyword, @RequestParam Long userId) {
         try {

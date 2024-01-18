@@ -1,46 +1,35 @@
 package com.example.triviaApplication.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.CascadeType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import jakarta.persistence.*;
 import java.util.List;
 
+/**
+ * Represents a question entity in the trivia application.
+ */
 @Entity
-@Table(name = "question") // Use the exact name as it is in your database
+@Table(name = "question") // Define the table name for this entity
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String text;
+    private Long id; // Unique identifier for the question
+
+    private String text; // Text content of the question
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user; // The user who created the question
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "quiz_id")
-//    @JsonBackReference
-//    private Quiz quiz;
-
+    // Relationship with the Answer entity. One question can have multiple answers.
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Answer> answers;
+    private List<Answer> answers; // List of answers associated with this question
 
-    // Default constructor for JPA
+    // Default constructor required by JPA
     public Question() {
     }
 
-    // Additional constructors, getters, and setters
+    // Additional constructors, getters, and setters below
 
     public Long getId() {
         return id;
@@ -66,14 +55,6 @@ public class Question {
         this.user = user;
     }
 
-//    public Quiz getQuiz() {
-//        return quiz;
-//    }
-//
-//    public void setQuiz(Quiz quiz) {
-//        this.quiz = quiz;
-//    }
-
     public List<Answer> getAnswers() {
         return answers;
     }
@@ -81,4 +62,6 @@ public class Question {
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
+
+    // Other methods and commented-out code (like for Quiz entity) could go here
 }

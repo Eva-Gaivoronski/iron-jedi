@@ -4,6 +4,7 @@ import apiClient from '../components/ApiClient';
 import { useParams } from "react-router-dom";
 
 function QuestionForm() {
+    // State declarations for various properties of a question
     const [questionText, setQuestionText] = useState('');
     const [answers, setAnswers] = useState(new Array(4).fill({ text: '', isCorrect: false }));
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
@@ -13,6 +14,7 @@ function QuestionForm() {
     const username = localStorage.getItem('triviaappusername');
     const user_id = localStorage.getItem('triviaappid');
 
+    // Function to fetch questions created by the user
     const fetchUserQuestions = useCallback(async () => {
         try {
             const response = await apiClient.get(`http://localhost:8080/question/users/${user_id}/created-questions`);
@@ -22,10 +24,12 @@ function QuestionForm() {
         }
     }, [user_id]);
 
+    // useEffect hook to fetch user questions on component mount
     useEffect(() => {
         fetchUserQuestions();
     }, [fetchUserQuestions]);
 
+    // Function to handle change in answers
     const handleAnswerChange = (index, event) => {
         const newAnswers = answers.map((answer, i) => {
             if (i === index) {
@@ -36,6 +40,7 @@ function QuestionForm() {
         setAnswers(newAnswers);
     };
 
+    // Function to handle change in correct answer selection
     const handleCorrectAnswerChange = (index) => {
         const updatedAnswers = answers.map((answer, i) => ({
             ...answer,
@@ -45,6 +50,7 @@ function QuestionForm() {
         setCorrectAnswerIndex(index);
     };
 
+    // Function to handle the submission of a question
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -58,6 +64,7 @@ function QuestionForm() {
             return;
         }
 
+        // Preparing data for question submission
         const questionData = {
             text: questionText,
             user: { id: user_id, username },
@@ -71,6 +78,7 @@ function QuestionForm() {
             }
 
             alert('Question saved successfully!');
+            // Reset form after submission
             setQuestionText('');
             setAnswers(new Array(4).fill({ text: '', isCorrect: false }));
             setCorrectAnswerIndex(-1);
@@ -81,6 +89,7 @@ function QuestionForm() {
         }
     };
 
+    // Function to handle question deletion
     const handleDelete = async (questionId) => {
         const userConfirmed = window.confirm('Are you sure you want to delete this question?');
         if (!userConfirmed) {
@@ -97,6 +106,7 @@ function QuestionForm() {
         }
     };
 
+    // Function to handle editing an existing question
     const handleEdit = (question) => {
         setQuestionText(question.text);
         setAnswers(question.answers.map(a => ({ text: a.text, isCorrect: a.isCorrect })));
@@ -104,6 +114,7 @@ function QuestionForm() {
         setCorrectAnswerIndex(correctIndex);
     };
 
+    // Function to add a question to a quiz
     const handleAddToQuiz = async (questionId) => {
         try {
             await apiClient.post(`/quiz/${quizId}/addQuestion/${questionId}`);
@@ -114,6 +125,7 @@ function QuestionForm() {
         }
     };
 
+    // Function to search for questions based on keyword
     const searchQuestions = async () => {
         try {
             const response = await apiClient.get(`http://localhost:8080/question/search?keyword=${searchKeyword}&userId=${user_id}`);
@@ -127,10 +139,12 @@ function QuestionForm() {
         <div className="form-container">
             <h2>Create a New Question</h2>
             <form onSubmit={handleSubmit}>
+                {/* Input field for question text */}
                 <div>
                     <label>Question:</label>
                     <input type="text" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
                 </div>
+                {/* Render input fields for each answer */}
                 {answers.map((answer, index) => (
                     <div key={index}>
                         <label>
@@ -150,6 +164,7 @@ function QuestionForm() {
                 <button type="submit">Save Question</button>
             </form>
 
+            {/* Search bar for filtering questions */}
             <div className="search-bar">
                 <input
                     type="text"
@@ -160,6 +175,7 @@ function QuestionForm() {
                 <button onClick={searchQuestions}>Search</button>
             </div>
 
+            {/* Displaying user's questions */}
             <div>
                 <h2>My Questions</h2>
                 {userQuestions.map((question, index) => (
@@ -177,6 +193,7 @@ function QuestionForm() {
                                 ))}
                             </ul>
                         </div>
+                        {/* Action buttons for each question */}
                         <div className="question-actions">
                             <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
                             <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
