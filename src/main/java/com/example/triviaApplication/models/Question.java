@@ -2,16 +2,21 @@ package com.example.triviaApplication.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.List;
 
 @Entity
+@Table(name = "question") // Use the exact name as it is in your database
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +27,10 @@ public class Question {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-
-
-    //Iryna start
-//    @ManyToOne
+//    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "quiz_id")
+//    @JsonBackReference
 //    private Quiz quiz;
-//    private String quiz_id;
-//    public void setQuiz_id(String quiz_id) {
-//        this.quiz_id = quiz_id;
-//    }
-    //Iryna end changes;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

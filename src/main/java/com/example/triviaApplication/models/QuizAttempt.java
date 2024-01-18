@@ -1,5 +1,6 @@
 package com.example.triviaApplication.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -18,9 +19,10 @@ public class QuizAttempt extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "quiz_id")
+    @JsonBackReference
     private Quiz quiz;
 
-//    @Column(name = "previous_attempt_id")
+    //    @Column(name = "previous_attempt_id")
 //    private Long previousAttemptId;
     @Column(name = "attempt_date")
     private LocalDateTime attemptDate;

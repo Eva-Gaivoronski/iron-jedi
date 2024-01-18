@@ -78,7 +78,7 @@ public class QuizController {
     public ResponseEntity<Quiz> getQuizForTaking(@PathVariable Long quizId, Principal principal) {
         try {
             Quiz quiz = quizService.getQuizForTaking(quizId);
-            Long userId = getUserIdFromPrincipal(principal);
+            Long userId = quiz.getUser().getId();
             List<QuizAttempt> quizAttempt = quizService.getUserAttemptForQuiz(quizId, userId);
 
             if (!quizAttempt.isEmpty()) {
@@ -99,10 +99,10 @@ public class QuizController {
         return userOptional.map(User::getId).orElse(null);
     }
 
-    @PostMapping("/addQuestion/{quizId}")
-    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @RequestBody QuestionAssignmentDTO request){
+    @PostMapping("/{quizId}/addQuestion/{questionId}")
+    public ResponseEntity<Boolean> assignQuestionToQuiz(@PathVariable Long quizId, @PathVariable Long questionId){
         try {
-            questionRepository.addQuestionToQuiz(quizId, request.getQuestionId());
+            questionRepository.addQuestionToQuiz(quizId, questionId);
             // TODO: Do a look-up to ensure it actually updated
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         } catch (Exception e) {
@@ -143,13 +143,13 @@ public class QuizController {
 
     @PutMapping("/{quizId}")
     public ResponseEntity<Quiz> updateQuiz(@PathVariable Long quizId, @RequestBody Quiz updatedQuiz) {
-    try {
-        Quiz result = quizService.updateQuiz(quizId, updatedQuiz);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    } catch (NoSuchElementException e) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            Quiz result = quizService.updateQuiz(quizId, updatedQuiz);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-}
 
     @DeleteMapping("/{quizId}")
     public void deleteUserQuiz(@PathVariable Long quizId) {
@@ -167,4 +167,3 @@ public class QuizController {
     }
 
 }
-

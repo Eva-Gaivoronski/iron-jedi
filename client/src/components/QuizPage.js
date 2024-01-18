@@ -141,7 +141,7 @@ const QuizPage = () => {
 
     function QuizCard({ quizData }){
         return (
-            <Card className="h-100 w-auto">
+            <Card className="h-100">
                 <Card.Header className="container-fluid">
                     <Row>
                         <Col xs={10} lg={11}>
@@ -188,7 +188,7 @@ const QuizPage = () => {
                         </Col>
                         <Col className="mb-sm-2" xs={6} md={4}>
                             <Button variant="outline-dark" onClick={() => handleEditQuiz(quizData)}>
-                                Edit
+                                Update
                             </Button>
                         </Col>
                     </Row>
@@ -201,12 +201,12 @@ const QuizPage = () => {
         let currCount = quizData.questions.length;
         let requiredAmount = quizData.requiredQuestionCount;
 
-        if (quizData.submitted){
+        if (quizData.submitted && quizData.quizAttempts != null && quizData.quizAttempts.length > 0){
             return (
                 <div>
                     <span style={{color: "green", fontSize: "1.1em"}}>Quiz already taken.</span>
                     <br />
-                    {QuizScoreDisplay({score: quizData.score})}
+                    {QuizScoreDisplay({score: quizData.quizAttempts[0].percentage})}
                 </div>
             )
         }
@@ -286,10 +286,12 @@ const QuizPage = () => {
         if (quizData.submitted){
             return(
                 <div>
+                    <Link to={`/takeQuiz/${quizData.id}`}>
                     {/* Iryna update to handle event, where Score/Submitted are reset */}
                     <Button variant="danger">
                         Retake Quiz
                     </Button>
+                </Link>
                 </div>
             )
         }
@@ -320,7 +322,7 @@ const QuizPage = () => {
             <Row className="sticky-top">
                 {/*<Col xs={4} className="offset-4">*/}
                 <Card className="text-center">
-                    <Card.Header>Explore Trivia Explosion!</Card.Header>
+                    {/*<Card.Header>Explore Trivia Explosion!</Card.Header>*/}
                     <Card.Body>
                         <Card.Title>Create Your Own Quiz</Card.Title>
                         <Card.Text>
@@ -475,4 +477,3 @@ const QuizPage = () => {
 };
 
 export default QuizPage;
-

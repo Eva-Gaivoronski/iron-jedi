@@ -67,7 +67,7 @@ public class QuizService {
     public Quiz getQuizById(Long id, Long userId) {
         return quizRepository.findByIdAndUserId(id, userId);}
 
-//update quiz
+    //update quiz
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
         Quiz existingQuiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
@@ -99,7 +99,7 @@ public class QuizService {
         return quizRepository.save(quiz);
     }
 
-        public List<Quiz> getAllQuizzes() {
+    public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
 
@@ -107,14 +107,14 @@ public class QuizService {
         return quizRepository.findByUserId(userId);
     }
 
-//     taking quizzes
-     public List<QuizAttempt> getUserAttemptForQuiz(Long quizId, Long userId) {
-    return quizAttemptRepository.findByQuizIdAndUserId(quizId, userId);
-}
+    //     taking quizzes
+    public List<QuizAttempt> getUserAttemptForQuiz(Long quizId, Long userId) {
+        return quizAttemptRepository.findByQuizIdAndUserId(quizId, userId);
+    }
 
     public Quiz getQuizForTaking(Long quizId) {
         Quiz quiz = quizRepository.findById(quizId)
-        //return quizRepository.findById(quizId)
+                //return quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
         for (Question question : quiz.getQuestions()) {
             Collections.shuffle(question.getAnswers());
@@ -152,25 +152,25 @@ public class QuizService {
         return new QuizResult(correctAnswers, percentage);
     }
 
-private int calculateScore(List<Question> questions, List<UserAnswer> userAnswers) {
-    int correctAnswers = 0;
+    private int calculateScore(List<Question> questions, List<UserAnswer> userAnswers) {
+        int correctAnswers = 0;
 
-    for (UserAnswer userAnswer : userAnswers) {
-        for (Question question : questions) {
-            if (question.getId().equals(userAnswer.getQuestionId())) {
-                Answer correctAnswer = question.getAnswers().stream()
-                        .filter(Answer::getIsCorrect)
-                        .findFirst()
-                        .orElse(null);
+        for (UserAnswer userAnswer : userAnswers) {
+            for (Question question : questions) {
+                if (question.getId().equals(userAnswer.getQuestionId())) {
+                    Answer correctAnswer = question.getAnswers().stream()
+                            .filter(Answer::getIsCorrect)
+                            .findFirst()
+                            .orElse(null);
 
-                Long selectedAnswerId = Long.valueOf(userAnswer.getSelectedAnswer());
+                    Long selectedAnswerId = Long.valueOf(userAnswer.getSelectedAnswer());
 
-                if (correctAnswer != null && correctAnswer.getId().equals(selectedAnswerId)) {
-                    correctAnswers++;
+                    if (correctAnswer != null && correctAnswer.getId().equals(selectedAnswerId)) {
+                        correctAnswers++;
+                    }
                 }
             }
         }
+        return correctAnswers;
     }
-    return correctAnswers;
-}
 }
