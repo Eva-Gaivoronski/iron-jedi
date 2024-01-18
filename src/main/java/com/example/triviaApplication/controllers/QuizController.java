@@ -166,4 +166,14 @@ public class QuizController {
         }
     }
 
+    @PostMapping("/quiz/{quizId}/addQuestion/{questionId}")
+    public ResponseEntity<?> addQuestionToQuiz(@PathVariable Long quizId, @PathVariable Long questionId) {
+        try {
+            quizService.addQuestionToQuiz(quizId, questionId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // Handle exceptions
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
 }

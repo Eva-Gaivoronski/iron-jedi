@@ -173,4 +173,14 @@ public class QuizService {
         }
         return correctAnswers;
     }
+
+    public void addQuestionToQuiz(Long quizId, Long questionId) {
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new NoSuchElementException("Question not found with id: " + questionId));
+        // Add the question to the quiz and save
+        quiz.getQuestions().add(question);
+        quizRepository.save(quiz);
+    }
 }
