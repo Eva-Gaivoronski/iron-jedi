@@ -14,7 +14,8 @@ import EmailVerificationPage from './components/VerifyEmail';
 
 import { AuthContext, AuthProvider } from "./context/AuthContext";
 import ProfilePicture from "./components/ProfilePicture";
-import LeaderBoardPage from "./components/LeaderBoardPage"
+import QuizChallengeForm from "./components/QuizChallengeForm";
+
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -42,14 +43,14 @@ function App() {
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/quizzes" element={<QuizPage/>}/>
                     <Route path="/question-form" element={<QuestionForm/>}/>
+                    <Route path="/question-form/:quizId" element={<QuestionForm/>}/>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/quizzes/:quizId" element={<QuizPage/>}/>
                     <Route path="/takeQuiz/:quizId" element={<TakeQuizPage/>}/>
                     <Route path="/submitQuiz/:quizId" element={<TakeQuizPage/>}/>
                     <Route path="/verify-email/:id" element={<EmailVerificationPage />} />
                     <Route path="/profile" element={<ProfilePicture />} />
-                    <Route path="/leaderboard" element={<LeaderBoardPage />} />
-
+                    <Route path="/quiz-challenge" element={<QuizChallengeForm/>} />
                 </Routes>
             </div>
         </AuthProvider>

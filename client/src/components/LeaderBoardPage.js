@@ -21,7 +21,7 @@ const fetchDataFromUserRepo = async () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">User Leaderboard</h2>
+      <h2 className="mb-4">Top Creators</h2>
       <table className="table">
         <thead>
           <tr>
