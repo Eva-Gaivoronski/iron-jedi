@@ -3,8 +3,10 @@ import {Table, Button, Modal, FormControl, InputGroup, Card} from 'react-bootstr
 import axios from 'axios';
 import { Link, useParams, useNavigate} from 'react-router-dom';
 import CreateQuizForm from './CreateQuizForm';
-
-
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
 const QuizPage = () => {
     const [quizzes, setQuizzes] = useState([]);
     const [newQuiz, setNewQuiz] = useState({title: ''});
@@ -23,7 +25,7 @@ const QuizPage = () => {
 
     const handleCloseCreateForm = () => {
         setShowCreateForm(false);
-        fetchQuizzes(); // Fetch quizzes again after closing the form
+        fetchQuizzes(); // Fetch quizzes again
     };
 
     const handleEditQuiz = async (selectedQuiz) => {
@@ -56,7 +58,7 @@ const QuizPage = () => {
     const handleCloseEditForm = () => {
         setShowEditForm(false);
         setEditedQuiz({});
-        fetchQuizzes(); // Fetch quizzes again after closing the form
+        fetchQuizzes(); // Fetch quizzes again
     };
 
     const fetchQuizzes = async () => {
@@ -87,7 +89,7 @@ const QuizPage = () => {
         try {
             await axios.delete(`http://localhost:8080/quiz/${quizToDelete}`);
             fetchQuizzes();
-            setQuizToDelete(null); // Clear the state after successful deletion
+            setQuizToDelete(null);
         } catch (error) {
             console.error('Error deleting quiz:', error);
         }
@@ -147,7 +149,7 @@ const QuizPage = () => {
 
                             <Link to={`/question-form/${quiz.id}`}>
                                 <Button  onClick={() => handleAddQuestions(quiz)}>
-
+                                    <FontAwesomeIcon icon={faFileCirclePlus} />
                                 </Button>
                             </Link>
                         </td>
@@ -299,3 +301,5 @@ const QuizPage = () => {
 };
 
 export default QuizPage;
+
+

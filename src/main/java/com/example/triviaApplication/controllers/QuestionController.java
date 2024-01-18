@@ -5,10 +5,12 @@ import com.example.triviaApplication.helpers.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.NoSuchElementException;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -75,6 +77,18 @@ public class QuestionController {
         } catch (Exception e) {
             log.error("Error deleting question: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting question: " + e.getMessage());
+        }
+    }
+
+    // Endpoint to get questions created by the currently logged-in user
+    @GetMapping("/users/{userId}/questions")
+    public ResponseEntity<List<Question>> getQuestionsByUserId(@PathVariable Long userId) {
+        try {
+            List<Question> questions = questionService.findQuestionsByUserId(userId);
+            return ResponseEntity.ok(questions);
+        } catch (Exception e) {
+            log.error("Error retrieving questions for user id " + userId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

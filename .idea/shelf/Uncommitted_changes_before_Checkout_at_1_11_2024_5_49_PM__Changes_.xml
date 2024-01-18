@@ -1,0 +1,24 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_1_11_2024_5_49_PM_[Changes]" date="1705017007808" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_11_2024_5_49_PM_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 1/11/2024 5:49 PM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/8.5/checksums/checksums.lock" />
+    <option name="AFTER_PATH" value=".gradle/8.5/checksums/checksums.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_11_2024_5_49_PM_[Changes]/checksums.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/buildOutputCleanup/buildOutputCleanup.lock" />
+    <option name="AFTER_PATH" value=".gradle/buildOutputCleanup/buildOutputCleanup.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_11_2024_5_49_PM_[Changes]/buildOutputCleanup.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/8.5/dependencies-accessors/dependencies-accessors.lock" />
+    <option name="AFTER_PATH" value=".gradle/8.5/dependencies-accessors/dependencies-accessors.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_11_2024_5_49_PM_[Changes]/dependencies-accessors.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/8.5/fileHashes/fileHashes.lock" />
+    <option name="AFTER_PATH" value=".gradle/8.5/fileHashes/fileHashes.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_11_2024_5_49_PM_[Changes]/fileHashes.lock" />
+  </binary>
+</changelist>

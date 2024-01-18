@@ -1,75 +1,57 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import HomePage from './components/HomePage';
 import QuestionForm from './components/QuestionForm';
 import QuizPage from './components/QuizPage';
+import Register from './components/Register';
+import Login from './components/Login';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import TakeQuizPage from "./components/TakeQuizPage";
-import LeaderBoardPage from './components/LeaderBoardPage';
-import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
-import QuizChallengeForm from './components/QuizChallengeForm';
+import Navbar from './components/Navbar';
+import EmailVerificationPage from './components/VerifyEmail';
+
+import { AuthContext, AuthProvider } from "./context/AuthContext";
+import ProfilePicture from "./components/ProfilePicture";
 
 function App() {
-    return (
-        <div className="App">
-            <header className="Header">
-                <nav>
-                    <ul className="nav-list">
-                        <li className="nav-item">
-                            <Link to="/" className="nav-link">
-                                Home
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/login" className="nav-link">
-                                Login
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/register" className="nav-link">
-                                Register
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/quizzes" className="nav-link">
-                                Quiz Page
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/question-form" className="nav-link">
-                                Question Form
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/quiz-challenge" className="nav-link">
-                                Send Quiz
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/leaderboard" className="nav-link">
-                                Leaderboard
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-            <Routes>
-                <Route path="/quizzes" element={<QuizPage />} />
-                <Route path="/question-form" element={<QuestionForm />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/leaderboard" element={<LeaderBoardPage />} />
-                <Route path="/quiz-challenge" element={<QuizChallengeForm />} />
-                <Route path="/" element={<HomePage />} />
-                <Route path="/quizzes/:quizId" element={<QuizPage />} />
-                <Route path="/takeQuiz/:quizId" element={<TakeQuizPage />} />
-                <Route path="/submitQuiz/:quizId" element={<TakeQuizPage />} />
-            </Routes>
-        </div>
+    const login = () => {
+        setIsLoggedIn(true);
+    };
+
+    const logout = () => {
+        setIsLoggedIn(false);
+    };
+
+    // Provide the context value
+    const authContextValue = {
+        isLoggedIn,
+        login,
+        logout,
+    };
+    return (
+        <AuthProvider>
+            <div className="App">
+                <Navbar />
+
+                <Routes>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/quizzes" element={<QuizPage/>}/>
+                    <Route path="/question-form" element={<QuestionForm/>}/>
+                    <Route path="/" element={<HomePage/>}/>
+                    <Route path="/quizzes/:quizId" element={<QuizPage/>}/>
+                    <Route path="/takeQuiz/:quizId" element={<TakeQuizPage/>}/>
+                    <Route path="/submitQuiz/:quizId" element={<TakeQuizPage/>}/>
+                    <Route path="/verify-email/:id" element={<EmailVerificationPage />} />
+                    <Route path="/profile" element={<ProfilePicture />} />
+                </Routes>
+            </div>
+        </AuthProvider>
+
     );
 }
 

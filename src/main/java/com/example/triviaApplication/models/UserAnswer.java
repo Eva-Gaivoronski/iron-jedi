@@ -2,12 +2,12 @@ package com.example.triviaApplication.models;
 
 public class UserAnswer {
     private Long questionId;
-    private String selectedAnswer;
+    private Long selectedAnswer;//Iryna changed - had to change it to Long in order to submit Quiz.
 
     public UserAnswer() {
     }
 
-    public UserAnswer(Long questionId, String selectedAnswer) {
+    public UserAnswer(Long questionId, Long selectedAnswer) {
         this.questionId = questionId;
         this.selectedAnswer = selectedAnswer;
     }
@@ -20,12 +20,11 @@ public class UserAnswer {
         this.questionId = questionId;
     }
 
-    public String getSelectedAnswer() {
+    public Long getSelectedAnswer() {
         return selectedAnswer;
     }
 
-    public void setSelectedAnswer(String selectedAnswer) {
+    public void setSelectedAnswer(Long selectedAnswer) {
         this.selectedAnswer = selectedAnswer;
     }
 }
-

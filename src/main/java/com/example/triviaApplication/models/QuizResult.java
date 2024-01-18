@@ -17,4 +17,3 @@ public class QuizResult {
         return percentage;
     }
 }
-

@@ -12,7 +12,8 @@
 
 .question-actions {
     display: flex;
-    gap: 10px;
+    align-items: center; /* Align buttons vertically with text */
+    gap: 10px; /* Optional: Add spacing between buttons */
 }
 
 .question-button {

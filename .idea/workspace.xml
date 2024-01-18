@@ -4,16 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="843f8013-a532-4783-ad37-5c6a94f5ae86" name="Changes" comment="&quot;shelf commit&quot;">
+    <list default="true" id="843f8013-a532-4783-ad37-5c6a94f5ae86" name="Changes" comment="saving previous score, able to create, update, take and delete quiz. Add questions strictly from question form">
+      <change afterPath="$PROJECT_DIR$/client/src/components/ApiClient.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/JwtTokenFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/LeaderBoardPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LeaderBoardPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/security/JwtTokenProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/security/JwtTokenProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/security/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/triviaApplication/security/WebSecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/QuestionController.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/QuestionService.class.uniqueId1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/QuestionForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/QuestionForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/controllers/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/triviaApplication/security/WebSecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,37 +54,27 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="module-info" />
+        <option value="JavaScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--follow-tags" />
+        <option name="title" value="Current Branch" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="kevin_branch" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;allenjosh1983&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="selectedUrlAndAccountId">
-      <UrlAndAccount>
-        <option name="accountId" value="6eaaa2cd-19f9-464f-bd86-75963629b343" />
-        <option name="url" value="https://github.com/Eva-Gaivoronski/iron-jedi.git" />
-      </UrlAndAccount>
-    </option>
-  </component>
-  <component name="InvalidFacetManager">
-    <ignored-facets>
-      <facet id="TriviaApplication.main/invalid/JPA" />
-    </ignored-facets>
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -93,43 +94,101 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle.TriviaApp [bootRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.TriviaApp [bootTestRun].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;JoshuaAllen&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;kevin__branch&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Kevin/Desktop/Launchcode Class files/Java Projects/assignment-one&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;ChangesTree.GroupingKeys&quot;: [
-      &quot;module&quot;
-    ],
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;CSS&quot;
-    ]
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
-    <configuration name="TriviaApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.example.triviaApplication.TriviaApplication" />
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RunManager" selected="Gradle.TriviaApp [bootRun]">
+    <configuration name="TriviaApp [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootRun" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="TriviaApp [bootTestRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootTestRun" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="TriviaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="TriviaApplication.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.triviaApplication.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.triviaApplication.TriviaApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TriviaApplication" />
-        <item itemvalue="Application.TriviaApplication" />
-        <item itemvalue="Application.TriviaApplication" />
+        <item itemvalue="Gradle.TriviaApp [bootRun]" />
+        <item itemvalue="Gradle.TriviaApp [bootTestRun]" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.9-corretto-17.0.9-3183f394aec4-8f899f12" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -139,45 +198,252 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1702402851272</updated>
+      <workItem from="1703093873019" duration="851000" />
+      <workItem from="1703094748044" duration="1442000" />
+      <workItem from="1703096721883" duration="2305000" />
+      <workItem from="1703610639375" duration="17615000" />
+      <workItem from="1703641886814" duration="42000" />
+      <workItem from="1703644946658" duration="2754000" />
+      <workItem from="1703779769042" duration="7561000" />
+      <workItem from="1703896442163" duration="5402000" />
+      <workItem from="1703956347241" duration="246000" />
+      <workItem from="1703959471067" duration="5208000" />
+      <workItem from="1704052422689" duration="2326000" />
+      <workItem from="1704060202133" duration="618000" />
+      <workItem from="1704065578697" duration="2124000" />
+      <workItem from="1704070267338" duration="1514000" />
+      <workItem from="1704147566283" duration="11646000" />
+      <workItem from="1704166117418" duration="2795000" />
+      <workItem from="1704205081877" duration="2672000" />
+      <workItem from="1704207818295" duration="4392000" />
+      <workItem from="1704227071534" duration="2846000" />
+      <workItem from="1704250948851" duration="3453000" />
+      <workItem from="1704328669018" duration="6789000" />
+      <workItem from="1704396672975" duration="2677000" />
+      <workItem from="1704686893271" duration="2152000" />
+      <workItem from="1704729397051" duration="1253000" />
+      <workItem from="1704818487608" duration="17364000" />
+      <workItem from="1704852465816" duration="1564000" />
+      <workItem from="1704858465100" duration="5132000" />
+      <workItem from="1704902098040" duration="4147000" />
+      <workItem from="1704909563098" duration="2866000" />
+      <workItem from="1704989167054" duration="5119000" />
+      <workItem from="1705016862476" duration="4045000" />
+      <workItem from="1705028908016" duration="496000" />
+      <workItem from="1705080586970" duration="4093000" />
+      <workItem from="1705164649934" duration="18338000" />
+      <workItem from="1705195960872" duration="4064000" />
+      <workItem from="1705248318453" duration="13695000" />
+      <workItem from="1705348967608" duration="945000" />
     </task>
-    <task id="LOCAL-00001" summary="&quot;shelf commit&quot;">
+    <task id="LOCAL-00001" summary="update and chages after fetching Kevins code">
       <option name="closed" value="true" />
-      <created>1704837681638</created>
+      <created>1703610736990</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1704837681638</updated>
+      <updated>1703610736990</updated>
     </task>
-    <task id="LOCAL-00002" summary="&quot;shelf commit&quot;">
+    <task id="LOCAL-00002" summary="now we can create, save and delete quiz. working on editing">
       <option name="closed" value="true" />
-      <created>1704837713126</created>
+      <created>1703800150805</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1704837713126</updated>
+      <updated>1703800150805</updated>
     </task>
-    <task id="LOCAL-00003" summary="&quot;shelf commit&quot;">
+    <task id="LOCAL-00003" summary="edded adit quiz - we can now change the title and category and save it">
       <option name="closed" value="true" />
-      <created>1704837724690</created>
+      <created>1703961840315</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1704837724690</updated>
+      <updated>1703961840315</updated>
     </task>
-    <task id="LOCAL-00004" summary="&quot;shelf commit&quot;">
+    <task id="LOCAL-00004" summary="more changes">
       <option name="closed" value="true" />
-      <created>1704837768991</created>
+      <created>1704066989340</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1704837768991</updated>
+      <updated>1704066989340</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="cleaned code for better clarity and this is the last comit before start working on &quot;take quiz&quot; task">
+      <option name="closed" value="true" />
+      <created>1704155094457</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1704155094457</updated>
+    </task>
+    <task id="LOCAL-00006" summary="working on &quot;Take Quiz&quot; functionality">
+      <option name="closed" value="true" />
+      <created>1704248949362</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1704248949363</updated>
+    </task>
+    <task id="LOCAL-00007" summary="don't merge this commit. I'm working on issue quiz/question issue">
+      <option name="closed" value="true" />
+      <created>1704840235633</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1704840235633</updated>
+    </task>
+    <task id="LOCAL-00008" summary="made the question saved to quiz">
+      <option name="closed" value="true" />
+      <created>1704859376993</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1704859376993</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fixed the questions saved to quiz. working on quiz taking issue">
+      <option name="closed" value="true" />
+      <created>1704906605325</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1704906605325</updated>
+    </task>
+    <task id="LOCAL-00010" summary=" working on quiz question">
+      <option name="closed" value="true" />
+      <created>1704992063685</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1704992063685</updated>
+    </task>
+    <task id="LOCAL-00011" summary="adding questions">
+      <option name="closed" value="true" />
+      <created>1704994477425</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1704994477425</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Fixed adding questions. Started Validation">
+      <option name="closed" value="true" />
+      <created>1705012852606</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1705012852606</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fixed adding questions">
+      <option name="closed" value="true" />
+      <created>1705018172106</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1705018172106</updated>
+    </task>
+    <task id="LOCAL-00014" summary="working on pages">
+      <option name="closed" value="true" />
+      <created>1705111025966</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1705111025966</updated>
+    </task>
+    <task id="LOCAL-00015" summary="added a little styling">
+      <option name="closed" value="true" />
+      <created>1705169798315</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1705169798315</updated>
+    </task>
+    <task id="LOCAL-00016" summary="added Validation for Spring and corrected errors for React">
+      <option name="closed" value="true" />
+      <created>1705175751860</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1705175751860</updated>
+    </task>
+    <task id="LOCAL-00017" summary="added ability to take quiz multiple times">
+      <option name="closed" value="true" />
+      <created>1705183085238</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1705183085238</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added ability to save multiple attempts results">
+      <option name="closed" value="true" />
+      <created>1705185064047</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1705185064047</updated>
+    </task>
+    <task id="LOCAL-00019" summary="added attempts score to takequiz page">
+      <option name="closed" value="true" />
+      <created>1705188148325</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1705188148325</updated>
+    </task>
+    <task id="LOCAL-00020" summary="saving previous score, able to create, update, take and delete quiz. Add questions strictly from question form">
+      <option name="closed" value="true" />
+      <created>1705341981925</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1705341981925</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Merge branch 'kevin_branch' into JoshuaAllen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;client/src/App.css&#10;#&#9;client/src/App.js&#10;#&#9;src/main/java/Repository/AnswerRepository.java&#10;#&#9;src/main/java/com/example/triviaApplication/TriviaApplication.java&#10;#&#9;src/main/java/models/Answer.java&#10;#&#9;src/main/java/models/BaseEntitiy.java&#10;#&#9;src/main/java/models/Question.java&#10;#&#9;src/main/java/models/Quiz.java&#10;#&#9;src/main/java/models/User.java" />
-    <MESSAGE value="&quot;shelf commit&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;shelf commit&quot;" />
+    <MESSAGE value="update and chages after fetching Kevins code" />
+    <MESSAGE value="now we can create, save and delete quiz. working on editing" />
+    <MESSAGE value="edded adit quiz - we can now change the title and category and save it" />
+    <MESSAGE value="more changes" />
+    <MESSAGE value="cleaned code for better clarity and this is the last comit before start working on &quot;take quiz&quot; task" />
+    <MESSAGE value="working on &quot;Take Quiz&quot; functionality" />
+    <MESSAGE value="don't merge this commit. I'm working on issue quiz/question issue" />
+    <MESSAGE value="made the question saved to quiz" />
+    <MESSAGE value="fixed the questions saved to quiz. working on quiz taking issue" />
+    <MESSAGE value=" working on quiz question" />
+    <MESSAGE value="adding questions" />
+    <MESSAGE value="Fixed adding questions. Started Validation" />
+    <MESSAGE value="Fixed adding questions" />
+    <MESSAGE value="working on pages" />
+    <MESSAGE value="added a little styling" />
+    <MESSAGE value="added Validation for Spring and corrected errors for React" />
+    <MESSAGE value="added ability to take quiz multiple times" />
+    <MESSAGE value="added ability to save multiple attempts results" />
+    <MESSAGE value="added attempts score to takequiz page" />
+    <MESSAGE value="saving previous score, able to create, update, take and delete quiz. Add questions strictly from question form" />
+    <option name="LAST_COMMIT_MESSAGE" value="saving previous score, able to create, update, take and delete quiz. Add questions strictly from question form" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.hibernate.NonUniqueResultException" package="org.hibernate" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
