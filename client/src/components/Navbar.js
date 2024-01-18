@@ -9,6 +9,7 @@ const Navbar = () => {
 
     const username = localStorage.getItem('triviaappusername');
     const user_id = localStorage.getItem('triviaappid');
+
     useEffect(() => {
         const fetchProfilePicture = async () => {
             try {
@@ -24,15 +25,25 @@ const Navbar = () => {
                 );
                 setProfilePicture(`data:image/png;base64,${base64Image}`);
             } catch (error) {
-                console.error('Error fetching profile picture:', error);
+                // console.error('Error fetching profile picture:', error);
             }
         };
 
         if (isLoggedIn) {
             fetchProfilePicture();
         }
+    }, [isLoggedIn, user_id]);
+
+    useEffect(() => {
+        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
     }, [isLoggedIn]);
 
+    useEffect(() => {
+        const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
+        if (storedIsLoggedIn) {
+            login();
+        }
+    }, []);
 
 	return (
 		<header className="Header">

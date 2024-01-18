@@ -17,10 +17,10 @@ function QuestionForm() {
         // Fetch user questions when the component mounts
         fetchUserQuestions();
     }, []);
-
+    const username = localStorage.getItem('triviaappusername');
     const fetchUserQuestions = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/question/my-questions');
+            const response = await axios.get(`http://localhost:8080/users/${username}/questions`);
             setUserQuestions(response.data);
         } catch (error) {
             console.error('Error fetching questions:', error);

@@ -12,6 +12,9 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setIsLoggedIn(false);
+    localStorage.removeItem('triviaappusername');
+    localStorage.removeItem('triviaappid');
+    localStorage.removeItem('isLoggedIn');
   };
 
   return (

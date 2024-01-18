@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.NoSuchElementException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
