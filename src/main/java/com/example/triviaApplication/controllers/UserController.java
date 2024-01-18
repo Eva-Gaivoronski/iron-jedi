@@ -78,8 +78,13 @@ public class UserController {
 
     @GetMapping("/{username}/search")
     public ResponseEntity<List<Question>> searchUserQuestionsByKeyword(@PathVariable String username, @RequestParam String keyword) {
-        List<Question> questions = questionRepository.searchByUserAndKeyword(username, keyword);
-        return ResponseEntity.ok(questions);
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isPresent()) {
+            List<Question> questions = questionRepository.findByKeywordAndUserId(keyword, user.get().getId());
+            return ResponseEntity.ok(questions);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @PostMapping("/register")

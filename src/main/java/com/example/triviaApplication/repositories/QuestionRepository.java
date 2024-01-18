@@ -16,11 +16,12 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("SELECT q FROM Question q WHERE q.user.id = :userId")
     List<Question> findQuestionsByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT q FROM Question q JOIN q.answers a WHERE q.user.username = :username AND (q.text LIKE %:keyword% OR a.text LIKE %:keyword%)")
-    List<Question> searchByUserAndKeyword(@Param("username") String username, @Param("keyword") String keyword);
 
     @Modifying//Iryna changed
     @Query(value = "UPDATE question q SET q.quiz_id = :quizId WHERE q.id = :questionId", nativeQuery = true)
     @Transactional
     void addQuestionToQuiz(@Param("quizId") Long quizId, @Param("questionId") Long questionId);
+
+    @Query("SELECT q FROM Question q JOIN q.answers a WHERE q.user.id = :userId AND (q.text LIKE %:keyword% OR a.text LIKE %:keyword%)")
+    List<Question> findByKeywordAndUserId(@Param("keyword") String keyword, @Param("userId") Long userId);
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './QuestionForm.css';
 import apiClient from '../components/ApiClient';
 import { useParams } from "react-router-dom";
@@ -8,22 +8,23 @@ function QuestionForm() {
     const [answers, setAnswers] = useState(new Array(4).fill({ text: '', isCorrect: false }));
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
     const [userQuestions, setUserQuestions] = useState([]);
+    const [searchKeyword, setSearchKeyword] = useState('');
     const { quizId } = useParams();
     const username = localStorage.getItem('triviaappusername');
     const user_id = localStorage.getItem('triviaappid');
 
-    useEffect(() => {
-        fetchUserQuestions();
-    }, []);
-
-    const fetchUserQuestions = async () => {
+    const fetchUserQuestions = useCallback(async () => {
         try {
             const response = await apiClient.get(`http://localhost:8080/question/users/${user_id}/created-questions`);
             setUserQuestions(response.data);
         } catch (error) {
             console.error('Error fetching questions:', error);
         }
-    };
+    }, [user_id]);
+
+    useEffect(() => {
+        fetchUserQuestions();
+    }, [fetchUserQuestions]);
 
     const handleAnswerChange = (index, event) => {
         const newAnswers = answers.map((answer, i) => {
@@ -53,33 +54,20 @@ function QuestionForm() {
         }
 
         if (correctAnswerIndex === -1) {
-            alert('Please select at least one correct answer.');
+            alert('Please select a correct answer.');
             return;
-        }
-
-        let qId = null;
-        if (quizId != null && quizId.length > 0) {
-            qId = quizId;
-        }
-
-        const user = {
-            id: user_id,
-            username: username
         }
 
         const questionData = {
             text: questionText,
-            quiz_id: qId,
-            user: user,
+            user: { id: user_id, username },
             answers
         };
 
         try {
             const response = await apiClient.post('http://localhost:8080/question', questionData);
-            if (response.data && response.data.id) {
-                if (quizId) {
-                    await apiClient.post(`/quiz/${quizId}/addQuestion/${response.data.id}`);
-                }
+            if (response.data && response.data.id && quizId) {
+                await apiClient.post(`/quiz/${quizId}/addQuestion/${response.data.id}`);
             }
 
             alert('Question saved successfully!');
@@ -126,6 +114,15 @@ function QuestionForm() {
         }
     };
 
+    const searchQuestions = async () => {
+        try {
+            const response = await apiClient.get(`http://localhost:8080/question/search?keyword=${searchKeyword}&userId=${user_id}`);
+            setUserQuestions(response.data);
+        } catch (error) {
+            console.error('Error searching questions:', error);
+        }
+    };
+
     return (
         <div className="form-container">
             <h2>Create a New Question</h2>
@@ -152,6 +149,16 @@ function QuestionForm() {
                 ))}
                 <button type="submit">Save Question</button>
             </form>
+
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search questions"
+                    value={searchKeyword}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                />
+                <button onClick={searchQuestions}>Search</button>
+            </div>
 
             <div>
                 <h2>My Questions</h2>

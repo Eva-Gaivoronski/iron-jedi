@@ -79,6 +79,7 @@ public class QuestionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting question: " + e.getMessage());
         }
     }
+
     @GetMapping("/users/{userId}/created-questions")
     public ResponseEntity<List<Question>> getQuestionsByUserId(@PathVariable Long userId) {
         try {
@@ -90,5 +91,14 @@ public class QuestionController {
         }
     }
 
-
+    @GetMapping("/search")
+    public ResponseEntity<List<Question>> searchQuestions(@RequestParam String keyword, @RequestParam Long userId) {
+        try {
+            List<Question> questions = questionService.searchQuestions(keyword, userId);
+            return ResponseEntity.ok(questions);
+        } catch (Exception e) {
+            log.error("Error searching questions: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

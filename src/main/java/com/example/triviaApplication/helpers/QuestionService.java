@@ -16,6 +16,7 @@ import java.util.Optional;
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
+
     @Autowired
     public QuestionService(QuestionRepository questionRepository, UserRepository userRepository) {
         this.questionRepository = questionRepository;
@@ -37,7 +38,6 @@ public class QuestionService {
             // User does not exist, create a new user
             User newUser = new User();
             newUser.setUsername(username);
-            // Set other user properties if necessary
             userRepository.save(newUser);
             question.setUser(newUser);
         } else {
@@ -52,11 +52,9 @@ public class QuestionService {
 
     private void validateQuestion(Question question) {
         // Validation logic for the question
-        // For example, check if the question text is not empty
-        if (question.getText() ==null || question.getText().trim().isEmpty()) {
+        if (question.getText() == null || question.getText().trim().isEmpty()) {
             throw new IllegalArgumentException("Question text cannot be empty");
         }
-        // Check other necessary validations as per your requirements
     }
 
     public Question findQuestionById(Long id) {
@@ -73,5 +71,10 @@ public class QuestionService {
         return questionRepository.findQuestionsByUserId(userId);
     }
 
-
+    public List<Question> searchQuestions(String keyword, Long userId) {
+        // Assuming a method exists in QuestionRepository to search by keyword for a specific user
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + userId));
+        return questionRepository.findByKeywordAndUserId(keyword, userId);
+    }
 }
