@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import {Button, Card, Container, Navbar} from 'react-bootstrap';
@@ -149,9 +149,21 @@ function HomePage() {
                                 </>
 
                             )}
-
+                        <Container>
+                        <Card className="text-center style={{width: '12rem'}">
+                            <Card.Header> WANT TO CREATE YOUR OWN QUIZZES? </Card.Header>
+                            <Card.Body>
+                                <Card.Title>REGISTER or LOGIN and become a QUIZ CREATOR! </Card.Title>
+                                {/*<Card.Text>*/}
+                                {/*    Whether you're an unregistered user looking for a random quiz or a quiz creator, we've*/}
+                                {/*    got something for you.*/}
+                                {/*</Card.Text>*/}
+                            </Card.Body>
+                        </Card>
+                        </Container>
                     </div>
                 </Container>
+
             </div>
         </div>
 
