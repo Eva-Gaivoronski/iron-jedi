@@ -30,7 +30,8 @@ public class Quiz extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "quiz_id")
     private List<QuizAttempt> quizAttempts;
 
     public Quiz() {
@@ -81,4 +82,7 @@ public class Quiz extends BaseEntity {
 
     public String getDescription() {return this.description;}
     public void setDescription(String description) {this.description = description;}
+
+    public List<QuizAttempt> getQuizAttempts() {return this.quizAttempts;}
+    public void setQuizAttempts(List<QuizAttempt> attempts) {this.quizAttempts = attempts;}
 }
