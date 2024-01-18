@@ -1,86 +1,60 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import {Button, Card, Container, Navbar} from 'react-bootstrap';
+import {Button, Card, Container, FormGroup, Navbar, Form, Row, Col} from 'react-bootstrap';
 
 function HomePage() {
     const [quiz, setQuiz] = useState('');
     const [options, setOptions] = useState([]);
     const [selectedAnswer, setSelectedAnswer] = useState('');
-    const [result, setResult] = useState('');
+    const [result, setResult] = useState(false);
     const [correctAnswer, setCorrectAnswer] = useState('');
     const [incorrectResponses, setIncorrectResponses] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            getQuiz();
-            setLoading(false);
-        }, 5000);
-
-        return () => clearTimeout(timer);
+        getQuiz(false);
     }, []);
 
-    useEffect(() => {
-        handleQuizSubmit();
-    }, [selectedAnswer, correctAnswer, options, incorrectResponses]);
+    const getQuiz = async (newResult) => {
+        setLoading(true);
 
-    const getQuiz = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch('https://opentdb.com/api.php?amount=1&difficulty=medium&type=multiple');
-            const data = await response.json();
-            const questionData = data.results[0];
-            setQuiz(questionData.question);
-            setCorrectAnswer(questionData.correct_answer);
-            const allOptions = shuffleArray(questionData.incorrect_answers.concat(questionData.correct_answer));
-            setOptions(allOptions);
+        const response = await fetch('https://opentdb.com/api.php?amount=1&difficulty=medium&type=multiple')
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                let questionData = data.results[0];
+                setQuiz(questionData.question);
+                setCorrectAnswer(questionData.correct_answer);
 
-            const questionResponses = allOptions.map((option, index) => {
-                if (option === questionData.correct_answer) {
-                    return 'Correct!';
-                } else {
-                    return `${option} is incorrect.`;
-                }
-            });
-            setIncorrectResponses(questionResponses);
-
-            setLoading(false);
-            console.log(data);
-        } catch (error) {
-            console.log('Error fetching quiz:', error);
-            setLoading(false);
-        }
-    };
-
-    const handleGenerateQuiz = (event) => {
-        event.preventDefault();
-        getQuiz();
-        setSelectedAnswer('');
-        setResult('');
+                const allOptions = shuffleArray(questionData.incorrect_answers.concat(questionData.correct_answer));
+                setOptions(allOptions);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            .finally(() => {
+                setLoading(false);
+                setResult(newResult);
+            })
     };
 
     const handleAnswerChange = (event) => {
         setSelectedAnswer(event.target.value);
-    };
 
-    const handleQuizSubmit = () => {
         if (selectedAnswer === '') {
-            setResult('~ Choose Wisely ~');
+            setResult(false);
             return;
         }
 
         const isCorrect = selectedAnswer === correctAnswer;
         if (isCorrect) {
-            setResult('Correct!');
-            setTimeout(() => {
-                getQuiz();
-                setResult('');
-            }, 5000);
+            getQuiz(true);
         } else {
             const currentIndex = options.indexOf(selectedAnswer);
             const currentResponse = incorrectResponses[currentIndex];
-            setResult(currentResponse);
+            setResult(false);
         }
     };
 
@@ -93,80 +67,72 @@ function HomePage() {
     };
 
     return (
-        <div >
-            <div className="text-center">
-                <Container>
-                    <Card className="text-center">
-                        <Card.Header>Welcome to Trivia Explosion!</Card.Header>
-                        <Card.Body>
-                            <Card.Title>Unleash the thrill of trivia with a variety of quizzes.</Card.Title>
-                            <Card.Text>
-                                Whether you're an unregistered user looking for a random quiz or a quiz creator, we've
-                                got something for you.
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                    <div className="d-flex justify-content-center">
-                            {loading ? (
-                                <p>Loading...</p>
-                            ) : (
-                                <>
-                                    <div className="jumbotron">
-                                        {quiz && (
-                                            <div dangerouslySetInnerHTML={{__html: quiz}}
-                                                 className="Question display-6"></div>
-                                        )}
+        <Container className="pt-4">
+            <Row className="text-center offset-2 col-8">
+                <Card>
+                    <Card.Header>
+                        <h1>Welcome to Trivia Explosion!</h1>
+                        <h4>Unleash the thrill of trivia with a variety of quizzes.</h4>
+                    </Card.Header>
 
-                                        <form>
-                                            {options.map((option, index) => (
-                                                <div key={index} className="Option text-center">
-                                                    <label
-                                                        dangerouslySetInnerHTML={{__html: option}}
-                                                        htmlFor={`option${index}`}
-                                                    ></label>
-                                                    <br/> {/* Add a line break to move to the next line for the next option */}
-                                                    <input
-                                                        type="radio"
-                                                        id={`option${index}`}
-                                                        name="quizOptions"
-                                                        value={option}
-                                                        checked={selectedAnswer === option}
-                                                        onChange={handleAnswerChange}
-                                                    />
-                                                </div>
-                                            ))}
-                                        </form>
-                                        {result && (
-                                            <div style={{marginTop: '20px'}} className="Result alert alert-primary" role="alert">
-                                                <p>{result}</p>
-                                            </div>
-                                        )}
-                                        <div style={{marginTop: '20px'}}>
-                                            <Button variant="success" onClick={handleGenerateQuiz}>Trivia
-                                                Explosion!</Button>
-                                        </div>
+                    <Card.Body>
+                        <div>
+                            Whether you're an unregistered user looking for a random quiz or a quiz creator, we've
+                            got something for you. Want to create your own quizzes?
+                            <h5>REGISTER or LOGIN and become a QUIZ CREATOR!</h5>
+                        </div>
+                    </Card.Body>
+                </Card>
+            </Row>
+            <br />
+            <Row className="offset-1 col-10">
+                <Card>
+                    <Card.Header>
+                        <h4 className="text-center ">Test your intelligence with random questions!</h4>
+                    </Card.Header>
+                    <Card.Body>
+                        {loading ? (
+                            <p>Loading...</p>
+                        ) : (
+                            <Row className="align-content-center">
+                                {quiz && (
+                                    <h5 className="p-3" dangerouslySetInnerHTML={{__html: quiz}}></h5>
+                                )}
+                                {options.map((option, index) => (
+                                    <div key={index} className="form-check">
+                                        <input type="checkbox"
+                                               className="form-check-input"
+                                               id={`option${index}`}
+                                               name="quizOptions"
+                                               value={option}
+                                               checked={selectedAnswer === option}
+                                               onChange={handleAnswerChange}/>
+                                        <label className="form-check-label"
+                                               dangerouslySetInnerHTML={{__html: option}}
+                                               htmlFor={`option${index}`}>
+                                        </label>
                                     </div>
-                                </>
-
-                            )}
-                        <Container className="text-center maxWidth-70px">
-                        <Card className="text-center">
-                            <Card.Header> WANT TO CREATE YOUR OWN QUIZZES? </Card.Header>
-                            <Card.Body>
-                                <Card.Title>REGISTER or LOGIN
-                                   <p> and become</p>
-                                    <span >a QUIZ CREATOR!</span> </Card.Title>
-                            </Card.Body>
-                        </Card>
-                        </Container>
-                    </div>
-                </Container>
-
-            </div>
-        </div>
-
-
-);
+                                ))}
+                            </Row>
+                        )}
+                    </Card.Body>
+                    {result ? (
+                        <Card.Footer>
+                            <div style={{marginTop: '20px'}} className="alert alert-success" role="alert">
+                                Correct
+                            </div>
+                        </Card.Footer>
+                    ) : (
+                        <Card.Footer>
+                            <div style={{marginTop: '20px'}} className="alert alert-primary" role="alert">
+                                -- Choose Wisely --
+                            </div>
+                        </Card.Footer>
+                    )}
+                </Card>
+            </Row>
+        </Container>
+    );
 }
 
 export default HomePage;

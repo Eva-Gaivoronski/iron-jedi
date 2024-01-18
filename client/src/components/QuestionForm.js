@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './QuestionForm.css';
 import apiClient from '../components/ApiClient';
 import { useParams } from "react-router-dom";
-import {AuthContext} from "../context/AuthContext";
-import './Form.css';
 
 function QuestionForm() {
     const [questionText, setQuestionText] = useState('');
@@ -11,9 +9,6 @@ function QuestionForm() {
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
     const [userQuestions, setUserQuestions] = useState([]);
     const { quizId } = useParams();
-    const [keyword, setKeyword] = useState('');
-    const [editMode, setEditMode] = useState(false);
-    const [editQuestionId, setEditQuestionId] = useState(null);
     const username = localStorage.getItem('triviaappusername');
     const user_id = localStorage.getItem('triviaappid');
 
@@ -27,7 +22,6 @@ function QuestionForm() {
             setUserQuestions(response.data);
         } catch (error) {
             console.error('Error fetching questions:', error);
-            //alert('Error fetching questions.');
         }
     };
 
@@ -64,7 +58,7 @@ function QuestionForm() {
         }
 
         let qId = null;
-        if (quizId != null && quizId.length > 0){
+        if (quizId != null && quizId.length > 0) {
             qId = quizId;
         }
 
@@ -80,10 +74,6 @@ function QuestionForm() {
             answers
         };
 
-        if (editQuestionId !=null) {
-            questionData.id=editQuestionId
-        }
-
         try {
             const response = await apiClient.post('http://localhost:8080/question', questionData);
             if (response.data && response.data.id) {
@@ -96,8 +86,6 @@ function QuestionForm() {
             setQuestionText('');
             setAnswers(new Array(4).fill({ text: '', isCorrect: false }));
             setCorrectAnswerIndex(-1);
-            setEditMode(false);
-            setEditQuestionId(!null);
             fetchUserQuestions();
         } catch (error) {
             console.error('There was an error saving the question:', error);
@@ -105,22 +93,8 @@ function QuestionForm() {
         }
     };
 
-    const handleKeywordSearch = async () => {
-        if (!keyword) {
-            alert('Please enter a keyword.');
-            return;
-        }
-        try {
-            const response = await apiClient.get(`http://localhost:8080/question/search?keyword=${keyword}`);
-            setUserQuestions(response.data);
-        } catch (error) {
-            alert('Error fetching questions by keyword.');
-            console.error('Error fetching questions:', error);
-        }
-    };
-
     const handleDelete = async (questionId) => {
-        const userConfirmed = window.confirm('Are you sure you want to delete this question?')
+        const userConfirmed = window.confirm('Are you sure you want to delete this question?');
         if (!userConfirmed) {
             return;
         }
@@ -137,11 +111,19 @@ function QuestionForm() {
 
     const handleEdit = (question) => {
         setQuestionText(question.text);
-        setAnswers(question.answers);
+        setAnswers(question.answers.map(a => ({ text: a.text, isCorrect: a.isCorrect })));
         const correctIndex = question.answers.findIndex(answer => answer.isCorrect);
         setCorrectAnswerIndex(correctIndex);
-        setEditMode(true);
-        setEditQuestionId(question.id);
+    };
+
+    const handleAddToQuiz = async (questionId) => {
+        try {
+            await apiClient.post(`/quiz/${quizId}/addQuestion/${questionId}`);
+            alert('Question added to quiz successfully!');
+        } catch (error) {
+            console.error('Error adding question to quiz:', error);
+            alert('Error adding question to quiz.');
+        }
     };
 
     return (
@@ -191,20 +173,12 @@ function QuestionForm() {
                         <div className="question-actions">
                             <button onClick={() => handleEdit(question)} className="question-button edit-button">Edit</button>
                             <button onClick={() => handleDelete(question.id)} className="question-button delete-button">Delete</button>
+                            {quizId && (
+                                <button onClick={() => handleAddToQuiz(question.id)} className="question-button add-to-quiz-button">Add to Quiz</button>
+                            )}
                         </div>
                     </div>
                 ))}
-            </div>
-
-            <div>
-                <h2>Search by Keyword</h2>
-                <input
-                    type="text"
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    placeholder="Keyword"
-                />
-                <button type="button" onClick={handleKeywordSearch}>Search Keyword</button>
             </div>
         </div>
     );

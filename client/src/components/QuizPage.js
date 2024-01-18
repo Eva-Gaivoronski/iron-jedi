@@ -295,7 +295,7 @@ const QuizPage = () => {
                 </div>
             )
         }
-        else if (quizData.questions.length >= quizData.requiredQuestionCount){
+        else if (quizData.requiredQuestionCount > 0 && quizData.questions.length >= quizData.requiredQuestionCount){
             return (
                 <div>
                     <Link to={`/takeQuiz/${quizData.id}`}>
