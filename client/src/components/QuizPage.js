@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AuthContext} from "../context/AuthContext";
-import '../components/ApiClient';
 import apiClient from "./ApiClient";
 
 
@@ -142,7 +141,7 @@ const QuizPage = () => {
 
     function QuizCard({ quizData }){
         return (
-            <Card className="h-100">
+            <Card className="h-100 w-auto">
                 <Card.Header className="container-fluid">
                     <Row>
                         <Col xs={10} lg={11}>
@@ -318,7 +317,7 @@ const QuizPage = () => {
 
     return (
         <section>
-            <Row className="row sticky-top">
+            <Row className="sticky-top">
                 {/*<Col xs={4} className="offset-4">*/}
                 <Card className="text-center">
                     <Card.Header>Explore Trivia Explosion!</Card.Header>

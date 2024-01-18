@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import './QuestionForm.css';
+// import './QuestionForm.css';
 import apiClient from '../components/ApiClient'; // Make sure to import apiClient
 import { useParams } from "react-router-dom";
+import './Form.css';
 
 function QuestionForm() {
     const [questionText, setQuestionText] = useState('');
@@ -123,7 +124,7 @@ function QuestionForm() {
     };
 
     return (
-        <div>
+        <div className="form-container">
             <h2>Create a New Question</h2>
             <form onSubmit={handleSubmit}>
                 <div>

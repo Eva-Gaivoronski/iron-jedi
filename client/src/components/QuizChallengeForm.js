@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import './Form.css';
 function QuizChallengeForm() {
     const [email, setEmail] = useState('');
     const [confirmEmail, setConfirmEmail] = useState('');
@@ -53,7 +53,7 @@ function QuizChallengeForm() {
     }, [quizSent]);
 
     return (
-        <div className="email-button-container">
+        <div className=" form-container email-button-container">
             <form>
                 <div className="email-container">
                     <label>

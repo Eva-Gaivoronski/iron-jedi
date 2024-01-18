@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import './Form.css';
 const RegistrationPage = () => {
     const [user, setUser] = useState({
         username: '',
@@ -46,7 +46,7 @@ const RegistrationPage = () => {
     };
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 form-container">
             <h1 className="mb-4">User Registration</h1>
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
             {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}

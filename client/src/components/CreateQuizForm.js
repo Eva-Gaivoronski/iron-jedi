@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import {Button, FormControl} from "react-bootstrap";
 import apiClient from "./ApiClient";
+
 const CreateQuiz=({ onClose })=> {
     const [showModal, setShowModal] = useState(true);
     const [titleError, setTitleError] = useState('');

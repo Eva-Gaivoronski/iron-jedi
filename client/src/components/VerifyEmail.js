@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import './Form.css';
 const EmailVerificationPage = () => {
     const { id } = useParams();
     const [verificationStatus, setVerificationStatus] = useState('Not Verified');
@@ -29,7 +29,7 @@ const EmailVerificationPage = () => {
     }, [id]); // Add id as a dependency to re-trigger when id changes
 
     return (
-        <div>
+        <div className="form-container">
             <h1>Email Verification</h1>
             <p>Status: {verificationStatus}</p>
             <button onClick={handleVerifyEmail}>Verify Email</button>
