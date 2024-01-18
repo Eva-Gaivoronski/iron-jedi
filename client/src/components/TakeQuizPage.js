@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {useNavigate, useParams} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import {Alert, Button} from "react-bootstrap";
-import apiClient from "./ApiClient";
+import {Alert, Button, Card, Carousel, Col, Container, Form, FormGroup, Row} from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
+import apiClient from '../components/ApiClient';
 
 const TakeQuizPage = () => {
     const [quiz, setQuiz] = useState(null);
@@ -17,32 +19,49 @@ const TakeQuizPage = () => {
     const [previousAttemptScore, setPreviousAttemptScore] = useState(null);
     const [previousAttemptPercentage, setPreviousAttemptPercentage] = useState(null);
 
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [currentQuestion, setCurrentQuestion] = useState(null);
+
     useEffect(() => {
-        const fetchQuizzes = async () => {
-            try {
-                const response = await apiClient.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
-                console.log('Quiz ID:', quizId);
-                console.log('Fetched Quiz Data:', response.data);
-                setQuiz(response.data);
+        fetchQuizzes()
+            .then(() =>{
+                return apiClient.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
+            })
+            .then(attemptResponse => {
+                if (attemptResponse.data != null) {
+                    console.log(attemptResponse.data);
 
-                // Fetch  previous attempt
-                const attemptResponse = await apiClient.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`);
-                console.log('Previous Attempt Data:', attemptResponse.data);
-                if (attemptResponse.data) {
-                    // Display score
-                    const previousAttemptScore = attemptResponse.data.score;
-                    const previousAttemptPercentage = attemptResponse.data.percentage;
 
-                    setPreviousAttemptScore(previousAttemptScore);
-                    setPreviousAttemptPercentage(previousAttemptPercentage);
                 }
-            } catch (error) {
+            })
+            .catch(error => {
                 console.error('Error fetching quiz data:', error);
-            }
-        };
-
-        fetchQuizzes();
+            })
     }, [quizId]);
+
+    const fetchQuizzes = async () => {
+        return await apiClient.get(`http://localhost:8080/quiz/takeQuiz/${quizId}`)
+            .then(resp => {
+                const quizData = resp.data;
+                setQuiz(quizData);
+
+                if (quizData.questions != null){
+                    setCurrentQuestion(quizData.questions[currentQuestionIndex])
+                }
+
+                if (quizData.quizAttempts != null){
+                    // Display score
+                    let pScore = quizData.quizAttempts[quizData.quizAttempts.length - 1].score;
+                    let pPerc = quizData.quizAttempts[quizData.quizAttempts.length - 1].percentage.toFixed(2);
+
+                    setPreviousAttemptScore(pScore);
+                    setPreviousAttemptPercentage(pPerc);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching quiz data:', error);
+            })
+    }
 
     const handleAnswerSelect = (questionId, selectedOption) => {
         setSelectedAnswers(prevAnswers => ({
@@ -53,10 +72,43 @@ const TakeQuizPage = () => {
         console.log('Selected Answers:', selectedAnswers);
     };
 
+    const handleNextButton = () => {
+        let newIndex = currentQuestionIndex + 1;
+
+        if (newIndex <= 0){
+            newIndex = 0;
+        }
+
+        handleSetQuestion(newIndex);
+    }
+
+    const handlePreviousButton = () => {
+        let newIndex = currentQuestionIndex - 1;
+
+        if (newIndex <= 0){
+            newIndex = 0;
+        }
+
+        handleSetQuestion(newIndex);
+    }
+
+    const handleSetQuestion = (newIndex) => {
+        if (quiz.questions != null){
+            if (newIndex > quiz.questions.length){
+                setCurrentQuestionIndex(quiz.questions.length - 1);
+                setCurrentQuestion(quiz.questions[quiz.questions.length - 1])
+            }else{
+                setCurrentQuestionIndex(newIndex);
+                setCurrentQuestion(quiz.questions[newIndex])
+            }
+        }
+    }
+
     const handleSubmitQuiz = async () => {
         try {
             console.log('Quiz ID:', quizId);
             if (isQuizSubmitted) {
+                // TODO Display an alert to inform the user - need to think about better option than alert
                 alert('Quiz has already been submitted!');
                 return;
             }
@@ -80,7 +132,7 @@ const TakeQuizPage = () => {
 
             console.log('Formatted Answers Array:', answersArray);
 
-            const response = await apiClient.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, answersArray);
+            const response = await axios.post(`http://localhost:8080/quiz/submitQuiz/${quizId}`, answersArray);
             setSubmissionResult(response.data);
             setIsQuizSubmitted(true);
         } catch (error) {
@@ -88,90 +140,145 @@ const TakeQuizPage = () => {
         }
     };
 
+    function QuizHeaderDisplay({ quizData, previousScore, previousPercentage }){
+        if (previousScore !== undefined && previousPercentage !== undefined){
+            return(
+                <Row className="p-2 text-center">
+                    <Col lg={2}></Col>
+                    <Col lg={8}>
+                        <Alert variant="light">
+                            <h1 style={{color: "blue"}}><strong>{quiz.title}</strong></h1>
+                            <p><em>{quiz.category}</em></p>
+                            <h4>Previous Score: {previousScore}</h4>
+                            <h4>Previous Percentage: {previousPercentage}%</h4>
+                        </Alert>
+                    </Col>
+                    <Col lg={2}></Col>
+                </Row>
+            )
+        }
+        else{
+            return(
+                <Row className="p-2 text-center">
+                    <Col lg={2}></Col>
+                    <Col lg={8}>
+                        <Alert variant="light">
+                            <h1 style={{color: "blue"}}><strong>{quiz.title}</strong></h1>
+                            <p><em>{quiz.category}</em></p>
+                            <h4>Previous Score: N/A</h4>
+                        </Alert>
+                    </Col>
+                    <Col lg={2}></Col>
+                </Row>
+            )
+        }
+    }
+
+    function QuestionsCardOutput({ }){
+        if (quiz.questions !== null && currentQuestion != null && !submissionResult){
+            let showNextButton = currentQuestionIndex < quiz.questions.length - 1;
+            let showPrevButton = currentQuestionIndex > 0;
+            let showSubmitButton = currentQuestionIndex === quiz.questions.length - 1;
+            let questionCountVisual = (currentQuestionIndex + 1);
+
+            return (
+                <div className="container-fluid">
+                    <Card>
+                        <Card.Header>
+                            Question {questionCountVisual} / {quiz.questions.length}
+                        </Card.Header>
+                        <Card.Body>
+                            <strong><h3>{currentQuestion.text}</h3></strong>
+                            <FormGroup>
+                                {currentQuestion.answers.map(answer => (
+                                    <Form.Check key={answer.id}
+                                                type="switch"
+                                                label={answer.text}
+                                                name={`question_${currentQuestion.id}`}
+                                                value={answer.id}
+                                                checked={selectedAnswers[currentQuestion.id] === answer.id}
+                                                onChange={() => handleAnswerSelect(currentQuestion.id, answer.id)}/>
+                                ))}
+                            </FormGroup>
+                        </Card.Body>
+                        <Card.Footer>
+                            <Row>
+                                <Col lg={2}>
+
+                                </Col>
+                                <Col lg={4}>
+                                    {showPrevButton ? (
+                                        <div className="pull-left">
+                                            <Button name="previous" size="lg" variant="outline-secondary" onClick={handlePreviousButton}>
+                                                Previous
+                                            </Button>
+                                        </div>
+                                    ) : (<div></div>)}
+                                </Col>
+                                <Col lg={3}>
+
+                                </Col>
+                                <Col lg={3}>
+                                    {showNextButton ? (
+                                        <div>
+                                            <Button name="next" size="lg" variant="outline-primary" onClick={handleNextButton}>
+                                                Next
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <Button name="submit" size="lg" variant="success" onClick={handleSubmitQuiz}>
+                                                Submit Quiz
+                                            </Button>
+                                        </div>
+                                    )}
+                                </Col>
+                            </Row>
+                        </Card.Footer>
+                    </Card>
+                </div>
+            )
+        }
+    }
+
     if (!quiz) {
         return <div>Loading...</div>;
     }
+    else{
+        return (
+            <div className="container" style={{minHeight: 600}}>
+                {QuizHeaderDisplay({ quizData: quiz, previousScore: previousAttemptScore, previousPercentage: previousAttemptPercentage})}
 
-    return (
-        <div className="container mt-4 border border-grey shadow p-3 mb-5 bg-white rounded">
-            <h2 className="mb-4 shadow p-2 mb-0 bg-primary-white rounded">Quiz: {quiz.title}</h2>
-            <p className=" mb-4 shadow p-2">Category: {quiz.category}</p>
+                <Row>
+                    {QuestionsCardOutput({})}
+                </Row>
 
-            {previousAttemptScore !== null && (
-                <div className="mb-4">
-                    <div className="card w-75">
-                        <div className="card-body">
-                            <h5 className="card-title">Previous Attempt</h5>
-                            <p className="card-text">Score: {previousAttemptScore}</p>
-                            {previousAttemptPercentage !== undefined && (
-                                <p className="card-text">Percentage: {previousAttemptPercentage}%</p>
-                            )}
+                {/* Display feedback */}
+                {submissionResult && (
+                    <div className="mb-4">
+                        <div className="alert alert-success" role="alert">
+                            <h4 className="alert-heading">Quiz submitted successfully!</h4>
+                            <p className="mb-0">Score: {submissionResult.score}</p>
+                            <p className="mb-0">Percentage: {submissionResult.percentage.toFixed(2)}%</p>
                         </div>
                     </div>
-                </div>
-            )}
-            <p>You will get 1 point for each correct answer</p>
+                )}
 
-            {quiz.questions.map(question => (
-                <div key={question.id} className="container mt-4 border border-grey shadow p-3 mb-4 bg-white rounded">
-                    <h4>{question.text}</h4>
-                    {question.answers.length > 0 ? (
-                        <ul className="list-unstyled mb-3">
-                            {question.answers.map(answer => (
-                                <li key={answer.id}>
-                                    <label className="form-check-label">
-                                        <input
-                                            type="radio"
-                                            className="form-check-input"
-                                            name={`question_${question.id}`}
-                                            value={answer.id}
-                                            checked={selectedAnswers[question.id] === answer.id}
-                                            onChange={() => handleAnswerSelect(question.id, answer.id)}
-                                        />
-                                        {answer.text}
-                                    </label>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No answers available for this question.</p>
-                    )}
-                </div>
-            ))}
+                {/* No Questions Alert */}
+                <Alert variant="danger" show={showNoQuestionsAlert} onClose={() => setShowNoQuestionsAlert(false)}
+                       dismissible>
+                    No questions available in the quiz. Quiz cannot be submitted.
+                </Alert>
 
-
-            {!isQuizSubmitted && (
-                <Button className="btn btn-primary mb-4 shadow" onClick={handleSubmitQuiz}>
-                    Submit Quiz
-                </Button>
-            )}
-            {/* Display feedback */}
-            {submissionResult && (
-                <div className="mb-4">
-                    <div className="alert alert-success" role="alert">
-                        <h4 className="alert-heading">Quiz submitted successfully!</h4>
-                        <p className="mb-0">Score: {submissionResult.score}</p>
-                        <p className="mb-0">Percentage: {submissionResult.percentage}%</p>
-                    </div>
-                </div>
-            )}
-
-
-            {/* No Questions Alert */}
-            <Alert variant="danger" show={showNoQuestionsAlert} onClose={() => setShowNoQuestionsAlert(false)}
-                   dismissible>
-                No questions available in the quiz. Quiz cannot be submitted.
-            </Alert>
-
-            {/* Unanswered Questions Alert */}
-            <Alert variant="danger" show={showUnansweredQuestionsAlert}
-                   onClose={() => setShowUnansweredQuestionsAlert(false)} dismissible
-            >
-                Please answer all questions before submitting the quiz.
-            </Alert>
-        </div>
-
-    );
+                {/* Unanswered Questions Alert */}
+                <Alert variant="danger" show={showUnansweredQuestionsAlert}
+                       onClose={() => setShowUnansweredQuestionsAlert(false)} dismissible
+                >
+                    Please answer all questions before submitting the quiz.
+                </Alert>
+            </div>
+        );
+    }
 };
 
 
