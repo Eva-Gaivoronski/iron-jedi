@@ -99,7 +99,7 @@ public class QuizService {
         return quizRepository.save(quiz);
     }
 
-        public List<Quiz> getAllQuizzes() {
+    public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
 
@@ -125,10 +125,6 @@ public class QuizService {
     public QuizResult submitQuiz(Long quizId, List<UserAnswer> userAnswers) {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found with id: " + quizId));
-
-//        if (quiz.isSubmitted()) {
-//            throw new IllegalStateException("Quiz has already been submitted.");
-//        }
 
         if (quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
             throw new IllegalStateException("Cannot submit a quiz with no questions.");

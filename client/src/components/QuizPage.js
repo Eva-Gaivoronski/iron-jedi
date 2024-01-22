@@ -93,7 +93,6 @@ const QuizPage = () => {
 
     const handleAddQuestions = (quizId) => {
         navigate(`/question-form/${quizId}`);
-        // TODO: Need logic for editing questions from Kevin
         console.log(`Add questions for quiz with ID ${quizId}`);
     };
 

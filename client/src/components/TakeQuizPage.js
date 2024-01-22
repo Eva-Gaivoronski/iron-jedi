@@ -108,7 +108,7 @@ const TakeQuizPage = () => {
         try {
             console.log('Quiz ID:', quizId);
             if (isQuizSubmitted) {
-                // TODO Display an alert to inform the user - need to think about better option than alert
+                // TODO for future : need to think about better option than alert
                 alert('Quiz has already been submitted!');
                 return;
             }
